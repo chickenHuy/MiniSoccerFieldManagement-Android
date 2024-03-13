@@ -1,8 +1,10 @@
-package vn.id.nguyenthanhhuy.minisoccerfieldmanagement;
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 
 public class MainActivity extends AppCompatActivity {
 

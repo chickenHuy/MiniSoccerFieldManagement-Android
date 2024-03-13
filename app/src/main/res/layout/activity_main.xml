@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        style="@style/width_mp_height_mp"
+        android:background="@color/whiteGray">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout style="@style/width_mp_height_wc">
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_alignParentTop="true"
+                android:baselineAligned="false"
+                android:weightSum="12">
+
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
+                    android:layout_weight="3"
+                    android:background="@drawable/shape_login_background"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        style="@style/width_mp_height_wc"
+                        android:background="@drawable/vector_login_background"
+                        android:contentDescription="Login Background" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="33dp">
+
+                    <include layout="@layout/activity_login" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
