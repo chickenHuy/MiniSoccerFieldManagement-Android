@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="22dp"
+    tools:context=".activity.EditProfileActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_gravity="center"
+            android:text="Edit profile"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:onClick="goBack" />
+    </FrameLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text="Staff"
+            android:textColor="@color/black" />
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text=", " />
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text="Thanh Huy"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="50dp">
+
+        <EditText
+            style="@style/width_mp_height_wc"
+            android:autofillHints="emailAddress"
+            android:hint="Full name"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="15dp">
+
+        <EditText
+            style="@style/width_mp_height_wc"
+            android:hint="Date of birth"
+            android:inputType="date"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="15dp">
+
+        <EditText
+            style="@style/width_mp_height_wc"
+            android:autofillHints="phone"
+            android:hint="Phone number"
+            android:editable="false"
+            android:text="0869017464"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/menu"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_border_2dp_radius_10dp"
+        app:hintTextColor="@color/colorPrimary"
+        app:boxStrokeColor="@color/colorPrimary"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="17dp"
+            android:paddingTop="17dp"
+            android:backgroundTint="@android:color/transparent"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/background_green_radius_10dp"
+        android:paddingStart="70dp"
+        android:paddingEnd="70dp"
+        android:text="Save"
+        android:onClick="saveChange"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#FF000000</color>
     <color name="blackGray">#434343</color>
     <color name="gray">#A1A1A1</color>
     <color name="white">#FFFFFFFF</color>
     <color name="whiteGray">#F1F1F1</color>
-
     <color name="colorPrimary">#04AA32</color>
 </resources>
