@@ -50,10 +50,10 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="33dp">
+                    android:layout_marginTop="33dp"
+                    android:elevation="5dp">
 
-                    <include layout="@layout/activity_login" />
+                    <include layout="@layout/layout_login" />
                 </FrameLayout>
 
             </LinearLayout>

@@ -12,5 +12,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setStatusBarColor();
+    }
+
+    public void setStatusBarColor() {
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));
     }
 }
