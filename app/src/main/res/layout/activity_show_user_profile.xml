@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/width_mp_height_mp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activity.ShowUserProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:background="@drawable/background_user_profile"
+        android:orientation="vertical">
+
+        <FrameLayout
+            style="@style/width_mp_height_wc"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:id="@+id/image_view_avatar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="@color/white"
+                android:scaleType="centerCrop" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="35dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center | bottom"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="#CDBABABA"
+                android:drawableStart="@drawable/ic_pen_edit"
+                android:onClick="editUserAvatar"
+                android:translationX="50dp"
+                android:paddingStart="5dp" />
+        </FrameLayout>
+
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_marginTop="23dp"
+            android:layout_gravity="center"
+            android:text="Thanh Huy"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            style="@style/width_wc_height_wc"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/content_text_custom"
+                android:text="chickenHuy"
+                android:textColor="@color/black" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:text=" | "
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:text="0869017464"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/background_white_radius_10dp"
+        android:elevation="7dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_edit_profile" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:text="@string/edit_profile_information"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_notification" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/notifications"
+                android:textColor="@color/black" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_language" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Vietnamese"
+                android:textColor="@color/black" />
+
+            <Switch
+                android:id="@+id/switch_vietnamese"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/background_white_radius_10dp"
+        android:elevation="7dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_change_password" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:text="@string/change_password"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_contact_us" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/contact_us"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/ic_privacy_policy" />
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

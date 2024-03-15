@@ -15,7 +15,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="70dp"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/colorPrimary"
             android:textSize="27sp"
             android:textStyle="bold" />
@@ -37,7 +37,7 @@
 
             <EditText
                 style="@style/edit_text_custom"
-                android:hint="Username" />
+                android:hint="@string/username" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,7 +58,7 @@
 
             <EditText
                 style="@style/edit_text_custom"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword" />
         </LinearLayout>
 
@@ -69,7 +69,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:onClick="viewForgotPassword"
-            android:text="Forgot password?"
+            android:text="@string/forgot_password"
             android:textColor="@color/blackGray"
             android:textSize="13sp" />
 
@@ -82,7 +82,7 @@
             android:background="@drawable/background_green_radius_10dp"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />

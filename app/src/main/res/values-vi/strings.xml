@@ -1,0 +1,27 @@
+<resources>
+    <string name="edit_profile_information">Chỉnh thông tin cá nhân</string>
+    <string name="notifications">Thông báo</string>
+    <string name="contact_us">Liên hệ chúng tôi</string>
+    <string name="privacy_policy">Chính sách bảo mật</string>
+
+    <string name="login">Đăng nhập</string>
+    <string name="username">Tên người dùng</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="current_password">Mật khẩu hiện tại</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="save">Lưu</string>
+
+    <string name="edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="date_of_birth">Ngày sinh</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="gender">Giới tính</string>
+    <string name="men">Nam</string>
+    <string name="women">Nữ</string>
+    <string name="other">Khác</string>
+
+</resources>

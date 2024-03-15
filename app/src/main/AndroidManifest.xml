@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".application.MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,17 +14,24 @@
         android:theme="@style/Theme.MiniSoccerFieldManagement"
         tools:targetApi="31">
         <activity
-            android:name=".activity.EditProfileActivity"
-            android:exported="true">
+            android:name=".activity.LoginActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.Base" />
+        <activity
+            android:name=".activity.ShowUserProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.Base">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.Base"></activity>
+            android:name=".activity.ChangePasswordActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

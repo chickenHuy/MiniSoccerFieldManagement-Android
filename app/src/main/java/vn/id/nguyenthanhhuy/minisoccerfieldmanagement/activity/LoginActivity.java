@@ -4,16 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import com.yariksoffice.lingver.Lingver;
 
-public class MainActivity extends AppCompatActivity {
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
+
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         setStatusBarColor();
+        Lingver.getInstance().setLocale(LoginActivity.this, MainApplication.language);
     }
 
     public void setStatusBarColor() {

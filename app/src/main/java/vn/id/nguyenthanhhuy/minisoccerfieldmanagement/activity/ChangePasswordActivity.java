@@ -4,40 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 
-public class EditProfileActivity extends AppCompatActivity {
-
-    private AutoCompleteTextView autoCompleteTextView;
+public class ChangePasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_change_password);
 
         setStatusBarColor();
-        configureWidget();
-        Lingver.getInstance().setLocale(EditProfileActivity.this, MainApplication.language);
+        Lingver.getInstance().setLocale(ChangePasswordActivity.this, MainApplication.language);
     }
 
     public void setStatusBarColor() {
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));
     }
 
-    public void configureWidget() {
+    public void saveChangePassword(View view){
 
-    }
-
-    public void saveChangeProfile(View view) {
-        MainApplication.language = "vi";
-        Lingver.getInstance().setLocale(EditProfileActivity.this, MainApplication.language);
-        recreate();
     }
 }
