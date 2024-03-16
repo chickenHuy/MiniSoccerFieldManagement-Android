@@ -129,6 +129,7 @@
                     android:textColor="@color/black" />
 
                 <android.widget.Switch
+                    android:id="@+id/switch_notification"
                     android:layout_width="wrap_content"
                     android:thumbTint="@color/switch_thumb"
                     android:layout_height="wrap_content"
@@ -250,13 +251,5 @@
 
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/background_top_shadow"
-        android:paddingTop="5dp"
-        style="@style/width_mp_height_wc"
-        android:orientation="vertical">
-        <include layout="@layout/layout_bottom_menu" />
     </LinearLayout>
 </LinearLayout>

@@ -4,10 +4,9 @@ import android.app.Application;
 
 import com.yariksoffice.lingver.Lingver;
 
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ShowUserProfileActivity;
-
 public class MainApplication extends Application {
     public static String language = "en";
+    public static boolean isChangeLanguage = false;
     @Override
     public void onCreate() {
         super.onCreate();

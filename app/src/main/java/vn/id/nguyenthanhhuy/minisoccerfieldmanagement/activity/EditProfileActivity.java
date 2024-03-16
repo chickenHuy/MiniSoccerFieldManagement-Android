@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
@@ -28,7 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void setStatusBarColor() {
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.primaryColor, getTheme()));
     }
 
     public void configureWidget() {

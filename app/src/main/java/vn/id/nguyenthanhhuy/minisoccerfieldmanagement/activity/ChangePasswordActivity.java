@@ -22,7 +22,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void setStatusBarColor() {
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.primaryColor, getTheme()));
     }
 
     public void saveChangePassword(View view){
