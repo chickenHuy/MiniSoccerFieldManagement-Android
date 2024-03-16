@@ -19,8 +19,7 @@
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".activity.ShowUserProfileActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.Base">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
