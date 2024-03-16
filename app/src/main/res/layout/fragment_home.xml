@@ -7,10 +7,40 @@
     android:orientation="vertical"
     tools:context=".fragment.HomeFragment">
 
-    <TextView
-        style="@style/header_text_custom"
-        android:layout_gravity="center"
-        android:layout_marginTop="300dp"
-        android:text="Main Fragment" />
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal">
 
+        <TextView
+            style="@style/header_text_custom"
+            android:text="@string/hello"
+            android:textColor="@color/black" />
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text=", "
+            android:textColor="@color/black" />
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text="Thanh Huy"
+            android:textColor="@color/primaryColor" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_top_bottom_shadow"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white" />
+    </LinearLayout>
 </LinearLayout>

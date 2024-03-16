@@ -25,7 +25,6 @@
     <string name="men">Men</string>
     <string name="women">Women</string>
     <string name="other">Other</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="hello">Hello</string>
 </resources>
