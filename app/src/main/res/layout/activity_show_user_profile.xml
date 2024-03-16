@@ -129,7 +129,6 @@
                     android:textColor="@color/black" />
 
                 <android.widget.Switch
-                    style="@style/switch_custom"
                     android:layout_width="wrap_content"
                     android:thumbTint="@color/switch_thumb"
                     android:layout_height="wrap_content"
@@ -161,7 +160,6 @@
                     android:textColor="@color/black" />
 
                 <android.widget.Switch
-                    style="@style/switch_custom"
                     android:id="@+id/switch_vietnamese"
                     android:layout_width="wrap_content"
                     android:thumbTint="@color/switch_thumb"
@@ -255,10 +253,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@drawable/background_top_shadow"
+        android:paddingTop="5dp"
         style="@style/width_mp_height_wc"
-        android:elevation="7dp"
         android:orientation="vertical">
-
         <include layout="@layout/layout_bottom_menu" />
     </LinearLayout>
 </LinearLayout>
