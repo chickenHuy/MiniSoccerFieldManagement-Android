@@ -2,7 +2,6 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.sql.Time;
 
 public class PriceList {
@@ -87,7 +86,7 @@ public class PriceList {
         isDeleted = deleted;
     }
 
-    public Date getCreateAt() {
+    public Timestamp getCreateAt() {
         return createAt;
     }
 
@@ -95,7 +94,7 @@ public class PriceList {
         this.createAt = createAt;
     }
 
-    public Date getUpdateAt() {
+    public Timestamp getUpdateAt() {
         return updateAt;
     }
 
