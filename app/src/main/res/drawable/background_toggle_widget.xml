@@ -1,0 +1,8 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Nền và bo góc khi được checked -->
+    <item android:drawable="@drawable/button_checked" android:state_checked="true" />
+    <!-- Nền và bo góc khi được pressed -->
+    <item android:drawable="@drawable/button_unchecked" android:state_pressed="true" />
+    <!-- Nền và bo góc mặc định -->
+    <item android:drawable="@drawable/button_default" />
+</selector>
