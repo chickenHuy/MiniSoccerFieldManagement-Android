@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
+
     <RadioGroup
-        android:checkedButton="@+id/offer"
         android:id="@+id/rdgField"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
-        android:padding="4dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/gray_outline"
-        android:orientation="horizontal">
-    <RadioButton
-        android:id="@+id/rdbField5"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/background_toggle_widget"
-        android:button="@null"
-        android:gravity="center"
-        android:text="5-a-side"
-        android:textColor="@color/primaryColor"
-        android:checked="true"
-        />
+        android:checkedButton="@+id/offer"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <RadioButton
+            android:id="@+id/rdbField5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_toggle_widget"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="5-a-side"
+            android:textColor="@color/primaryColor" />
 
 
         <RadioButton
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
             android:id="@+id/rdbField7"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
             android:layout_weight="1"
             android:background="@drawable/background_toggle_widget"
             android:button="@null"

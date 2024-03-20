@@ -78,4 +78,16 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="button_in_fragment_home_custom">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">33dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:paddingEnd">13dp</item>
+        <item name="android:paddingStart">13dp</item>
+        <item name="android:background">@drawable/background_border_1dp_radius_10dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
 </resources>

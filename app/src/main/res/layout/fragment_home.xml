@@ -29,7 +29,7 @@
             android:textColor="@color/primaryColor" />
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         style="@style/width_mp_height_wc"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_top_bottom_shadow"
@@ -42,5 +42,72 @@
             android:layout_height="170dp"
             android:layout_gravity="center_vertical"
             android:background="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_previous_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start | center_vertical"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="#39434343"
+            android:drawableStart="@drawable/ic_chevron_left"
+            android:paddingStart="3dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_next_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end | center_vertical"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="#39434343"
+            android:drawableStart="@drawable/ic_chevron_right"
+            android:paddingStart="3dp" />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        style="@style/width_mp_height_wc"
+        android:scrollbarSize="0dp">
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_upcoming"
+                style="@style/button_in_fragment_home_custom"
+                android:layout_marginStart="20dp"
+                android:text="@string/upcoming" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_live"
+                style="@style/button_in_fragment_home_custom"
+                android:layout_marginEnd="10dp"
+                android:text="@string/live" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_today"
+                style="@style/button_in_fragment_home_custom"
+                android:layout_marginEnd="10dp"
+                android:text="@string/today" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_tomorrow"
+                style="@style/button_in_fragment_home_custom"
+                android:layout_marginEnd="20dp"
+                android:text="@string/tomorrow" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/container_fragment"
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
     </LinearLayout>
 </LinearLayout>

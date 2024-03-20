@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,9 +7,34 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_margin="7dp"
         android:layout_height="match_parent"
+        android:layout_margin="7dp"
         android:scaleType="fitXY"
         app:shapeAppearanceOverlay="@style/item_view_pager_corner" />
 
-</LinearLayout>
+    <LinearLayout
+        style="@style/width_wc_height_wc"
+        android:layout_gravity="center"
+        android:background="@drawable/background_white_radius_10dp"
+        android:backgroundTint="#A9FFFFFF"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="7dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text="@string/field"
+            android:textColor="@color/black" />
+
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_marginStart="10dp"
+            android:text="Chicken"
+            android:textColor="@color/primaryColor" />
+    </LinearLayout>
+
+</FrameLayout>

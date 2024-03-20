@@ -27,4 +27,11 @@
     <string name="other">Other</string>
 
     <string name="hello">Hello</string>
+    <string name="field">Field</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="live">Live</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

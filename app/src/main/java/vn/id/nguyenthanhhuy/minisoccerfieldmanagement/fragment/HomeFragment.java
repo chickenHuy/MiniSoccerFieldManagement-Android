@@ -2,25 +2,43 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    ViewPager viewPagerImage;
-    String[] arrayImagePath;
-    ViewPagerAdapter viewPagerImageAdapter;
+    private ViewPager viewPagerImage;
+    private String[] imagePathArray;
+    private ViewPagerAdapter viewPagerImageAdapter;
+    private AppCompatButton previousButton;
+    private AppCompatButton nextButton;
+    private int duration = 7000;
+
+    private Button buttonUpcoming;
+    private Button buttonLive;
+    private Button buttonToday;
+    private Button buttonTomorrow;
+    private ArrayList<Button> listButton;
 
     @Nullable
     @Override
@@ -37,23 +55,30 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setViewPagerImages();
+        setListButton();
+        setWidgets();
     }
 
     public void setViewPagerImages() {
         viewPagerImage = binding.viewPager;
 
         try {
-            arrayImagePath = requireActivity().getAssets().list("viewPagerImages");
+            imagePathArray = requireActivity().getAssets().list("viewPagerImages");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (arrayImagePath != null) {
-            for (int i = 0; i < arrayImagePath.length; i++) {
-                arrayImagePath[i] = "viewPagerImages/" + arrayImagePath[i];
+        if (imagePathArray != null) {
+            for (int i = 0; i < imagePathArray.length; i++) {
+                imagePathArray[i] = "viewPagerImages/" + imagePathArray[i];
             }
 
-            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), arrayImagePath);
+            String[] imageFieldArray = new String[7];
+            for (int i = 0; i < imageFieldArray.length; i++) {
+                imageFieldArray[i] = imagePathArray[i % imagePathArray.length];
+            }
+
+            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), imageFieldArray);
             viewPagerImage.setAdapter(viewPagerImageAdapter);
 
             viewPagerImage.setClipToPadding(false);
@@ -65,19 +90,115 @@ public class HomeFragment extends Fragment {
                 public void run() {
                     int currentItem = viewPagerImage.getCurrentItem();
 
-                    if (currentItem == arrayImagePath.length - 1) {
+                    if (currentItem == imageFieldArray.length - 1) {
                         viewPagerImage.setCurrentItem(0);
                     } else {
                         viewPagerImage.setCurrentItem(currentItem + 1);
                     }
-
-                    handler.postDelayed(this, 3000);
+                    handler.postDelayed(this, duration);
                 }
             };
+            handler.postDelayed(runnable, duration);
 
-            handler.postDelayed(runnable, 3000);
+            previousButton = binding.buttonPreviousImage;
+            nextButton = binding.buttonNextImage;
+            previousButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    previousImage(v, imageFieldArray.length);
+                }
+            });
+
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nextImage(v, imageFieldArray.length);
+                }
+            });
         }
     }
+
+    public void previousImage(View view, int length) {
+        int currentItem = viewPagerImage.getCurrentItem();
+
+        if (currentItem == 0) {
+            viewPagerImage.setCurrentItem(length - 1);
+        } else {
+            viewPagerImage.setCurrentItem(currentItem - 1);
+        }
+    }
+
+    public void nextImage(View view, int length) {
+        int currentItem = viewPagerImage.getCurrentItem();
+
+        if (currentItem == length - 1) {
+            viewPagerImage.setCurrentItem(0);
+        } else {
+            viewPagerImage.setCurrentItem(currentItem + 1);
+        }
+    }
+
+    public void setListButton() {
+        buttonUpcoming = binding.buttonUpcoming;
+        buttonLive = binding.buttonLive;
+        buttonToday = binding.buttonToday;
+        buttonTomorrow = binding.buttonTomorrow;
+
+        listButton = new ArrayList<>();
+        listButton.add(buttonUpcoming);
+        listButton.add(buttonLive);
+        listButton.add(buttonToday);
+        listButton.add(buttonTomorrow);
+
+        buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
+        buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
+        switchFragment(new HomeFragment_Upcoming());
+
+        for (Button button : listButton) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.button_upcoming) {
+                        switchFragment(new HomeFragment_Upcoming());
+                    } else {
+                        if (v.getId() == R.id.button_live) {
+                            switchFragment(new HomeFragment_Live());
+                        } else {
+                            if (v.getId() == R.id.button_today) {
+                                switchFragment(new HomeFragment_Today());
+                            } else {
+                                if (v.getId() == R.id.button_tomorrow) {
+                                    switchFragment(new HomeFragment_Tomorrow());
+                                }
+                            }
+                        }
+                    }
+
+                    button.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
+                    button.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
+
+                    for (Button otherButton : listButton) {
+                        if (otherButton != button) {
+                            otherButton.setBackground(getResources().getDrawable(R.drawable.background_border_1dp_radius_10dp));
+                            otherButton.setBackgroundTintList(getResources().getColorStateList(R.color.gray));
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public void switchFragment(Fragment newFragment) {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment, newFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void setWidgets() {
+
+    }
+
 
     @Override
     public void onDestroyView() {

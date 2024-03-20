@@ -25,4 +25,9 @@
     <string name="other">Khác</string>
 
     <string name="hello">Chào</string>
+    <string name="field">Sân</string>
+    <string name="upcoming">Sắp diễn ra</string>
+    <string name="live">Đang diễn ra</string>
+    <string name="today">Hôm nay</string>
+    <string name="tomorrow">Ngày mai</string>
 </resources>
