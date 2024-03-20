@@ -10,7 +10,7 @@
     <LinearLayout
         style="@style/width_mp_height_wc"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -77,14 +77,16 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_upcoming"
                 style="@style/button_in_fragment_home_custom"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:text="@string/upcoming" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_live"
                 style="@style/button_in_fragment_home_custom"
                 android:layout_marginEnd="10dp"
+                android:drawableStart="@drawable/item_red_dot"
                 android:text="@string/live" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_today"
@@ -95,19 +97,47 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_tomorrow"
                 style="@style/button_in_fragment_home_custom"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="15dp"
                 android:text="@string/tomorrow" />
 
         </LinearLayout>
     </HorizontalScrollView>
 
     <LinearLayout
-        android:id="@+id/container_fragment"
         android:layout_width="match_parent"
-        android:paddingTop="10dp"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp">
+
+        <ListView
+            android:id="@+id/list_view_match"
+            style="@style/width_mp_height_wc"
+            android:divider="@color/white"
+            android:dividerHeight="7dp"
+            android:scrollbarSize="0dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
         android:orientation="vertical">
 
+        <TextView
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:text="@string/service"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
+
 </LinearLayout>

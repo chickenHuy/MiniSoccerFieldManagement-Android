@@ -15,13 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 
@@ -39,6 +42,7 @@ public class HomeFragment extends Fragment {
     private Button buttonToday;
     private Button buttonTomorrow;
     private ArrayList<Button> listButton;
+    private ListView listViewMatch;
 
     @Nullable
     @Override
@@ -54,9 +58,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setWidgets();
         setViewPagerImages();
         setListButton();
-        setWidgets();
     }
 
     public void setViewPagerImages() {
@@ -152,23 +156,59 @@ public class HomeFragment extends Fragment {
 
         buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
         buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
-        switchFragment(new HomeFragment_Upcoming());
+        List<String> listMatch = new ArrayList<>();
+        listMatch.add("Match 1");
+        listMatch.add("Match 2");
+        listMatch.add("Match 3");
+
+        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+        listViewMatch.setAdapter(listViewMatchAdapter);
 
         for (Button button : listButton) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (v.getId() == R.id.button_upcoming) {
-                        switchFragment(new HomeFragment_Upcoming());
+                        List<String> listMatch = new ArrayList<>();
+                        listMatch.add("Match 1");
+                        listMatch.add("Match 2");
+                        listMatch.add("Match 3");
+
+                        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+                        listViewMatch.setAdapter(listViewMatchAdapter);
                     } else {
                         if (v.getId() == R.id.button_live) {
-                            switchFragment(new HomeFragment_Live());
+                            List<String> listMatch = new ArrayList<>();
+                            listMatch.add("Match 1");
+                            listMatch.add("Match 2");
+                            listMatch.add("Match 3");
+                            listMatch.add("Match 4");
+
+                            ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+                            listViewMatch.setAdapter(listViewMatchAdapter);
                         } else {
                             if (v.getId() == R.id.button_today) {
-                                switchFragment(new HomeFragment_Today());
+                                List<String> listMatch = new ArrayList<>();
+                                listMatch.add("Match 1");
+                                listMatch.add("Match 2");
+                                listMatch.add("Match 3");
+                                listMatch.add("Match 4");
+                                listMatch.add("Match 5");
+
+                                ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+                                listViewMatch.setAdapter(listViewMatchAdapter);
                             } else {
                                 if (v.getId() == R.id.button_tomorrow) {
-                                    switchFragment(new HomeFragment_Tomorrow());
+                                    List<String> listMatch = new ArrayList<>();
+                                    listMatch.add("Match 1");
+                                    listMatch.add("Match 2");
+                                    listMatch.add("Match 3");
+                                    listMatch.add("Match 4");
+                                    listMatch.add("Match 5");
+                                    listMatch.add("Match 6");
+
+                                    ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+                                    listViewMatch.setAdapter(listViewMatchAdapter);
                                 }
                             }
                         }
@@ -188,15 +228,8 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void switchFragment(Fragment newFragment) {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment, newFragment);
-        fragmentTransaction.commit();
-    }
-
     public void setWidgets() {
-
+        listViewMatch = binding.listViewMatch;
     }
 
 

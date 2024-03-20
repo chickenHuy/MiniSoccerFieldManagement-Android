@@ -80,6 +80,7 @@
 
     <style name="button_in_fragment_home_custom">
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/blackGray</item>
         <item name="android:layout_height">33dp</item>
         <item name="android:layout_marginEnd">10dp</item>
         <item name="android:paddingEnd">13dp</item>
