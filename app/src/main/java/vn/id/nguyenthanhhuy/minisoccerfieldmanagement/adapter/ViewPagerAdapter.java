@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 
 import androidx.annotation.NonNull;
@@ -42,7 +42,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_list_image, container, false);
+        View itemView = mLayoutInflater.inflate(R.layout.item_list_image_view_pager, container, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
 
         try {

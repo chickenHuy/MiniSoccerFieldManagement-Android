@@ -4,11 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,15 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 
@@ -44,6 +42,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<Button> listButton;
     private ListView listViewMatch;
 
+    private RecyclerView recyclerViewListService;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment {
         setWidgets();
         setViewPagerImages();
         setListButton();
+        setRecyclerViewListService();
     }
 
     public void setViewPagerImages() {
@@ -230,6 +231,27 @@ public class HomeFragment extends Fragment {
 
     public void setWidgets() {
         listViewMatch = binding.listViewMatch;
+    }
+
+    public void setRecyclerViewListService() {
+        recyclerViewListService = binding.recyclerViewListService;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewListService.setLayoutManager(layoutManager);
+        recyclerViewListService.addItemDecoration(new RecyclerViewServiceAdapter.StartEndSpaceItemDecoration(40, 20, 40));
+
+        List<String> serviceList = new ArrayList<>();
+        serviceList.add("Service 1");
+        serviceList.add("Service 2");
+        serviceList.add("Service 3");
+        serviceList.add("Service 4");
+        serviceList.add("Service 5");
+        serviceList.add("Service 6");
+        serviceList.add("Service 7");
+
+        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(getContext(), serviceList);
+
+        recyclerViewListService.setAdapter(adapter);
     }
 
 

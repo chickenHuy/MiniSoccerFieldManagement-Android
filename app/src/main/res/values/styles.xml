@@ -78,6 +78,11 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="item_view_list_service_corner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
     <style name="button_in_fragment_home_custom">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/blackGray</item>

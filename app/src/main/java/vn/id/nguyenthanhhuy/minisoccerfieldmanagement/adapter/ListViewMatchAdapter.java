@@ -37,7 +37,7 @@ public class ListViewMatchAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_list_match, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_list_match_in_fragment_home, parent, false);
         }
         return convertView;
     }

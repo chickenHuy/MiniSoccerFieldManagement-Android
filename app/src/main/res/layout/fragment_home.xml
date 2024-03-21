@@ -123,21 +123,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             style="@style/width_mp_height_wc"
-            android:layout_marginStart="20dp"
-            android:text="@string/service"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-        <HorizontalScrollView
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:text="@string/service"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textSize="14sp"
+                android:background="@android:color/transparent"
+                android:textColor="#6E6E6E"
+                android:drawableTint="#6E6E6E"
+                android:layout_marginEnd="10dp"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:text="@string/see_all"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_list_service"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:scrollbarSize="0dp"
+            android:scrollbars="horizontal" />
     </LinearLayout>
-
 </LinearLayout>

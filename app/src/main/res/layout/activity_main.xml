@@ -11,12 +11,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/container_fragment"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+            android:fillViewport="true"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/container_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
 
 
         <LinearLayout
@@ -31,7 +37,6 @@
                 style="@style/bottom_menu_custom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/bottom_navigation_menu" />
         </LinearLayout>
@@ -43,17 +48,15 @@
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="bottom | center"
         android:backgroundTint="@color/white"
         android:elevation="5dp"
-        app:rippleColor="@color/rippleColor"
         android:onClick="onHomeClick"
         android:src="@drawable/ic_home"
-        android:translationY="-17dp"
+        android:translationY="-13dp"
         app:layout_anchor="@+id/bottom_navigation_menu"
         app:layout_anchorGravity="top|center"
+        app:rippleColor="@color/rippleColor"
         app:tint="@color/primaryColor" />
 
 </FrameLayout>
