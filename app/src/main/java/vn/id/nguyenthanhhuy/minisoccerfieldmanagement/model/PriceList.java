@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.sql.Time;
 
 public class PriceList {
-    private int id;
+    private String id;
     private Time startTime;
     private Time endTime;
     private String typeField;
@@ -18,7 +18,7 @@ public class PriceList {
     public PriceList() {
     }
 
-    public PriceList(int id, Time startTime, Time endTime, String typeField, String dateOfWeek, BigDecimal unitPricePer30Minutes, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
+    public PriceList(String id, Time startTime, Time endTime, String typeField, String dateOfWeek, BigDecimal unitPricePer30Minutes, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -30,11 +30,11 @@ public class PriceList {
         this.updateAt = updateAt;
     }
 
-    public int getId() {
+    public String  getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -14,16 +14,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentBookingBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
 
 
 public class BookingFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
@@ -54,6 +59,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
+        test();
         return binding.getRoot();
     }
 
@@ -136,5 +142,24 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         if (todayPosition != -1) {
             recyclerView.scrollToPosition(todayPosition);
         }
+    }
+
+    public void test()
+    {
+        IPriceListDAO priceListDAO = new PriceListDAOImpl(this.getContext());
+
+        // Create a new PriceList
+        PriceList priceList = new PriceList();
+        priceList.setId("1");
+        priceList.setStartTime(new Time(9, 0, 0));
+        priceList.setEndTime(new Time(10, 0, 0));
+        priceList.setTypeField("5-a-side");
+        priceList.setDateOfWeek("Monday");
+        priceList.setUnitPricePer30Minutes(new BigDecimal("50.00"));
+
+        // Add the PriceList to the database
+        Boolean result = priceListDAO.add(priceList);
+
+        System.out.println(result);
     }
 }

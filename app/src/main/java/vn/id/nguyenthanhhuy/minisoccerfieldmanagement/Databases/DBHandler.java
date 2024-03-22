@@ -39,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_CUSTOMER_TABLE);
 
-        String CREATE_PRICELIST_TABLE = "CREATE TABLE PriceList(" +
+        String CREATE_PRICE_LIST_TABLE = "CREATE TABLE PriceList(" +
                 "id TEXT PRIMARY KEY," +
                 "startTime TEXT NOT NULL," +
                 "endTime TEXT NOT NULL," +
@@ -50,7 +50,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "createdAt TEXT NOT NULL," +
                 "updatedAt TEXT" +
                 ");";
-        db.execSQL(CREATE_PRICELIST_TABLE);
+        db.execSQL(CREATE_PRICE_LIST_TABLE);
 
         String CREATE_FIELD_TABLE = "CREATE TABLE Field(" +
                 "id TEXT PRIMARY KEY," +
@@ -180,6 +180,20 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+        db.execSQL("DROP TABLE IF EXISTS MemberShip");
+        db.execSQL("DROP TABLE IF EXISTS Customer");
+        db.execSQL("DROP TABLE IF EXISTS PriceList");
+        db.execSQL("DROP TABLE IF EXISTS Field");
+        db.execSQL("DROP TABLE IF EXISTS Booking");
+        db.execSQL("DROP TABLE IF EXISTS User");
+        db.execSQL("DROP TABLE IF EXISTS MatchRecord");
+        db.execSQL("DROP TABLE IF EXISTS Service");
+        db.execSQL("DROP TABLE IF EXISTS ServiceUsage");
+        db.execSQL("DROP TABLE IF EXISTS ServiceItems");
+        db.execSQL("DROP TABLE IF EXISTS AppTransaction");
+
+        // Create tables again
+        onCreate(db);
     }
 
     @Override
