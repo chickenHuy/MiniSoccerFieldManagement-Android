@@ -3,8 +3,8 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 import java.sql.Timestamp;
 
 public class Match {
-    private int id;
-    private int bookingId;
+    private String id;
+    private String bookingId;
     private Timestamp checkIn;
     private Timestamp checkOut;
     private Boolean isDeleted;
@@ -14,7 +14,7 @@ public class Match {
     public Match() {
     }
 
-    public Match(int id, int bookingId, Timestamp checkIn, Timestamp checkOut, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
+    public Match(String id, String bookingId, Timestamp checkIn, Timestamp checkOut, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.bookingId = bookingId;
         this.checkIn = checkIn;
@@ -24,19 +24,19 @@ public class Match {
         this.updatedAt = updatedAt;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getBookingId() {
+    public String getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(int bookingId) {
+    public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
     }
 

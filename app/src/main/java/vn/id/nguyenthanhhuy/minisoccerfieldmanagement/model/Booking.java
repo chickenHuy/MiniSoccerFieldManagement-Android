@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Booking {
-    private int id;
-    private int customerId;
-    private int fieldId;
-    private int userId;
+    private String id;
+    private String customerId;
+    private String fieldId;
+    private String userId;
     private String status;
     private String note;
     private Timestamp timeStart;
@@ -20,7 +20,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int id, int customerId, int fieldId, int userId, String status, String note, Timestamp timeStart, Timestamp timeEnd, BigDecimal price, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
+    public Booking(String id, String customerId, String fieldId, String userId, String status, String note, Timestamp timeStart, Timestamp timeEnd, BigDecimal price, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.customerId = customerId;
         this.fieldId = fieldId;
@@ -35,35 +35,35 @@ public class Booking {
         this.updatedAt = updatedAt;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
-    public int getFieldId() {
+    public String getFieldId() {
         return fieldId;
     }
 
-    public void setFieldId(int fieldId) {
+    public void setFieldId(String fieldId) {
         this.fieldId = fieldId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
