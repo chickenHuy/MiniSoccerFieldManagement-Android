@@ -6,7 +6,9 @@ public final class SoccerFieldContract {
     private SoccerFieldContract(){}
     public static class  FieldEntry implements BaseColumns{
         public static final String TABLE_NAME = "Field";
+        public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_FIELD_NAME = "name";
+        public static final String COLUMN_STATUS = "status";
         public static final String COLUMN_NAME_START_TIME = "startTime";
         public static final String COLUMN_NAME_END_TIME = "endTime";
         public static final String COLUMN_NAME_TYPE_FIELD = "typeField";
@@ -56,8 +58,8 @@ public final class SoccerFieldContract {
         public static final String COLUMN_NAME_UPDATED_AT = "updatedAt";
     }
 
-    public static class MatchEntry implements BaseColumns {
-        public static final String TABLE_NAME = "Match";
+    public static class MatchRecordEntry implements BaseColumns {
+        public static final String TABLE_NAME = "MatchRecord";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_BOOKING_ID = "bookingId";
         public static final String COLUMN_NAME_CHECK_IN = "checkIn";
@@ -67,8 +69,8 @@ public final class SoccerFieldContract {
         public static final String COLUMN_NAME_UPDATED_AT = "updatedAt";
     }
 
-    public static class TransactionEntry implements BaseColumns {
-        public static final String TABLE_NAME = "Transaction";
+    public static class AppTransactionEntry implements BaseColumns {
+        public static final String TABLE_NAME = "AppTransaction";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_USER_ID = "userId";
         public static final String COLUMN_NAME_SERVICE_USAGE_ID = "serviceUsageId";
@@ -112,7 +114,7 @@ public final class SoccerFieldContract {
     public static class ServiceUsageEntry implements BaseColumns {
         public static final String TABLE_NAME = "ServiceUsage";
         public static final String COLUMN_NAME_ID = "id";
-        public static final String COLUMN_NAME_MATCH_ID = "matchId";
+        public static final String COLUMN_NAME_MATCH_RECORD_ID = "matchRecordId";
         public static final String COLUMN_NAME_CUSTOMER_ID = "customerId";
         public static final String COLUMN_NAME_NOTE = "note";
         public static final String COLUMN_NAME_IS_DELETED = "isDeleted";
