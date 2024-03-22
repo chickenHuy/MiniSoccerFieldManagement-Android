@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="6"
         tools:context=".MainActivity">
         <ImageView
             android:id="@+id/iv_calendar_previous"
@@ -86,5 +87,11 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <Button
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/baseline_add_24"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        />
 </LinearLayout>
