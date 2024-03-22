@@ -2,7 +2,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
 import java.sql.Timestamp;
 
-public class Match {
+public class MatchRecord {
     private String id;
     private String bookingId;
     private Timestamp checkIn;
@@ -11,10 +11,10 @@ public class Match {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public Match() {
+    public MatchRecord() {
     }
 
-    public Match(String id, String bookingId, Timestamp checkIn, Timestamp checkOut, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
+    public MatchRecord(String id, String bookingId, Timestamp checkIn, Timestamp checkOut, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.bookingId = bookingId;
         this.checkIn = checkIn;
