@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentFeedsBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentServiceBinding;
 
-public class FeedsFragment extends Fragment {
-    private FragmentFeedsBinding binding;
+public class ServiceFragment extends Fragment {
+    private FragmentServiceBinding binding;
 
     @Nullable
     @Override
@@ -20,7 +20,7 @@ public class FeedsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentFeedsBinding.inflate(inflater, container, false);
+        binding = FragmentServiceBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

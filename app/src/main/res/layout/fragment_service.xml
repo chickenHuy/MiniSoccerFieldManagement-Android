@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".fragment.ServiceFragment">
+
+    <FrameLayout
+        style="@style/width_mp_height_wc"
+        android:layout_margin="10dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_gravity="center"
+            android:text="@string/service"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:onClick="goBack" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search here..." />
+
+</LinearLayout>

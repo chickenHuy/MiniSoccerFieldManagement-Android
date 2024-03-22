@@ -13,7 +13,7 @@ import com.yariksoffice.lingver.Lingver;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.FeedsFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.HomeFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.TransactionFragment;
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 switchFragment(new TransactionFragment());
                 return true;
             }
-            if (item.getItemId() == R.id.menu_option_feeds) {
+            if (item.getItemId() == R.id.menu_option_service) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new FeedsFragment());
+                switchFragment(new ServiceFragment());
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_wallet) {
