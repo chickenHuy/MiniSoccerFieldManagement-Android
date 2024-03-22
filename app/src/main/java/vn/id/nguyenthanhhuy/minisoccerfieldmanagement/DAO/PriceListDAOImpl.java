@@ -25,24 +25,30 @@ public class PriceListDAOImpl implements IPriceListDAO{
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Boolean add(PriceList model) {
-        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        try {
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_ID, model.getId());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_START_TIME, model.getStartTime().toString());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_END_TIME, model.getEndTime().toString());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_TYPE_FIELD, model.getTypeField());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK, model.getDateOfWeek());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES, model.getUnitPricePer30Minutes().doubleValue());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED, 0);
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT, new Timestamp(System.currentTimeMillis()).toString());
-        values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
+            ContentValues values = new ContentValues();
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_ID, model.getId());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_START_TIME, model.getStartTime().toString());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_END_TIME, model.getEndTime().toString());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_TYPE_FIELD, model.getTypeField());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK, model.getDateOfWeek());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES, model.getUnitPricePer30Minutes().doubleValue());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED, 0);
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT, new Timestamp(System.currentTimeMillis()).toString());
+            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
-        long result = db.insert(SoccerFieldContract.PriceListEntry.TABLE_NAME, null, values);
-        db.close();
+            long result = db.insert(SoccerFieldContract.PriceListEntry.TABLE_NAME, null, values);
+            db.close();
 
-        // if insert is successful, result will be the row ID of the new row, otherwise it will be -1
-        return result != -1;
+            // if insert is successful, result will be the row ID of the new row, otherwise it will be -1
+            return result != -1;
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
