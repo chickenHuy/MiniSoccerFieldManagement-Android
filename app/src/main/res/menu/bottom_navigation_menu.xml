@@ -5,9 +5,9 @@
         android:icon="@drawable/ic_transaction"
         android:title="@string/app_name" />
     <item
-        android:id="@+id/menu_option_feeds"
+        android:id="@+id/menu_option_service"
         android:enabled="true"
-        android:icon="@drawable/ic_feeds"
+        android:icon="@drawable/ic_service"
         android:title="@string/app_name" />
     <item
         android:id="@+id/menu_option_home"
