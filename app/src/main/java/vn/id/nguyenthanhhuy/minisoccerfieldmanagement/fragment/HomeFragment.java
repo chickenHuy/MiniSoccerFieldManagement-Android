@@ -31,8 +31,6 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPagerImage;
     private String[] imagePathArray;
     private ViewPagerAdapter viewPagerImageAdapter;
-    private AppCompatButton previousButton;
-    private AppCompatButton nextButton;
     private int duration = 7000;
 
     private Button buttonUpcoming;
@@ -87,7 +85,7 @@ public class HomeFragment extends Fragment {
             viewPagerImage.setAdapter(viewPagerImageAdapter);
 
             viewPagerImage.setClipToPadding(false);
-            viewPagerImage.setPadding(50, 0, 50, 0);
+            viewPagerImage.setPadding(37, 0, 37, 0);
 
             final Handler handler = new Handler();
             final Runnable runnable = new Runnable() {
@@ -104,42 +102,6 @@ public class HomeFragment extends Fragment {
                 }
             };
             handler.postDelayed(runnable, duration);
-
-            previousButton = binding.buttonPreviousImage;
-            nextButton = binding.buttonNextImage;
-            previousButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    previousImage(v, imageFieldArray.length);
-                }
-            });
-
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nextImage(v, imageFieldArray.length);
-                }
-            });
-        }
-    }
-
-    public void previousImage(View view, int length) {
-        int currentItem = viewPagerImage.getCurrentItem();
-
-        if (currentItem == 0) {
-            viewPagerImage.setCurrentItem(length - 1);
-        } else {
-            viewPagerImage.setCurrentItem(currentItem - 1);
-        }
-    }
-
-    public void nextImage(View view, int length) {
-        int currentItem = viewPagerImage.getCurrentItem();
-
-        if (currentItem == length - 1) {
-            viewPagerImage.setCurrentItem(0);
-        } else {
-            viewPagerImage.setCurrentItem(currentItem + 1);
         }
     }
 
@@ -157,6 +119,7 @@ public class HomeFragment extends Fragment {
 
         buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
         buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
+        buttonUpcoming.setTextColor(getResources().getColor(R.color.white));
         List<String> listMatch = new ArrayList<>();
         listMatch.add("MatchRecord 1");
         listMatch.add("MatchRecord 2");
@@ -217,11 +180,13 @@ public class HomeFragment extends Fragment {
 
                     button.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
                     button.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
+                    button.setTextColor(getResources().getColor(R.color.white));
 
                     for (Button otherButton : listButton) {
                         if (otherButton != button) {
                             otherButton.setBackground(getResources().getDrawable(R.drawable.background_border_1dp_radius_10dp));
                             otherButton.setBackgroundTintList(getResources().getColorStateList(R.color.gray));
+                            otherButton.setTextColor(getResources().getColor(R.color.blackGray));
                         }
                     }
                 }
@@ -238,7 +203,7 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewListService.setLayoutManager(layoutManager);
-        recyclerViewListService.addItemDecoration(new RecyclerViewServiceAdapter.StartEndSpaceItemDecoration(40, 20, 40));
+        recyclerViewListService.addItemDecoration(new RecyclerViewServiceAdapter.StartEndSpaceItemDecoration(55, 20, 55));
 
         List<String> serviceList = new ArrayList<>();
         serviceList.add("Service 1");
@@ -249,7 +214,7 @@ public class HomeFragment extends Fragment {
         serviceList.add("Service 6");
         serviceList.add("Service 7");
 
-        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(getContext(), serviceList);
+        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(getContext(), serviceList, false);
 
         recyclerViewListService.setAdapter(adapter);
     }
