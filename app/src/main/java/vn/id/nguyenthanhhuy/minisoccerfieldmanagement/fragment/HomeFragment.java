@@ -121,9 +121,9 @@ public class HomeFragment extends Fragment {
         buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
         buttonUpcoming.setTextColor(getResources().getColor(R.color.white));
         List<String> listMatch = new ArrayList<>();
-        listMatch.add("Match 1");
-        listMatch.add("Match 2");
-        listMatch.add("Match 3");
+        listMatch.add("MatchRecord 1");
+        listMatch.add("MatchRecord 2");
+        listMatch.add("MatchRecord 3");
 
         ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
         listViewMatch.setAdapter(listViewMatchAdapter);
@@ -134,42 +134,42 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v) {
                     if (v.getId() == R.id.button_upcoming) {
                         List<String> listMatch = new ArrayList<>();
-                        listMatch.add("Match 1");
-                        listMatch.add("Match 2");
-                        listMatch.add("Match 3");
+                        listMatch.add("MatchRecord 1");
+                        listMatch.add("MatchRecord 2");
+                        listMatch.add("MatchRecord 3");
 
                         ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
                         listViewMatch.setAdapter(listViewMatchAdapter);
                     } else {
                         if (v.getId() == R.id.button_live) {
                             List<String> listMatch = new ArrayList<>();
-                            listMatch.add("Match 1");
-                            listMatch.add("Match 2");
-                            listMatch.add("Match 3");
-                            listMatch.add("Match 4");
+                            listMatch.add("MatchRecord 1");
+                            listMatch.add("MatchRecord 2");
+                            listMatch.add("MatchRecord 3");
+                            listMatch.add("MatchRecord 4");
 
                             ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
                             listViewMatch.setAdapter(listViewMatchAdapter);
                         } else {
                             if (v.getId() == R.id.button_today) {
                                 List<String> listMatch = new ArrayList<>();
-                                listMatch.add("Match 1");
-                                listMatch.add("Match 2");
-                                listMatch.add("Match 3");
-                                listMatch.add("Match 4");
-                                listMatch.add("Match 5");
+                                listMatch.add("MatchRecord 1");
+                                listMatch.add("MatchRecord 2");
+                                listMatch.add("MatchRecord 3");
+                                listMatch.add("MatchRecord 4");
+                                listMatch.add("MatchRecord 5");
 
                                 ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
                                 listViewMatch.setAdapter(listViewMatchAdapter);
                             } else {
                                 if (v.getId() == R.id.button_tomorrow) {
                                     List<String> listMatch = new ArrayList<>();
-                                    listMatch.add("Match 1");
-                                    listMatch.add("Match 2");
-                                    listMatch.add("Match 3");
-                                    listMatch.add("Match 4");
-                                    listMatch.add("Match 5");
-                                    listMatch.add("Match 6");
+                                    listMatch.add("MatchRecord 1");
+                                    listMatch.add("MatchRecord 2");
+                                    listMatch.add("MatchRecord 3");
+                                    listMatch.add("MatchRecord 4");
+                                    listMatch.add("MatchRecord 5");
+                                    listMatch.add("MatchRecord 6");
 
                                     ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
                                     listViewMatch.setAdapter(listViewMatchAdapter);

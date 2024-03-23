@@ -16,7 +16,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplicatio
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.HomeFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFragment;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.TransactionFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.WalletFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewMenu.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.menu_option_transaction) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new TransactionFragment());
+                switchFragment(new BookingFragment());
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_service) {
