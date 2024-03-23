@@ -8,10 +8,10 @@ public interface IFieldDAO {
     Boolean add (Field field);
     Boolean update (Field field);
     Boolean softDelete (String id);
-    void findAllCombinedField(); //check status
-    void findAll(); //check status
-    void findAllNormalField(); //check status
-    void findById (String id);
+    List<Field> findAllCombinedField();
+    List<Field> findAll();
+    List<Field> findAllNormalField();
+    Field findById (String id);
     List<Field> findByStatus (String status);
-
+    
 }
