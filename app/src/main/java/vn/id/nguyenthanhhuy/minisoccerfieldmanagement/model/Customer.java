@@ -1,0 +1,103 @@
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+public class Customer {
+    private String id;
+    private String memberShipId;
+    private String name;
+    private String phoneNumber;
+    private BigDecimal totalSpend;
+    private Byte[] image;
+    private Boolean isDeleted;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+
+    public Customer() {
+    }
+
+    public Customer(String id, String memberShipId, String name, String phoneNumber, BigDecimal totalSpend, Byte[] image, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.memberShipId = memberShipId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.totalSpend = totalSpend;
+        this.image = image;
+        this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMemberShipId() {
+        return memberShipId;
+    }
+
+    public void setMemberShipId(String memberShipId) {
+        this.memberShipId = memberShipId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public BigDecimal getTotalSpend() {
+        return totalSpend;
+    }
+
+    public void setTotalSpend(BigDecimal totalSpend) {
+        this.totalSpend = totalSpend;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}

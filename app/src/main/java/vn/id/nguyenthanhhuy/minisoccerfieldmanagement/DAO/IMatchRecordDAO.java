@@ -6,8 +6,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 
 public interface IMatchRecordDAO {
     Boolean checkIn(String bookingId);
-    void checkOut(String id);
-    void softDelete(String id);
+    Boolean checkOut(String id);
+    Boolean softDelete(String id);
     MatchRecord findById(String id);
     List<MatchRecord> findByBooking(String bookingId);
     List<MatchRecord> findByDate(Timestamp date);
