@@ -13,8 +13,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
@@ -160,7 +162,59 @@ public class PriceListDAOImpl implements IPriceListDAO{
 
     @Override
     public List<PriceList> findAll() {
-        return null;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<PriceList> priceList = new ArrayList<PriceList>();
+        Cursor cursor = null;
+        try {
+            String[] projection = {
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_START_TIME,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_END_TIME,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_TYPE_FIELD,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT
+            };
+
+            String selection = SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    SoccerFieldContract.PriceListEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                PriceList price = new PriceList();
+                price.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_ID)));
+                price.setStartTime(Time.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_START_TIME))));
+                price.setEndTime(Time.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_END_TIME))));
+                price.setTypeField(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_TYPE_FIELD)));
+                price.setDateOfWeek(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK)));
+                price.setUnitPricePer30Minutes(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES))));
+                price.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED)) == 1);
+                price.setCreateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT))));
+                price.setUpdateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
+                priceList.add(price);
+            }
+        }
+        catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace();
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return  priceList;
     }
 
     @Override
@@ -219,7 +273,50 @@ public class PriceListDAOImpl implements IPriceListDAO{
     }
 
     @Override
-    public BigDecimal findPriceByTime(Timestamp dateTimeIn, Timestamp dateTimeOut) {
-        return null;
+    public BigDecimal findPriceByTime(Timestamp dateTimeIn, Timestamp dateTimeOut, String date) {
+        List<PriceList> priceLists = findByDateOfWeek(date);
+        BigDecimal totalCost = BigDecimal.ZERO;
+
+        Calendar calendarIn = Calendar.getInstance();
+        calendarIn.setTimeInMillis(dateTimeIn.getTime());
+        int hourIn = calendarIn.get(Calendar.HOUR_OF_DAY);
+        int minuteIn = calendarIn.get(Calendar.MINUTE);
+
+        Calendar calendarOut = Calendar.getInstance();
+        calendarOut.setTimeInMillis(dateTimeOut.getTime());
+        int hourOut = calendarOut.get(Calendar.HOUR_OF_DAY);
+        int minuteOut = calendarOut.get(Calendar.MINUTE);
+
+        long totalMinutes = TimeUnit.HOURS.toMinutes(hourOut - hourIn) + minuteOut - minuteIn;
+
+        for (PriceList priceList : priceLists) {
+            Time startTime = priceList.getStartTime();
+            Time endTime = priceList.getEndTime();
+
+            Calendar calendarStart = Calendar.getInstance();
+            calendarStart.setTimeInMillis(startTime.getTime());
+            int hourStart = calendarStart.get(Calendar.HOUR_OF_DAY);
+            int minuteStart = calendarStart.get(Calendar.MINUTE);
+
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarEnd.setTimeInMillis(endTime.getTime());
+            int hourEnd = calendarEnd.get(Calendar.HOUR_OF_DAY);
+            int minuteEnd = calendarEnd.get(Calendar.MINUTE);
+
+            if ((hourIn > hourStart || (hourIn == hourStart && minuteIn >= minuteStart)) && (hourIn < hourEnd || (hourIn == hourEnd && minuteIn < minuteEnd))) {
+                if ((hourOut < hourEnd || (hourOut == hourEnd && minuteOut <= minuteEnd)) && (hourOut > hourStart || (hourOut == hourStart && minuteOut > minuteStart))) {
+                    totalCost = totalCost.add(priceList.getUnitPricePer30Minutes().multiply(new BigDecimal(totalMinutes / 30)));
+                    break;
+                } else {
+                    long minutesInFirstPeriod = TimeUnit.HOURS.toMinutes(hourEnd - hourIn) + minuteEnd - minuteIn;
+                    totalCost = totalCost.add(priceList.getUnitPricePer30Minutes().multiply(new BigDecimal(minutesInFirstPeriod / 30)));
+                    totalMinutes -= minutesInFirstPeriod;
+                    hourIn = hourEnd;
+                    minuteIn = minuteEnd;
+                }
+            }
+        }
+
+        return totalCost;
     }
 }

@@ -19,7 +19,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "name TEXT NOT NULL UNIQUE," +
                 "discountRate INTEGER NOT NULL UNIQUE," +
                 "minimumSpendAmount REAL NOT NULL," +
-                "idDeleted INTEGER NOT NULL DEFAULT 0," +
+                "isDeleted INTEGER NOT NULL DEFAULT 0," +
                 "createdAt TEXT NOT NULL," +
                 "updatedAt TEXT" +
                 ");";
@@ -139,7 +139,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "matchRecordId TEXT," +
                 "customerId TEXT," +
                 "note TEXT," +
-                "isDelete INTEGER NOT NULL DEFAULT 0," +
+                "isDeleted INTEGER NOT NULL DEFAULT 0," +
                 "createdAt TEXT NOT NULL," +
                 "updatedAt TEXT," +
                 "FOREIGN KEY(matchRecordId) REFERENCES MatchRecord(id)," +

@@ -150,14 +150,14 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         IPriceListDAO priceListDAO = new PriceListDAOImpl(this.getContext());
 
         // Create a new PriceList
-        List<PriceList> priceList = priceListDAO.findByDateOfWeek("Monday");
+        List<PriceList> priceList = priceListDAO.findAll();
         if (priceList == null) {
             System.out.println("PriceList not found");
             return;
         }
         else
         {
-            System.out.println(priceList.get(0).getDateOfWeek() + " " + priceList.get(0).getTypeField() + " ....................");
+            System.out.println(priceList.get(0).toString());
         }
     }
 }

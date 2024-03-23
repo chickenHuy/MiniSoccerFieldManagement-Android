@@ -20,5 +20,5 @@ public interface IPriceListDAO {
 
     PriceList findById(String id);
 
-    BigDecimal findPriceByTime(Timestamp dateTimeIn, Timestamp dateTimeOut);
+    BigDecimal findPriceByTime(Timestamp dateTimeIn, Timestamp dateTimeOut, String date);
 }

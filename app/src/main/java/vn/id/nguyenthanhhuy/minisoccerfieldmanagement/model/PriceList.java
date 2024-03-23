@@ -101,4 +101,19 @@ public class PriceList {
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
     }
+
+    @Override
+    public String toString() {
+        return "PriceList{" +
+                "id='" + id + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", typeField='" + typeField + '\'' +
+                ", dateOfWeek='" + dateOfWeek + '\'' +
+                ", unitPricePer30Minutes=" + unitPricePer30Minutes +
+                ", isDeleted=" + isDeleted +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                '}';
+    }
 }
