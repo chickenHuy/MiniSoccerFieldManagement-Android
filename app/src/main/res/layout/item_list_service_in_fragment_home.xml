@@ -3,26 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="130dp"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="7dp"
     android:background="@drawable/background_white_radius_10dp"
     android:backgroundTint="#F9F9FB"
+    android:elevation="1.5dp"
     android:orientation="vertical">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image_view_service_image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/background_green_radius_10dp"
-        android:scaleType="fitXY"
-        app:shapeAppearanceOverlay="@style/item_view_list_service_corner" />
+        android:layout_height="80dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_service_image"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/background_green_radius_10dp"
+            android:scaleType="fitXY"
+            app:shapeAppearanceOverlay="@style/item_view_list_service_corner" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:background="@drawable/background_radius_5dp"
+            android:backgroundTint="#B3FFFFFF"
+            android:drawableEnd="@drawable/ic_close"
+            android:paddingTop="3dp"
+            android:paddingEnd="4dp"
+            android:translationX="3dp"
+            android:translationY="-3dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/width_mp_height_wc"
             android:orientation="vertical">
 
             <TextView
@@ -34,13 +57,28 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="Unit of service"
-                android:textColor="#7A7A7A"
-                android:textSize="12sp" />
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:text="Unit of service"
+                    android:textColor="#7A7A7A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_view_quantity"
+                    style="@style/width_wc_height_wc"
+                    android:text="x5"
+                    android:textColor="#001C33"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <TextView
                 style="@style/width_wc_height_wc"

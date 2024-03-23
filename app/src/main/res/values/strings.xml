@@ -34,4 +34,11 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="service">Services</string>
     <string name="see_all">See all</string>
+
+    <string name="search">Search</string>
+    <string name="in_stock">In stock</string>
+    <string name="unit">Unit</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="add">Add</string>
+    <string name="chosen">Chosen</string>
 </resources>

@@ -1,5 +1,6 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -18,15 +20,18 @@ import java.io.InputStream;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 
 public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerViewServiceAdapter.ViewHolder> {
 
     private Context context;
     private List<String> serviceList;
+    private boolean isCartService;
     private LayoutInflater inflater;
 
-    public RecyclerViewServiceAdapter(Context context, List<String> serviceList) {
+    public RecyclerViewServiceAdapter(Context context, List<String> serviceList, boolean isCartService) {
         this.context = context;
+        this.isCartService = isCartService;
         this.serviceList = serviceList;
         this.inflater = LayoutInflater.from(context);
     }
@@ -34,7 +39,7 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_list_service_in_fragment_home, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, isCartService);
     }
 
     @Override
@@ -49,6 +54,28 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (isCartService) {
+            holder.buttonClose.setVisibility(View.VISIBLE);
+            holder.textViewQuantity.setVisibility(View.VISIBLE);
+
+            holder.buttonClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int itemPosition = holder.getAdapterPosition();
+                    if (itemPosition != RecyclerView.NO_POSITION) {
+                        serviceList.remove(itemPosition);
+                        notifyItemRemoved(itemPosition);
+
+                        if (serviceList.size() == 0) {
+                            ServiceFragment.linearLayoutTittleCartService.setVisibility(View.GONE);
+                            ServiceFragment.buttonAdd.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -59,12 +86,19 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewServiceName;
         ImageView imageViewServiceImage;
+        AppCompatButton buttonClose;
+        TextView textViewQuantity;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView, boolean isCartService) {
             super(itemView);
 
             textViewServiceName = itemView.findViewById(R.id.text_view_service_name);
             imageViewServiceImage = itemView.findViewById(R.id.image_view_service_image);
+
+            if (isCartService) {
+                buttonClose = itemView.findViewById(R.id.button_close);
+                textViewQuantity = itemView.findViewById(R.id.text_view_quantity);
+            }
         }
     }
 

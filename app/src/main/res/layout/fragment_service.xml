@@ -9,27 +9,142 @@
 
     <FrameLayout
         style="@style/width_mp_height_wc"
-        android:layout_margin="10dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             style="@style/header_text_custom"
             android:layout_gravity="center"
             android:text="@string/service"
             android:textColor="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/ic_back_arrow"
-            android:onClick="goBack" />
     </FrameLayout>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/background_border_1dp_radius_40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="7dp"
+        android:paddingBottom="7dp">
+
+        <AutoCompleteTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:lines="1"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="@color/whiteGray"
+            android:drawableTop="@drawable/ic_search"
+            android:drawableTint="@color/primaryColor"
+            android:paddingStart="1dp"
+            android:paddingTop="6dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view_service"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbarSize="0dp" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_tittle_cart_service"
+        style="@style/width_mp_height_wc"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:layout_marginEnd="5dp"
+                android:text="@string/chosen"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:text="("
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:text="Number of services"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:text=")"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_clear_cart_service"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="@android:color/transparent"
+            android:drawableEnd="@drawable/ic_close"
+            android:drawableTint="@color/blackGray"
+            android:paddingEnd="5.5dp" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_cart_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search here..." />
+        android:scrollbarSize="0dp"
+        android:scrollbars="horizontal" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add"
+        style="@style/width_wc_height_wc"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/background_circular_50_percent"
+        android:backgroundTint="@color/primaryColor"
+        android:paddingStart="70dp"
+        android:paddingEnd="70dp"
+        android:text="@string/add"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </LinearLayout>
