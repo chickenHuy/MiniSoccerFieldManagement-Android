@@ -9,7 +9,7 @@
 
     <LinearLayout
         style="@style/width_mp_height_wc"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
