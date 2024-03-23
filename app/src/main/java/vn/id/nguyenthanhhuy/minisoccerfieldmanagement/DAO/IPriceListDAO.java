@@ -14,7 +14,7 @@ public interface IPriceListDAO {
 
     Boolean softDelete(String id);
 
-    List<PriceList> findByDateOfWeek(Date date);
+    List<PriceList> findByDateOfWeek(String date);
 
     List<PriceList> findAll();
 

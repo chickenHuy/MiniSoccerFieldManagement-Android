@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
@@ -149,17 +150,14 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         IPriceListDAO priceListDAO = new PriceListDAOImpl(this.getContext());
 
         // Create a new PriceList
-        PriceList priceList = new PriceList();
-        priceList.setId("1");
-        priceList.setStartTime(new Time(9, 0, 0));
-        priceList.setEndTime(new Time(10, 0, 0));
-        priceList.setTypeField("5-a-side");
-        priceList.setDateOfWeek("Monday");
-        priceList.setUnitPricePer30Minutes(new BigDecimal("50.00"));
-
-        // Add the PriceList to the database
-        Boolean result = priceListDAO.add(priceList);
-
-        System.out.println(result);
+        List<PriceList> priceList = priceListDAO.findByDateOfWeek("Monday");
+        if (priceList == null) {
+            System.out.println("PriceList not found");
+            return;
+        }
+        else
+        {
+            System.out.println(priceList.get(0).getDateOfWeek() + " " + priceList.get(0).getTypeField() + " ....................");
+        }
     }
 }
