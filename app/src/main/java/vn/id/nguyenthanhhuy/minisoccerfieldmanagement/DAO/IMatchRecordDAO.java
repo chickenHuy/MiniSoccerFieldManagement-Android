@@ -5,7 +5,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 
 public interface IMatchRecordDAO {
-    Boolean checkIn(String bookingId);
+    Boolean checkIn(MatchRecord matchRecord);
     Boolean checkOut(String id);
     Boolean softDelete(String id);
     MatchRecord findById(String id);
