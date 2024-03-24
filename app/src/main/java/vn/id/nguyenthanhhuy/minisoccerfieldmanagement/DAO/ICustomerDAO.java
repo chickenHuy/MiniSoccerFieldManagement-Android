@@ -12,5 +12,6 @@ public interface ICustomerDAO {
     Boolean updateTotalSpend(String id, BigDecimal increment);
     Customer findById(String id);
     Customer findByPhoneNumber(String phoneNumber);
+    List<Customer> findAll();
     List<Customer> findByMemberShip(String membershipId);
 }

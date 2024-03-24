@@ -9,7 +9,7 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private BigDecimal totalSpend;
-    private Byte[] image;
+    private byte[] image;
     private Boolean isDeleted;
     private Timestamp createdAt;
     private Timestamp updatedAt;
@@ -17,7 +17,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String id, String memberShipId, String name, String phoneNumber, BigDecimal totalSpend, Byte[] image, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
+    public Customer(String id, String memberShipId, String name, String phoneNumber, BigDecimal totalSpend, byte[] image, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.memberShipId = memberShipId;
         this.name = name;
@@ -69,11 +69,11 @@ public class Customer {
         this.totalSpend = totalSpend;
     }
 
-    public Byte[] getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

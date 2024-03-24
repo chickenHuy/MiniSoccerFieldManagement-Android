@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +24,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.CustomerDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.MembershipDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentBookingBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 
 public class BookingFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
@@ -147,17 +153,23 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
     public void test()
     {
-        IPriceListDAO priceListDAO = new PriceListDAOImpl(this.getContext());
+        MembershipDAOImpl membershipDAO = new MembershipDAOImpl(this.getContext());
 
-        // Create a new PriceList
-        List<PriceList> priceList = priceListDAO.findAll();
-        if (priceList == null) {
-            System.out.println("PriceList not found");
-            return;
-        }
-        else
-        {
-            System.out.println(priceList.get(0).toString());
+        // Create a new Membership
+        Membership newMembership = new Membership();
+        newMembership.setId("2");
+        newMembership.setName("Test Membership 2");
+        newMembership.setDiscountRate(6);
+        newMembership.setMinimumSpendAmount(new BigDecimal("5000000000"));
+
+        // Call the add method
+        Boolean result = membershipDAO.add(newMembership);
+
+        // Check the result
+        if (result) {
+            System.out.println("Membership added successfully");
+        } else {
+            System.out.println("Failed to add membership");
         }
     }
 }

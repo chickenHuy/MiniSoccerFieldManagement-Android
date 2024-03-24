@@ -11,11 +11,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
 
 public class PriceListServiceImpl implements IPriceListService{
-    Context context;
     IPriceListDAO priceListDAO;
     public PriceListServiceImpl(Context context)
     {
-        this.context = context;
         priceListDAO = new PriceListDAOImpl(context);
     }
 

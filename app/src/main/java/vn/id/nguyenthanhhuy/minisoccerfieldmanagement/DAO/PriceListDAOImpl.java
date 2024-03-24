@@ -42,7 +42,6 @@ public class PriceListDAOImpl implements IPriceListDAO{
             values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES, model.getUnitPricePer30Minutes().doubleValue());
             values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED, 0);
             values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT, new Timestamp(System.currentTimeMillis()).toString());
-            values.put(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.insert(SoccerFieldContract.PriceListEntry.TABLE_NAME, null, values);
             db.close();
