@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -153,23 +154,22 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
     public void test()
     {
+        // Create a new MembershipDAOImpl
         MembershipDAOImpl membershipDAO = new MembershipDAOImpl(this.getContext());
 
-        // Create a new Membership
-        Membership newMembership = new Membership();
-        newMembership.setId("2");
-        newMembership.setName("Test Membership 2");
-        newMembership.setDiscountRate(6);
-        newMembership.setMinimumSpendAmount(new BigDecimal("5000000000"));
-
-        // Call the add method
-        Boolean result = membershipDAO.add(newMembership);
+        // Call the findById method
+        Membership membership = membershipDAO.findById("1");
 
         // Check the result
-        if (result) {
-            System.out.println("Membership added successfully");
+        if (membership != null) {
+            String message =
+
+                    "D: " + membership.getDiscountRate() + "\n" +
+                    "Minimum Spend Amount: " + membership.getMinimumSpendAmount();
+
+            Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
         } else {
-            System.out.println("Failed to add membership");
+            Toast.makeText(this.getContext(), "Failed to find membership", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class CustomerDAOImpl implements ICustomerDAO{
     DBHandler dbHandler;
@@ -138,7 +139,7 @@ public class CustomerDAOImpl implements ICustomerDAO{
                         cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IMAGE)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED)) == 1,
                         Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_CREATED_AT))),
-                        Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
+                        Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
                         ));
 
             }
@@ -195,7 +196,7 @@ public class CustomerDAOImpl implements ICustomerDAO{
                         cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IMAGE)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED)) == 1,
                         Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_CREATED_AT))),
-                        Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
+                        Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
                         ));
                 customers.add(customer);
             }
@@ -248,7 +249,7 @@ public class CustomerDAOImpl implements ICustomerDAO{
                         cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IMAGE)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED)) == 1,
                         Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_CREATED_AT))),
-                        Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
+                        Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
                         ));
                 customers.add(customer);
             }
