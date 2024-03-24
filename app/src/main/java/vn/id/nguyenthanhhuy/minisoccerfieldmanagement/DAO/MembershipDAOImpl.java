@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
@@ -149,16 +150,59 @@ public class MembershipDAOImpl implements IMembershipDAO{
 
     @Override
     public List<Membership> findAll() {
-        return null;
+        Membership membership = null;
+        List<Membership> result = new ArrayList<Membership>();
+        Cursor cursor = null;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        try {
+            String[] projection = {
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_NAME,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_DISCOUNT_RATE,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_MINIMUM_SPEND_AMOUNT,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.MemberShipEntry.COLUMN_NAME_UPDATED_AT
+            };
+            String selection = SoccerFieldContract.MemberShipEntry.COLUMN_NAME_IS_DELETED + " = 0 ;";;
+            cursor = db.query(
+                    SoccerFieldContract.MemberShipEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            while (cursor.moveToNext())
+            {
+                String updatedAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_UPDATED_AT));
+                membership = new Membership(
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_DISCOUNT_RATE)),
+                        BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_MINIMUM_SPEND_AMOUNT))),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_IS_DELETED)) == 1,
+                        Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_CREATED_AT))),
+                        Utils.toTimestamp(updatedAt)
+                );
+                result.add(membership);
+
+            }
+            return result;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
     }
 
-    @Override
-    public Membership findBySpendAmount(BigDecimal totalSpend) {
-        return null;
-    }
 
-    @Override
-    public int findDiscountByCustomer(String customerId) {
-        return 0;
-    }
 }

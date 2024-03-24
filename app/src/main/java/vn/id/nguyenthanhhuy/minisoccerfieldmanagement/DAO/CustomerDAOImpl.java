@@ -91,24 +91,6 @@ public class CustomerDAOImpl implements ICustomerDAO{
         }
     }
 
-    @Override
-    public Boolean updateTotalSpend(String id, BigDecimal increment) {
-        try {
-            SQLiteDatabase db = dbHandler.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(SoccerFieldContract.CustomerEntry.COLUMN_NAME_TOTAL_SPEND, increment.doubleValue());
-            values.put(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
-
-            int result = (int) db.update(SoccerFieldContract.CustomerEntry.TABLE_NAME, values, SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            db.close();
-            return result != -1;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     @Override
     public Customer findById(String id) {
