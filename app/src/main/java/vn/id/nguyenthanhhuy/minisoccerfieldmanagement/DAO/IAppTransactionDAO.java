@@ -1,18 +1,19 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
 
-public interface IAppTracsactionDAO {
+public interface IAppTransactionDAO {
     Boolean add (AppTransaction appTransaction);
     Boolean update (AppTransaction appTransaction);
     Boolean softDelete (String id);
     AppTransaction findById (String id);
     List <AppTransaction> findByUser (String userId);
     AppTransaction findByServiceUsage (String serviceUsageId);
-    void findByDate (Date date);
-    void findByCustomer (String customerId);
-    void findByFieldId (String fieldId);
+    List<AppTransaction> findByDate (Timestamp date);
+    List<AppTransaction> findByCustomer (String customerId);
+    List<AppTransaction> findByFieldId (String fieldId);
 }

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class ServiceUsage {
     private String id;
-    private String matchId;
+    private String matchRecordId;
     private String customerId;
     private String note;
     private Boolean isDeleted;
@@ -14,9 +14,9 @@ public class ServiceUsage {
     public ServiceUsage() {
     }
 
-    public ServiceUsage(String id, String matchId, String customerId, String note, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
+    public ServiceUsage(String id, String matchRecordId, String customerId, String note, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
         this.id = id;
-        this.matchId = matchId;
+        this.matchRecordId = matchRecordId;
         this.customerId = customerId;
         this.note = note;
         this.isDeleted = isDeleted;
@@ -33,11 +33,11 @@ public class ServiceUsage {
     }
 
     public String getMatchId() {
-        return matchId;
+        return matchRecordId;
     }
 
     public void setMatchId(String matchId) {
-        this.matchId = matchId;
+        this.matchRecordId = matchId;
     }
 
     public String getCustomerId() {

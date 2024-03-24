@@ -1,12 +1,13 @@
-package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
 
-public interface IPriceListDAO {
+public interface IPriceListService {
     Boolean add(PriceList model);
 
     Boolean update(PriceList model);
@@ -18,4 +19,6 @@ public interface IPriceListDAO {
     List<PriceList> findAll();
 
     PriceList findById(String id);
+
+    BigDecimal findPriceByTime(Time timeIn, Time timeOut, String date);
 }
