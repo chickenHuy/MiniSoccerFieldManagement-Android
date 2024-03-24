@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -152,24 +157,21 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         }
     }
 
-    public void test()
-    {
-        // Create a new MembershipDAOImpl
-        MembershipDAOImpl membershipDAO = new MembershipDAOImpl(this.getContext());
+    public void test() {
+        // Create a new CustomerDAOImpl
+        CustomerDAOImpl customerDAO = new CustomerDAOImpl(this.getContext());
 
-        // Call the findById method
-        Membership membership = membershipDAO.findById("1");
+        Customer customer = customerDAO.findByPhoneNumber("123455432");
+        System.out.println(customer.getName() + " " + customer.getPhoneNumber() + " " + customer.getTotalSpend() + " " + customer.getMemberShipId());
+        customer.setTotalSpend(new BigDecimal(9999));
+        customer.setName("Khang2");
+        customer.setPhoneNumber("99999999");
+        customerDAO.update(customer);
 
-        // Check the result
-        if (membership != null) {
-            String message =
 
-                    "D: " + membership.getDiscountRate() + "\n" +
-                    "Minimum Spend Amount: " + membership.getMinimumSpendAmount();
-
-            Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this.getContext(), "Failed to find membership", Toast.LENGTH_SHORT).show();
-        }
+        System.out.println("Test by Khang");
+        customer = customerDAO.findById("1");
+        System.out.println(customer.getName() + " " + customer.getPhoneNumber() + " " + customer.getTotalSpend() + " " + customer.getMemberShipId());
     }
+
 }

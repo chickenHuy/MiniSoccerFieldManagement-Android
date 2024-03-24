@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class PriceListDAOImpl implements IPriceListDAO{
     DBHandler dbHandler;
@@ -143,7 +144,7 @@ public class PriceListDAOImpl implements IPriceListDAO{
                 price.setUnitPricePer30Minutes(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES))));
                 price.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 price.setCreateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT))));
-                price.setUpdateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
+                price.setUpdateAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
                 priceList.add(price);
             }
         }
@@ -200,7 +201,7 @@ public class PriceListDAOImpl implements IPriceListDAO{
                 price.setUnitPricePer30Minutes(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES))));
                 price.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 price.setCreateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT))));
-                price.setUpdateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
+                price.setUpdateAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
                 priceList.add(price);
             }
         }
@@ -257,7 +258,7 @@ public class PriceListDAOImpl implements IPriceListDAO{
                 priceList.setUnitPricePer30Minutes(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES))));
                 priceList.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 priceList.setCreateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_CREATED_AT))));
-                priceList.setUpdateAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
+                priceList.setUpdateAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             // Handle the exception
