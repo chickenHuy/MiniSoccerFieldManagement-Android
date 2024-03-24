@@ -14,6 +14,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ServiceItemsDAOImpl implements IServiceItemsDAO {
     private DBHandler dbHandler;
@@ -33,7 +34,6 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_SERVICE_ID, serviceItems.getServiceId());
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_QUANTITY, serviceItems.getQuantity());
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_CREATED_AT, new Timestamp(System.currentTimeMillis()).toString());
-            values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.insert(SoccerFieldContract.ServiceItemsEntry.TABLE_NAME, null, values);
             return result != -1;
@@ -129,7 +129,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
                 serviceItems.setServiceId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_SERVICE_ID)));
                 serviceItems.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_QUANTITY)));
                 serviceItems.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_CREATED_AT))));
-                serviceItems.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
+                serviceItems.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,7 +175,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
                 serviceItems.setServiceId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_SERVICE_ID)));
                 serviceItems.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_QUANTITY)));
                 serviceItems.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_CREATED_AT))));
-                serviceItems.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
+                serviceItems.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
 
                 listServiceItems.add(serviceItems);
             }
@@ -223,7 +223,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
                 serviceItems.setServiceId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_SERVICE_ID)));
                 serviceItems.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_QUANTITY)));
                 serviceItems.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_CREATED_AT))));
-                serviceItems.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
+                serviceItems.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT))));
 
                 listServiceItems.add(serviceItems);
             }

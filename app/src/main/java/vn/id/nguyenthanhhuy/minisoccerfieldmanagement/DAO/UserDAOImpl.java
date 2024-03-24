@@ -13,6 +13,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class UserDAOImpl implements IUserDAO {
     DBHandler dbHandler;
@@ -39,7 +40,6 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE, user.getRole());
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE, user.getType());
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT, new Timestamp(System.currentTimeMillis()).toString());
-            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.insert(SoccerFieldContract.UserEntry.TABLE_NAME, null, values);
             return result != -1;
@@ -136,7 +136,7 @@ public class UserDAOImpl implements IUserDAO {
                 user.setRole(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE)));
                 user.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE)));
                 user.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT))));
-                user.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
+                user.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,7 +194,7 @@ public class UserDAOImpl implements IUserDAO {
                 user.setRole(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE)));
                 user.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE)));
                 user.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT))));
-                user.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
+                user.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
 
                 users.add(user);
             }
@@ -254,7 +254,7 @@ public class UserDAOImpl implements IUserDAO {
                 user.setRole(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE)));
                 user.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE)));
                 user.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT))));
-                user.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
+                user.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             e.printStackTrace();
