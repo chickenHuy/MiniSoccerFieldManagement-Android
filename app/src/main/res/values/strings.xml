@@ -6,6 +6,11 @@
     <string name="contact_us">Contact us</string>
     <string name="privacy_policy">Privacy policy</string>
 
+    <string name="account_management">Account management</string>
+    <string name="service_management">Service management</string>
+    <string name="field_management">Field management</string>
+    <string name="invoice_management">Invoice management</string>
+
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

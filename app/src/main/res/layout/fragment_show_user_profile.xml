@@ -4,7 +4,7 @@
     style="@style/width_mp_height_mp"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".activity.ShowUserProfileActivity">
+    tools:context=".fragment.ShowUserProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,6 +88,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -102,14 +103,24 @@
                 <TextView
                     style="@style/content_text_custom"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:text="@string/edit_profile_information"
                     android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/width_mp_height_wc"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -131,10 +142,10 @@
                 <android.widget.Switch
                     android:id="@+id/switch_notification"
                     android:layout_width="wrap_content"
-                    android:thumbTint="@color/switch_thumb"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:checked="false" />
+                    android:checked="false"
+                    android:thumbTint="@color/switch_thumb" />
             </LinearLayout>
 
             <LinearLayout
@@ -142,6 +153,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -163,10 +175,10 @@
                 <android.widget.Switch
                     android:id="@+id/switch_vietnamese"
                     android:layout_width="wrap_content"
-                    android:thumbTint="@color/switch_thumb"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:checked="false" />
+                    android:checked="false"
+                    android:thumbTint="@color/switch_thumb" />
             </LinearLayout>
 
         </LinearLayout>
@@ -185,6 +197,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -199,14 +212,24 @@
                 <TextView
                     style="@style/content_text_custom"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:text="@string/change_password"
                     android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/width_mp_height_wc"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -224,6 +247,14 @@
                     android:layout_weight="1"
                     android:text="@string/contact_us"
                     android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -231,6 +262,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -248,6 +280,157 @@
                     android:layout_weight="1"
                     android:text="@string/privacy_policy"
                     android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:elevation="7dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:src="@drawable/ic_change_password" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/account_management"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:src="@drawable/ic_contact_us" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/service_management"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:src="@drawable/ic_privacy_policy" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/field_management"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:src="@drawable/ic_privacy_policy" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/invoice_management"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
 
             </LinearLayout>
         </LinearLayout>

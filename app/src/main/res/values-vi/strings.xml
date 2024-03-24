@@ -4,6 +4,11 @@
     <string name="contact_us">Liên hệ chúng tôi</string>
     <string name="privacy_policy">Chính sách bảo mật</string>
 
+    <string name="account_management">Quản lí tài khoản</string>
+    <string name="service_management">Quản lí dịch vụ</string>
+    <string name="field_management">Quản lí sân bóng</string>
+    <string name="invoice_management">Quản lí hóa đơn</string>
+
     <string name="login">Đăng nhập</string>
     <string name="username">Tên người dùng</string>
     <string name="password">Mật khẩu</string>
