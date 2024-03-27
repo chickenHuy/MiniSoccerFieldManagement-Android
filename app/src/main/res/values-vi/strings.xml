@@ -28,6 +28,9 @@
     <string name="men">Nam</string>
     <string name="women">Nữ</string>
     <string name="other">Khác</string>
+    <string name="role">Vai trò</string>
+    <string name="staff">Nhân viên</string>
+    <string name="manager">Quản lí</string>
 
     <string name="hello">Chào</string>
     <string name="field">Sân</string>
