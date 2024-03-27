@@ -1,5 +1,8 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
+import static vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R.drawable.background_green_radius_10dp;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -10,11 +13,14 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,9 +96,9 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
     @Override
     public void onItemClick(String text, String date, String day) {
-        binding.selectedDate.setText("Selected date: " + text);
-        binding.selectedDD.setText("Selected DD: " + date);
-        binding.selectedDay.setText("Selected day: " + day);
+//        binding.selectedDate.setText("Selected date: " + text);
+//        binding.selectedDD.setText("Selected DD: " + date);
+//        binding.selectedDay.setText("Selected day: " + day);
     }
 
     private void setUpClickListener() {
@@ -156,22 +162,64 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             recyclerView.scrollToPosition(todayPosition);
         }
     }
+    private void test() {
+        TableLayout tableLayoutFixed = binding.tableLayoutFixed;
+        TableLayout tableLayoutScroll = binding.tableLayoutScroll;
 
-    public void test() {
-        // Create a new CustomerDAOImpl
-        CustomerDAOImpl customerDAO = new CustomerDAOImpl(this.getContext());
+        // Tạo hàng đầu tiên chứa tên các sân
+        TableRow firstRowFixed = new TableRow(getContext());
+        firstRowFixed.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-        Customer customer = customerDAO.findByPhoneNumber("123455432");
-        System.out.println(customer.getName() + " " + customer.getPhoneNumber() + " " + customer.getTotalSpend() + " " + customer.getMemberShipId());
-        customer.setTotalSpend(new BigDecimal(9999));
-        customer.setName("Khang2");
-        customer.setPhoneNumber("99999999");
-        customerDAO.update(customer);
+        // Thêm một TextView trống vào đầu hàng để tạo không gian cho cột chứa giờ
+        TextView emptyView = new TextView(getContext());
+        emptyView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+        emptyView.setText("");
+        firstRowFixed.addView(emptyView);
 
+        tableLayoutFixed.addView(firstRowFixed);
 
-        System.out.println("Test by Khang");
-        customer = customerDAO.findById("1");
-        System.out.println(customer.getName() + " " + customer.getPhoneNumber() + " " + customer.getTotalSpend() + " " + customer.getMemberShipId());
+        TableRow firstRowScroll = new TableRow(getContext());
+        firstRowScroll.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+        // Thêm tên các sân vào hàng đầu tiên
+        for (char field = 'A'; field <= 'F'; field++) {
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            textView.setText("Sân " + field);
+            firstRowScroll.addView(textView);
+        }
+
+        tableLayoutScroll.addView(firstRowScroll);
+
+        // Tạo các hàng tiếp theo chứa thông tin booking
+        for (int i = 6; i <= 23; i++) {
+            for (int j = 0; j < 2; j++) { // Thêm vòng lặp này để tạo các hàng cho 30 phút
+                TableRow tableRowFixed = new TableRow(getContext());
+                tableRowFixed.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Thêm giờ vào đầu mỗi hàng
+                TextView timeView = new TextView(getContext());
+                timeView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                timeView.setText(i + ":" + (j == 0 ? "00" : "30")); // Thay đổi ở đây để hiển thị 30 phút
+                tableRowFixed.addView(timeView);
+
+                tableLayoutFixed.addView(tableRowFixed);
+
+                TableRow tableRowScroll = new TableRow(getContext());
+                tableRowScroll.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Thêm thông tin booking vào mỗi hàng
+                for (char field = 'A'; field <= 'F'; field++) {
+                    TextView textView = new TextView(getContext());
+                    textView.setBackgroundColor(Color.RED);
+                    textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                    textView.setText("Thông tin booking");
+                    tableRowScroll.addView(textView);
+                }
+
+                tableLayoutScroll.addView(tableRowScroll);
+            }
+        }
     }
 
 }

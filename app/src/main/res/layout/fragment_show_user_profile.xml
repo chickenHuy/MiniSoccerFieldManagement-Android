@@ -391,6 +391,7 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnFieldManagement"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
