@@ -2,7 +2,10 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -15,6 +18,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewFieldAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class FieldManagementActivity extends AppCompatActivity {
 
@@ -28,6 +32,28 @@ public class FieldManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field_management);
         setWigets();
+        setEvents();
+        Utils.setStatusBarColor(this);
+    }
+
+    private void setEvents() {
+        // Trong FieldManagementActivity.java
+        lvFields.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lấy field được chọn
+                Field selectedField = fieldList.get(position);
+                // Tạo một Intent mới để mở EditOrAddFieldActivity
+                Intent intent = new Intent(FieldManagementActivity.this, EditOrAddFieldActivity.class);
+
+                // Truyền ID của field qua Intent
+                intent.putExtra("FIELD_ID", selectedField.getId());
+
+                // Mở EditOrAddFieldActivity
+                startActivity(intent);
+            }
+
+        });
     }
 
     private void setWigets() {
@@ -56,4 +82,7 @@ public class FieldManagementActivity extends AppCompatActivity {
         listViewFieldAdapter.addAll(fieldList);
         lvFields.setAdapter(listViewFieldAdapter);
     }
+
+
+
 }

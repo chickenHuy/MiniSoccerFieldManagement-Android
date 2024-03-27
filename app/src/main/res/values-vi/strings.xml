@@ -28,6 +28,9 @@
     <string name="men">Nam</string>
     <string name="women">Nữ</string>
     <string name="other">Khác</string>
+    <string name="role">Vai trò</string>
+    <string name="staff">Nhân viên</string>
+    <string name="manager">Quản lí</string>
 
     <string name="hello">Chào</string>
     <string name="field">Sân</string>
@@ -44,4 +47,14 @@
     <string name="add_to_cart">Thêm vào Giỏ hàng</string>
     <string name="add">Thêm</string>
     <string name="chosen">Đã chọn</string>
+    <string name="calendar">Lịch</string>
+
+    <string name="delete">Xóa</string>
+    <string name="field_name">Tên sân</string>
+    <string name="activate">Activate</string>
+    <string name="inactivate">Inactivate</string>
+    <string name="id">ID</string>
+    <string name="_5_a_side">5 a side</string>
+    <string name="_7_a_side">7-a-side</string>
+    <string name="sub_fields">Sub fields</string>
 </resources>

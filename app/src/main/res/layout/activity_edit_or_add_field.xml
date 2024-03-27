@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="22dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@color/white"
+    tools:context=".activity.EditOrAddFieldActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:id="@+id/idFields"
+            android:layout_gravity="center"
+            android:text="#Field-212"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:onClick="goBack" />
+    </FrameLayout>
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="3dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/text_input_layout_custom"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            >
+            <EditText
+                style="@style/width_mp_height_wc"
+                android:autofillHints="emailAddress"
+                android:hint="@string/field_name"
+                android:maxLines="1"
+                android:textSize="17sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activate"
+                android:textSize="18sp"
+                android:textColor="@color/primaryColor"
+                android:textStyle="bold" />
+            <android.widget.Switch
+                android:id="@+id/swtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="true"
+                android:thumbTint="@color/switch_thumb" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_weight="2"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:id="@+id/imgField"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/btnAddImgField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@color/transparent"
+                android:src="@drawable/baseline_add_a_photo_24"/>
+        </FrameLayout>
+        <RadioGroup
+            android:id="@+id/rdoGroupTypeField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/gray_outline"
+            android:baselineAligned="false"
+            android:checkedButton="@+id/offer"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <RadioButton
+                android:id="@+id/rdo5aside"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_toggle_widget"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/_5_a_side"
+                android:textColor="@color/primaryColor" />
+
+
+            <RadioButton
+                android:id="@+id/rdo7aside"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_toggle_widget"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/_7_a_side"
+                android:textColor="@color/primaryColor" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSubField"
+        style="@style/width_mp_height_wc"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/background_white_radius_10dp"
+        android:elevation="7dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <TextView
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="@string/sub_fields"
+                android:textColor="@color/primaryColor"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddField"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:drawableTint="@color/blackGray"
+                android:paddingEnd="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/tvIdSubField1"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="#321 "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNameSubField1"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="Normal Field 2"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/tvIdSubField2"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="#321 "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNameSubField2"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="Normal Field 2"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/tvIdSubField3"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="#321 "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNameSubField3"
+                style="@style/content_text_custom"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="Normal Field 2"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="@color/primaryColor"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeleted"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_circular_50_percent"
+            android:backgroundTint="@color/primaryColor"
+            android:text="@string/delete"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +14,7 @@
         android:layout_marginBottom="20dp">
 
         <TextView
+            android:id="@+id/text_view_activity_tittle"
             style="@style/header_text_custom"
             android:layout_gravity="center"
             android:text="@string/edit_profile"
@@ -38,7 +38,7 @@
 
         <TextView
             style="@style/header_text_custom"
-            android:text="Staff"
+            android:text="@string/staff"
             android:textColor="@color/black" />
 
         <TextView
@@ -53,9 +53,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/text_input_layout_custom"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="30dp">
 
         <EditText
+            android:id="@+id/edit_text_full_name"
             style="@style/width_mp_height_wc"
             android:autofillHints="emailAddress"
             android:hint="@string/full_name"
@@ -64,28 +65,46 @@
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/text_input_layout_custom"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/edit_text_date_of_birth"
+                style="@style/width_mp_height_wc"
+                android:hint="@string/date_of_birth"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textSize="17sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_show_calender"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/whiteGray"
+            android:drawableStart="@drawable/ic_calender"
+            android:elevation="5dp"
+            android:paddingStart="17dp" />
+
+    </LinearLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/text_input_layout_custom"
         android:layout_marginTop="15dp">
 
         <EditText
-            style="@style/width_mp_height_wc"
-            android:hint="@string/date_of_birth"
-            android:inputType="date"
-            android:maxLines="1"
-            android:textSize="17sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/text_input_layout_custom"
-        android:layout_marginTop="15dp">
-
-        <EditText
+            android:id="@+id/edit_text_phone_number"
             style="@style/width_mp_height_wc"
             android:autofillHints="phone"
-            android:editable="false"
             android:hint="@string/phone_number"
-            android:text="0869017464"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,9 +117,9 @@
 
         <TextView
             style="@style/width_wc_height_wc"
+            android:layout_width="80dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
-            android:layout_weight="1"
             android:text="@string/gender"
             android:textColor="@color/black"
             android:textSize="18sp" />
@@ -109,18 +128,60 @@
             style="@style/width_wc_height_wc"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="20dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radio_button_gender_men"
                 style="@style/radio_button_custom"
                 android:layout_marginEnd="10dp"
                 android:text="@string/men"
                 android:textSize="18sp" />
 
             <RadioButton
+                android:id="@+id/radio_button_gender_women"
                 style="@style/radio_button_custom"
-                android:text="@string/women"
                 android:buttonTint="@color/primaryColor"
+                android:text="@string/women"
+                android:textSize="18sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_border_2dp_radius_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/width_wc_height_wc"
+            android:layout_width="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:text="@string/role"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            style="@style/width_wc_height_wc"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_button_role_manager"
+                style="@style/radio_button_custom"
+                android:layout_marginEnd="10dp"
+                android:text="@string/manager"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radio_button_role_staff"
+                style="@style/radio_button_custom"
+                android:buttonTint="@color/primaryColor"
+                android:text="@string/staff"
                 android:textSize="18sp" />
         </RadioGroup>
     </LinearLayout>

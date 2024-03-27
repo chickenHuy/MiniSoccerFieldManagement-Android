@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="22dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@color/white"
     tools:context=".activity.FieldManagementActivity">
     <FrameLayout
         android:layout_width="match_parent"
@@ -78,13 +82,12 @@
             android:text="7-a-side"
             android:textColor="@color/primaryColor" />
     </RadioGroup>
-
     <ListView
         android:id="@+id/lvFields"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        >
+        android:divider="@null"
+        android:layout_margin="5dp" />
 
-    </ListView>
+
 </LinearLayout>
