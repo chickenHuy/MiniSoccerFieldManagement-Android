@@ -12,14 +12,15 @@
         android:paddingTop="30dp"
         android:paddingEnd="25dp">
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_weight="30"
-            android:id="@+id/lvFieldChooser"
-            >
 
-        </ListView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_file_chooser"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp" />
+
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_weight="1"
@@ -36,4 +37,5 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+
 </LinearLayout>

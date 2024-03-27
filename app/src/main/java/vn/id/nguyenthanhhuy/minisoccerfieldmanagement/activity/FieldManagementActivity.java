@@ -54,6 +54,16 @@ public class FieldManagementActivity extends AppCompatActivity {
             }
 
         });
+
+        btnAddField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo một Intent mới để mở EditOrAddFieldActivity
+                Intent intent = new Intent(FieldManagementActivity.this, EditOrAddFieldActivity.class);
+                // Mở EditOrAddFieldActivity
+                startActivity(intent);
+            }
+        });
     }
 
     private void setWigets() {
