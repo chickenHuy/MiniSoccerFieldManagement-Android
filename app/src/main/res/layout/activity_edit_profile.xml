@@ -61,19 +61,26 @@
             android:hint="@string/full_name"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="@color/blackGray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputLayoutDateOfBirth"
         style="@style/text_input_layout_custom"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_pen_edit"
+        app:endIconContentDescription="@string/calendar">
 
         <EditText
             style="@style/width_mp_height_wc"
+            android:id="@+id/edtDateOfBirth"
             android:hint="@string/date_of_birth"
             android:inputType="date"
             android:maxLines="1"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="@color/blackGray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,10 +90,10 @@
         <EditText
             style="@style/width_mp_height_wc"
             android:autofillHints="phone"
-            android:editable="false"
             android:hint="@string/phone_number"
             android:text="0869017464"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="@color/blackGray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
