@@ -30,6 +30,9 @@
     <string name="men">Men</string>
     <string name="women">Women</string>
     <string name="other">Other</string>
+    <string name="role">Role</string>
+    <string name="staff">Staff</string>
+    <string name="manager">Manager</string>
 
     <string name="hello">Hello</string>
     <string name="field">Field</string>
