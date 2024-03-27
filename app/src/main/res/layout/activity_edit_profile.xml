@@ -30,7 +30,6 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/text_view_activity_welcome"
         style="@style/width_mp_height_wc"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -135,7 +134,6 @@
             <RadioButton
                 android:id="@+id/radio_button_gender_men"
                 style="@style/radio_button_custom"
-                android:layout_width="100dp"
                 android:layout_marginEnd="10dp"
                 android:text="@string/men"
                 android:textSize="18sp" />
@@ -175,7 +173,6 @@
             <RadioButton
                 android:id="@+id/radio_button_role_manager"
                 style="@style/radio_button_custom"
-                android:layout_width="100dp"
                 android:layout_marginEnd="10dp"
                 android:text="@string/manager"
                 android:textSize="18sp" />
