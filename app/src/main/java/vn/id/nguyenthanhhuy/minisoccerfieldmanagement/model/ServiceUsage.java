@@ -8,20 +8,20 @@ public class ServiceUsage {
     private String customerId;
     private String note;
     private Boolean isDeleted;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public ServiceUsage() {
     }
 
-    public ServiceUsage(String id, String matchRecordId, String customerId, String note, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
+    public ServiceUsage(String id, String matchRecordId, String customerId, String note, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.matchRecordId = matchRecordId;
         this.customerId = customerId;
         this.note = note;
         this.isDeleted = isDeleted;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {
@@ -32,11 +32,11 @@ public class ServiceUsage {
         this.id = id;
     }
 
-    public String getMatchId() {
+    public String getMatchRecordId() {
         return matchRecordId;
     }
 
-    public void setMatchId(String matchId) {
+    public void setMatchRecordId(String matchId) {
         this.matchRecordId = matchId;
     }
 
@@ -64,19 +64,19 @@ public class ServiceUsage {
         isDeleted = deleted;
     }
 
-    public Timestamp getCreateAt() {
-        return createAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdateAt() {
-        return updateAt;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

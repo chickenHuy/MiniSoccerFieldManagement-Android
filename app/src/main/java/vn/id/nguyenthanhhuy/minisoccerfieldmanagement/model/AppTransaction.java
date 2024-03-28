@@ -13,8 +13,8 @@ public class AppTransaction {
     private BigDecimal discountAmount;
     private BigDecimal finalAmount;
     private Boolean isDeleted;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public AppTransaction() {
     }
@@ -29,8 +29,8 @@ public class AppTransaction {
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
         this.isDeleted = isDeleted;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createAt;
+        this.updatedAt = updateAt;
     }
 
     public String getId() {
@@ -105,19 +105,19 @@ public class AppTransaction {
         isDeleted = deleted;
     }
 
-    public Timestamp getCreateAt() {
-        return createAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Timestamp createAt) {
+        this.createdAt = createAt;
     }
 
-    public Timestamp getUpdateAt() {
-        return updateAt;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Timestamp updateAt) {
+        this.updatedAt = updateAt;
     }
 }
