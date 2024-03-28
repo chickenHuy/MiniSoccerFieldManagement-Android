@@ -51,10 +51,10 @@
 
     <string name="delete">Xóa</string>
     <string name="field_name">Tên sân</string>
-    <string name="activate">Activate</string>
-    <string name="inactivate">Inactivate</string>
+    <string name="activate">Hoạt động</string>
+    <string name="inactivate">Ngưng hoạt động</string>
     <string name="id">ID</string>
-    <string name="_5_a_side">5 a side</string>
-    <string name="_7_a_side">7-a-side</string>
-    <string name="sub_fields">Sub fields</string>
+    <string name="_5_a_side">Sân 5</string>
+    <string name="_7_a_side">Sân 7</string>
+    <string name="sub_fields">Các sân con</string>
 </resources>
