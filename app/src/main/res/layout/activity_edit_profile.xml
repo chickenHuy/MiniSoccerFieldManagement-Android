@@ -105,6 +105,7 @@
             android:id="@+id/edit_text_phone_number"
             style="@style/width_mp_height_wc"
             android:autofillHints="phone"
+            android:inputType="phone"
             android:hint="@string/phone_number"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
