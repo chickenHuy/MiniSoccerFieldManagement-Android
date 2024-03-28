@@ -33,6 +33,12 @@
     <string name="role">Role</string>
     <string name="staff">Staff</string>
     <string name="manager">Manager</string>
+    <string name="error_full_name_empty">Full name is required</string>
+    <string name="error_date_of_birth_empty">Date of birth is required</string>
+    <string name="error_date_of_birth_incorrect_format">Date of birth incorrect format dd/MM/yyyy</string>
+    <string name="error_date_of_birth_not_exist">Date of birth does not exist</string>
+    <string name="error_phone_number_empty">Phone number is required</string>
+    <string name="error_phone_number_incorrect_format">The phone number must have 10 digits!!!</string>
 
     <string name="hello">Hello</string>
     <string name="field">Field</string>

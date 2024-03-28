@@ -9,6 +9,6 @@ public interface IServiceUsageDAO {
     Boolean update (ServiceUsage serviceUsage);
     Boolean softDelete (String id);
     ServiceUsage findById (String id);
-    ServiceUsage findByMatch (String matchId);
+    ServiceUsage findByMatchRecord (String matchRecordId);
     List <ServiceUsage> findByCustomer (String customerId);
 }

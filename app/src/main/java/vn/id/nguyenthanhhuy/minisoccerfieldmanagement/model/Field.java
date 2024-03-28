@@ -13,13 +13,13 @@ public class Field {
     private String combineField2;
     private String combineField3;
     private Boolean isDeleted;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Field() {
     }
 
-    public Field(String id, String name, String status, String type, byte[] image, String combineField1, String combineField2, String combineField3, Boolean isDeleted, Timestamp createAt, Timestamp updateAt) {
+    public Field(String id, String name, String status, String type, byte[] image, String combineField1, String combineField2, String combineField3, Boolean isDeleted, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -29,8 +29,8 @@ public class Field {
         this.combineField2 = combineField2;
         this.combineField3 = combineField3;
         this.isDeleted = isDeleted;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {
@@ -105,19 +105,19 @@ public class Field {
         isDeleted = deleted;
     }
 
-    public Timestamp getCreateAt() {
-        return createAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdateAt() {
-        return updateAt;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

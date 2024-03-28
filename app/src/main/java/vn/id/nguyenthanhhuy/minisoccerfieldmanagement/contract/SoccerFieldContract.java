@@ -8,12 +8,13 @@ public final class SoccerFieldContract {
         public static final String TABLE_NAME = "Field";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_FIELD_NAME = "name";
-        public static final String COLUMN_STATUS = "status";
-        public static final String COLUMN_NAME_START_TIME = "startTime";
-        public static final String COLUMN_NAME_END_TIME = "endTime";
+        public static final String COLUMN_NAME_STATUS = "status";
+        public static final String COLUMN_NAME_IMAGE = "image";
         public static final String COLUMN_NAME_TYPE_FIELD = "typeField";
-        public static final String COLUMN_NAME_DATE_OF_WEEK = "dateOfWeek";
-        public static final String COLUMN_NAME_UNIT_PRICE_PER_30_MINUTES = "unitPricePer30Minutes";
+        public static final String COLUMN_NAME_COMBINE_FIELD1 = "combineField1";
+        public static final String COLUMN_NAME_COMBINE_FIELD2 = "combineField2";
+        public static final String COLUMN_NAME_COMBINE_FIELD3 = "combineField3";
+
         public static final String COLUMN_NAME_IS_DELETED = "isDeleted";
         public static final String COLUMN_NAME_CREATED_AT = "createdAt";
         public static final String COLUMN_NAME_UPDATED_AT = "updatedAt";

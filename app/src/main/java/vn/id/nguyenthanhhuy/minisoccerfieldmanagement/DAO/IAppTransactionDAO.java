@@ -12,7 +12,7 @@ public interface IAppTransactionDAO {
     Boolean softDelete (String id);
     AppTransaction findById (String id);
     List <AppTransaction> findByUser (String userId);
-    AppTransaction findByServiceUsage (String serviceUsageId);
+    List <AppTransaction> findByServiceUsage (String serviceUsageId);
     List<AppTransaction> findByDate (Timestamp date);
     List<AppTransaction> findByCustomer (String customerId);
     List<AppTransaction> findByFieldId (String fieldId);

@@ -113,7 +113,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             String[] selectionArgument = {id, "0"};
 
             cursor = db.query(
-                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
+                    SoccerFieldContract.ServiceItemsEntry.TABLE_NAME,
                     projection,
                     selection,
                     selectionArgument,
@@ -159,7 +159,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             String[] selectionArgument = {serviceUsageId};
 
             cursor = db.query(
-                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
+                    SoccerFieldContract.ServiceItemsEntry.TABLE_NAME,
                     projection,
                     selection,
                     selectionArgument,
@@ -207,7 +207,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             String[] selectionArgument = {serviceId};
 
             cursor = db.query(
-                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
+                    SoccerFieldContract.ServiceItemsEntry.TABLE_NAME,
                     projection,
                     selection,
                     selectionArgument,

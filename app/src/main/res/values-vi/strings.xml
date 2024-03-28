@@ -31,6 +31,12 @@
     <string name="role">Vai trò</string>
     <string name="staff">Nhân viên</string>
     <string name="manager">Quản lí</string>
+    <string name="error_full_name_empty">Họ tên trống!!!</string>
+    <string name="error_date_of_birth_empty">Ngày sinh trống!!!</string>
+    <string name="error_date_of_birth_incorrect_format">Ngày sinh sai định dạng dd/MM/yyyy</string>
+    <string name="error_date_of_birth_not_exist">Ngày sinh không tồn tại</string>
+    <string name="error_phone_number_empty">Số điện thoại trống!!!</string>
+    <string name="error_phone_number_incorrect_format">Số điện thoại phải có 10 chữ số!!!</string>
 
     <string name="hello">Chào</string>
     <string name="field">Sân</string>
