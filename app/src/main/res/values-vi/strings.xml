@@ -63,5 +63,7 @@
     <string name="_5_a_side">Sân 5</string>
     <string name="_7_a_side">Sân 7</string>
     <string name="sub_fields">Các sân con</string>
-    <string name="setting_membership">Setting Membership</string>
+    <string name="setting_membership">Cài đặt hạn mức</string>
+    <string name="membership_name">Tên hạn mức</string>
+    <string name="minimum_spend_amount">Chi tiêu tối thiểu</string>
 </resources>

@@ -68,4 +68,6 @@
     <string name="_7_a_side">7-a-side</string>
     <string name="sub_fields">Sub fields</string>
     <string name="setting_membership">Setting Membership</string>
+    <string name="membership_name">Membership name</string>
+    <string name="minimum_spend_amount">Minimum spend amount</string>
 </resources>

@@ -1,6 +1,5 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +18,12 @@ public class MembershipRecyclerViewAdapter extends  RecyclerView.Adapter<Members
 
     private final List<Membership> memberships;
     private final Context context;
+    private final OnMembershipClickListener listener;
 
-    public MembershipRecyclerViewAdapter(Context context, List<Membership> memberships) {
+    public MembershipRecyclerViewAdapter(Context context, List<Membership> memberships, OnMembershipClickListener listener) {
         this.memberships = memberships;
         this.context = context;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -37,6 +38,12 @@ public class MembershipRecyclerViewAdapter extends  RecyclerView.Adapter<Members
         holder.tvNameMembership .setText(membership.getName());
         holder.tvPriceMembership.setText(String.valueOf(membership.getMinimumSpendAmount()));
         holder.tvRateMembership.setText(String.valueOf(membership.getDiscountRate()));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onMembershipClick(membership);
+            }
+        });
     }
 
     @Override
