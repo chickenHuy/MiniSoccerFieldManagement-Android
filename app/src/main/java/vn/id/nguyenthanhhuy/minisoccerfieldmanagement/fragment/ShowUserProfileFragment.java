@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 
 import com.yariksoffice.lingver.Lingver;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
@@ -84,6 +89,30 @@ public class ShowUserProfileFragment extends Fragment {
             Intent intent = new Intent(getActivity(), FieldManagementActivity.class);
             startActivityForResult(intent, FIELD_MANAGEMENT);
         });
+
+        binding.settings.inflateMenu(R.menu.setting_menu);
+        binding.settings.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_price_list)
+            {
+                return true;
+            } else if (item.getItemId() == R.id.action_membership) {
+                return true;
+
+            }
+            return false;
+        });
+
+        Drawable overflowIcon = binding.settings.getOverflowIcon();
+
+        if (overflowIcon != null) {
+            // Tạo một bản sao của biểu tượng và tô màu cho nó
+            Drawable newIcon = overflowIcon.mutate();
+            newIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP); // Thay đổi màu ở đây
+
+            // Đặt biểu tượng mới cho toolbar
+            ActionMenuView toolbar;
+            binding.settings.setOverflowIcon(newIcon);
+        }
     }
 
     @Override

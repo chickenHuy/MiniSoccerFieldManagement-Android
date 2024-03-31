@@ -36,6 +36,14 @@
                 android:onClick="editUserAvatar"
                 android:paddingStart="5dp"
                 android:translationX="50dp" />
+
+            <Toolbar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingEnd="12dp"
+                android:id="@+id/settings"
+                android:layout_gravity="right |top"
+                />
         </FrameLayout>
 
         <TextView
