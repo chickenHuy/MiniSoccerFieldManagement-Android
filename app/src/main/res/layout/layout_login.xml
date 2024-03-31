@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/width_mp_height_wc"
     android:layout_gravity="center"
-    android:background="@drawable/background_radius_30dp"
+    android:background="@drawable/background_green_radius_40dp"
     android:backgroundTint="@color/white">
 
     <LinearLayout

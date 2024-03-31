@@ -20,6 +20,7 @@ import com.yariksoffice.lingver.Lingver;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentShowUserProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
@@ -96,7 +97,8 @@ public class ShowUserProfileFragment extends Fragment {
             {
                 return true;
             } else if (item.getItemId() == R.id.action_membership) {
-                return true;
+                Intent intent = new Intent(getActivity(), SettingMembershipActivity.class);
+                startActivity(intent);
 
             }
             return false;

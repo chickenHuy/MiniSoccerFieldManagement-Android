@@ -43,7 +43,7 @@ public class FieldRecyclerViewAdapter extends RecyclerView.Adapter<FieldRecycler
         return fields.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNameField;
         TextView tvIdField;
         CheckBox chkSelectField;
