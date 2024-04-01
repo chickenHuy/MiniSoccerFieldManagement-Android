@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="80dp"
     android:orientation="horizontal"
-    android:background="@drawable/background_white_radius_10dp"
-    android:layout_margin="10dp"
+    android:background="@drawable/gray_outline"
+    android:layout_margin="5dp"
     >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="80dp"
-        android:layout_height="70dp"
-        android:background="@drawable/background_green_radius_10dp"
+        android:layout_height="80dp"
+        android:background="@drawable/background_green_radius_20dp"
         android:orientation="vertical"
         >
         <TextView
-            android:id="@+id/timeStart"
+            android:id="@+id/tvTimeStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="17:00"
@@ -24,7 +24,7 @@
             android:layout_gravity="left"
             />
         <TextView
-            android:id="@+id/timeOut"
+            android:id="@+id/tvTimeEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="18:30"
@@ -36,8 +36,8 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <TextView
@@ -50,14 +50,15 @@
             android:layout_gravity="left"
             />
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="300,000 VNĐ"
             android:textSize="22dp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_marginLeft="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_gravity="left"
             />

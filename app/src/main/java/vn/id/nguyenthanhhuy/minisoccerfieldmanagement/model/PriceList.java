@@ -1,10 +1,11 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.Time;
 
-public class PriceList {
+public class PriceList implements Serializable {
     private String id;
     private Time startTime;
     private Time endTime;
