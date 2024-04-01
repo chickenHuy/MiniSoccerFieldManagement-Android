@@ -51,8 +51,6 @@ public class EditProfileActivity extends AppCompatActivity {
             if (option.equals("editProfile")) {
                 currentUser = MainApplication.curentUser;
             }
-
-            Toast.makeText(this, option, Toast.LENGTH_SHORT).show();
         }
 
         setStatusBarColor();

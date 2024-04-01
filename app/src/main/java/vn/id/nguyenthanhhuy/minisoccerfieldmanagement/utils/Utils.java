@@ -5,7 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 
@@ -26,6 +29,14 @@ public class Utils {
     public static void setStatusBarColor(Activity activity) {
         activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primaryColor, activity.getTheme()));
     }
+
+    public static String formatVND(BigDecimal price) {
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        return currencyVN.format(price);
+    }
+
+
 
 
 

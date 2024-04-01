@@ -22,6 +22,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingPriceListActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentShowUserProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
@@ -108,7 +109,8 @@ public class ShowUserProfileFragment extends Fragment {
         binding.settings.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_price_list)
             {
-                return true;
+                Intent intent = new Intent(getActivity(), SettingPriceListActivity.class);
+                startActivity(intent);
             } else if (item.getItemId() == R.id.action_membership) {
                 Intent intent = new Intent(getActivity(), SettingMembershipActivity.class);
                 startActivity(intent);

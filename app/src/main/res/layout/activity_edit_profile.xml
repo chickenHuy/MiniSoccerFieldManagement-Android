@@ -88,13 +88,14 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_show_calender"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/background_white_radius_10dp"
             android:backgroundTint="@color/whiteGray"
             android:drawableStart="@drawable/ic_calender"
-            android:elevation="5dp"
-            android:paddingStart="17dp" />
+            android:paddingStart="13dp" />
 
     </LinearLayout>
 
@@ -106,8 +107,8 @@
             android:id="@+id/edit_text_phone_number"
             style="@style/width_mp_height_wc"
             android:autofillHints="phone"
-            android:inputType="phone"
             android:hint="@string/phone_number"
+            android:inputType="phone"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,9 +134,9 @@
             android:id="@+id/spinner_gender"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:popupBackground="@drawable/background_white_radius_10dp"
-            android:popupElevation="5dp"
-            android:layout_weight="1" />
+            android:popupElevation="5dp" />
 
     </LinearLayout>
 
@@ -143,9 +144,9 @@
         android:id="@+id/role_layout"
         style="@style/width_mp_height_wc"
         android:layout_height="55dp"
-        android:gravity="center_vertical"
         android:layout_marginTop="15dp"
         android:background="@drawable/background_border_2dp_radius_10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -162,9 +163,9 @@
             android:id="@+id/spinner_role"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:popupBackground="@drawable/background_white_radius_10dp"
-            android:popupElevation="5dp"
-            android:layout_weight="1" />
+            android:popupElevation="5dp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton

@@ -70,4 +70,7 @@
     <string name="setting_membership">Setting Membership</string>
     <string name="membership_name">Membership name</string>
     <string name="minimum_spend_amount">Minimum spend amount</string>
+    <string name="setting_price_list">Setting Price List</string>
+    <string name="start_time">Start time: </string>
+    <string name="end_time">End time: </string>
 </resources>

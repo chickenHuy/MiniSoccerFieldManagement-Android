@@ -66,4 +66,7 @@
     <string name="setting_membership">Cài đặt hạn mức</string>
     <string name="membership_name">Tên hạn mức</string>
     <string name="minimum_spend_amount">Chi tiêu tối thiểu</string>
+    <string name="setting_price_list">Cài đặt giá sân</string>
+    <string name="start_time">Thời gian BĐ:</string>
+    <string name="end_time">Thời gian KT:</string>
 </resources>
