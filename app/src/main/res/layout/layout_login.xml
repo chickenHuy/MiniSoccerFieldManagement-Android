@@ -37,6 +37,7 @@
 
             <EditText
                 style="@style/edit_text_custom"
+                android:id="@+id/edtUsername"
                 android:hint="@string/username" />
         </LinearLayout>
 
@@ -58,6 +59,7 @@
 
             <EditText
                 style="@style/edit_text_custom"
+                android:id="@+id/edtPassword"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
         </LinearLayout>
@@ -85,7 +87,8 @@
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/btnLogin"/>
 
     </LinearLayout>
 </LinearLayout>

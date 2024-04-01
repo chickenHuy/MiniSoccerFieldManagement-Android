@@ -48,6 +48,7 @@
 
         <TextView
             style="@style/header_text_custom"
+            android:id="@+id/text_view_name"
             android:text="Thanh Huy"
             android:textColor="@color/primaryColor" />
     </LinearLayout>
@@ -139,6 +140,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/role_layout"
         style="@style/width_mp_height_wc"
         android:layout_height="55dp"
         android:gravity="center_vertical"

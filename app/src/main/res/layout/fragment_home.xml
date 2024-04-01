@@ -25,6 +25,7 @@
 
         <TextView
             style="@style/header_text_custom"
+            android:id="@+id/text_view_name"
             android:text="Thanh Huy"
             android:textColor="@color/primaryColor" />
     </LinearLayout>

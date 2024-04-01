@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,24 +18,30 @@ import com.yariksoffice.lingver.Lingver;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityEditProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
 
 public class EditProfileActivity extends AppCompatActivity {
     private ActivityEditProfileBinding binding;
 
     private String option;
-    private User currentUer;
+    private User currentUser;
+    LinearLayout roleLayout;
+    UserServiceImpl userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
+        roleLayout = binding.roleLayout;
         setContentView(binding.getRoot());
+        userService = new UserServiceImpl(EditProfileActivity.this);
 
         Lingver.getInstance().setLocale(EditProfileActivity.this, MainApplication.language);
 
@@ -42,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (extras != null) {
             option = extras.getString("option");
             if (option.equals("editProfile")) {
-                currentUer = (User) extras.getSerializable("currentUser");
+                currentUser = MainApplication.curentUser;
             }
 
             Toast.makeText(this, option, Toast.LENGTH_SHORT).show();
@@ -58,7 +65,17 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void setWidget() {
         if (option.equals("editProfile")) {
-
+            binding.editTextFullName.setText(currentUser.getName());
+            binding.editTextDateOfBirth.setText(currentUser.getDateOfBirth());
+            binding.editTextPhoneNumber.setText(currentUser.getPhoneNumber());
+            binding.spinnerGender.setSelection(currentUser.getGender().equals("Nam") ? 0 : currentUser.getGender().equals("Nữ") ? 1 : 2);
+            roleLayout.setVisibility(View.INVISIBLE);
+            if (currentUser.getRole().equals("Manager")) {
+                binding.textViewRole.setText(getString(R.string.manager));
+            } else {
+                binding.textViewRole.setText(getString(R.string.staff));
+            }
+            binding.textViewName.setText(currentUser.getName());
         }
 
         String[] genderItems = new String[]{"Male", "Female", "Other"};
@@ -138,12 +155,15 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     public void saveProfile(View view) {
         String fullName = binding.editTextFullName.getText().toString().trim();
         String dateOfBirth = binding.editTextDateOfBirth.getText().toString().trim();
         String phoneNumber = binding.editTextPhoneNumber.getText().toString().trim();
+        String gender = binding.spinnerGender.getSelectedItem().toString();
 
         if (fullName.equals("")) {
             binding.editTextFullName.setError(getResources().getString(R.string.error_full_name_empty));
@@ -153,6 +173,47 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         if (phoneNumber.equals("")) {
             binding.editTextPhoneNumber.setError(getResources().getString(R.string.error_phone_number_empty));
+        }
+
+        // Kiểm tra xem có lỗi nào đang được hiển thị trên các ô text hay không
+        if (binding.editTextFullName.getError() != null || binding.editTextDateOfBirth.getError() != null || binding.editTextPhoneNumber.getError() != null) {
+            Toast.makeText(this, "Update profile failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Kiểm tra xem người dùng có đủ 18 tuổi không
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date userDateOfBirth = format.parse(dateOfBirth);
+            Calendar userCalendar = Calendar.getInstance();
+            if (userDateOfBirth != null) {
+                userCalendar.setTime(userDateOfBirth);
+            }
+
+            Calendar currentCalendar = Calendar.getInstance();
+            int currentYear = currentCalendar.get(Calendar.YEAR);
+            int userYear = userCalendar.get(Calendar.YEAR);
+
+            if (currentYear - userYear < 18) {
+                Toast.makeText(this, "User must be at least 18 years old", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (option.equals("editProfile")) {
+            currentUser.setName(fullName);
+            currentUser.setDateOfBirth(dateOfBirth);
+            currentUser.setPhoneNumber(phoneNumber);
+            currentUser.setGender(gender);
+            System.out.println(currentUser.getId());
+            if (userService.update_info(currentUser)) {
+                Toast.makeText(this, "Update profile successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Update profile failed", Toast.LENGTH_SHORT).show();
+            }
+            System.out.println(currentUser.getName());
         }
     }
 }

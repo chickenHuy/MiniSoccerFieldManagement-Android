@@ -1,10 +1,10 @@
-package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 
-public interface IUserDAO {
+public interface IUserService {
     public boolean add(User user);
 
     public boolean update(User user);

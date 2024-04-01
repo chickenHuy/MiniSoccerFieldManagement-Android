@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -42,6 +44,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerViewListService;
 
+    private TextView text_view_name;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +63,7 @@ public class HomeFragment extends Fragment {
         setWidgets();
         setViewPagerImages();
         setListButton();
+        text_view_name.setText(MainApplication.curentUser.getName());
         setRecyclerViewListService();
     }
 
@@ -110,6 +115,7 @@ public class HomeFragment extends Fragment {
         buttonLive = binding.buttonLive;
         buttonToday = binding.buttonToday;
         buttonTomorrow = binding.buttonTomorrow;
+        text_view_name = binding.textViewName;
 
         listButton = new ArrayList<>();
         listButton.add(buttonUpcoming);

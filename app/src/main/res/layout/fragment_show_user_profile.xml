@@ -48,6 +48,7 @@
 
         <TextView
             style="@style/header_text_custom"
+            android:id="@+id/text_view_name"
             android:layout_gravity="center"
             android:layout_marginTop="23dp"
             android:text="Thanh Huy"
@@ -60,6 +61,7 @@
 
             <TextView
                 style="@style/content_text_custom"
+                android:id="@+id/text_view_username"
                 android:text="chickenHuy"
                 android:textColor="@color/black" />
 
@@ -71,6 +73,7 @@
 
             <TextView
                 style="@style/content_text_custom"
+                android:id="@+id/text_view_phone_number"
                 android:text="0869017464"
                 android:textColor="@color/black" />
         </LinearLayout>

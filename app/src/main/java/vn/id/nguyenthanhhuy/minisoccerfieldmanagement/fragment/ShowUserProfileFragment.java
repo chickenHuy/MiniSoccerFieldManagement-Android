@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
+import android.widget.TextView;
 
 import com.yariksoffice.lingver.Lingver;
 
@@ -34,6 +35,8 @@ public class ShowUserProfileFragment extends Fragment {
     public static final int FIELD_MANAGEMENT = 5;
 
     private FragmentShowUserProfileBinding binding;
+    private User currentUser;
+    private TextView text_view_name, text_view_phone_number, text_view_username;
 
     @Nullable
     @Override
@@ -41,7 +44,11 @@ public class ShowUserProfileFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        currentUser = (User) MainApplication.curentUser;
         binding = FragmentShowUserProfileBinding.inflate(inflater, container, false);
+        text_view_name = binding.textViewName;
+        text_view_username = binding.textViewUsername;
+        text_view_phone_number = binding.textViewPhoneNumber;
         return binding.getRoot();
     }
 
@@ -51,6 +58,7 @@ public class ShowUserProfileFragment extends Fragment {
 
         setLanguage();
         setWidget();
+        setInformation();
     }
 
     public void setLanguage() {
@@ -59,6 +67,12 @@ public class ShowUserProfileFragment extends Fragment {
         } else {
             binding.switchVietnamese.setChecked(false);
         }
+    }
+
+    private void setInformation(){
+        text_view_name.setText(currentUser.getName());
+        text_view_phone_number.setText(currentUser.getPhoneNumber());
+        text_view_username.setText(currentUser.getUserName());
     }
 
     public void setWidget() {
@@ -79,7 +93,6 @@ public class ShowUserProfileFragment extends Fragment {
 
         binding.buttonEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            User currentUser = new User();
 
             intent.putExtra("option", "editProfile");
             intent.putExtra("currentUser", currentUser);
