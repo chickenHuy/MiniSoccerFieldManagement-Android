@@ -27,13 +27,13 @@
                 android:scaleType="centerCrop" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/editUserAvatar"
                 android:layout_width="35dp"
                 android:layout_height="34dp"
                 android:layout_gravity="center | bottom"
                 android:background="@drawable/background_circular_50_percent"
                 android:backgroundTint="#CDBABABA"
                 android:drawableStart="@drawable/ic_pen_edit"
-                android:onClick="editUserAvatar"
                 android:paddingStart="5dp"
                 android:translationX="50dp" />
 

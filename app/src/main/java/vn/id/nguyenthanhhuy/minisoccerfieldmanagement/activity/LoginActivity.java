@@ -28,20 +28,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        UserServiceImpl userService = new UserServiceImpl(LoginActivity.this);
-        User user = new User();
-        user.setName("Nguyễn Thiện Luân");
-        user.setUserName("thienluan");
-        user.setPassword("password");
-        user.setId(CurrentTimeID.nextId("user"));
-        user.setDateOfBirth("08/12/2003");
-        user.setImage(null);
-        user.setPhoneNumber("0889192145");
-        user.setRole("Manager");
-        user.setDeleted(false);
-        user.setType(null);
-        user.setGender("Nam");
-        userService.update(user);
+//        UserServiceImpl userService = new UserServiceImpl(LoginActivity.this);
+//        User user = new User();
+//        user.setName("Nguyễn Thiện Luân");
+//        user.setUserName("thienluan");
+//        user.setPassword("password");
+//        user.setId("user1711953275532");
+//        user.setDateOfBirth("08/12/2003");
+//        user.setImage(null);
+//        user.setPhoneNumber("0889192145");
+//        user.setRole("Manager");
+//        user.setDeleted(false);
+//        user.setType(null);
+//        user.setGender("Nam");
+//        userService.update(user);
         System.out.println("Checking log NTLuan");
 
 

@@ -2,21 +2,36 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ChangePasswordActivity;
@@ -27,6 +42,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingPriceListA
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentShowUserProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ShowUserProfileFragment extends Fragment {
 
@@ -38,6 +55,7 @@ public class ShowUserProfileFragment extends Fragment {
 
     private FragmentShowUserProfileBinding binding;
     private User currentUser;
+    private UserServiceImpl userService;
     private TextView text_view_name, text_view_phone_number, text_view_username;
 
     @Nullable
@@ -47,6 +65,7 @@ public class ShowUserProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         currentUser = (User) MainApplication.curentUser;
+        userService = new UserServiceImpl(getContext());
         binding = FragmentShowUserProfileBinding.inflate(inflater, container, false);
         text_view_name = binding.textViewName;
         text_view_username = binding.textViewUsername;
@@ -72,6 +91,14 @@ public class ShowUserProfileFragment extends Fragment {
     }
 
     private void setInformation(){
+        if(currentUser.getImage() == null){
+            setDefaultImage(binding.imageViewAvatar);
+        } else {
+            Glide.with(this)
+                    .load(Utils.convertByteToBitmap(currentUser.getImage()))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.imageViewAvatar);
+        }
         text_view_name.setText(currentUser.getName());
         text_view_phone_number.setText(currentUser.getPhoneNumber());
         text_view_username.setText(currentUser.getUserName());
@@ -100,6 +127,8 @@ public class ShowUserProfileFragment extends Fragment {
             intent.putExtra("currentUser", currentUser);
             startActivityForResult(intent, EDIT_PROFILE_INFORMATION);
         });
+
+        binding.editUserAvatar.setOnClickListener(this::editUserAvatar);
 
         binding.buttonChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
@@ -149,6 +178,77 @@ public class ShowUserProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Update user information when the fragment resumes
+        setWidget();
         setInformation();
+    }
+
+    public void editUserAvatar(View view) {
+        // Tạo một AlertDialog để hỏi người dùng
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.choose_option)
+                .setPositiveButton(R.string.take_photo, (dialog, which) -> {
+                    // Mở camera để chụp ảnh mới
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);
+                })
+                .setNegativeButton(R.string.choose_from_gallery, (dialog, which) -> {
+                    // Mở thư viện ảnh để chọn ảnh
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 1);
+                })
+                .show();
+    }
+    public void setDefaultImage(ImageView imageView) {
+        AssetManager assetManager = getContext().getAssets();
+
+        try (InputStream is = assetManager.open("defaultImage/none_user.png")) {
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            Glide.with(this)
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imageView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            Bitmap bitmap = null;
+
+            // Nếu người dùng chụp ảnh
+            if (requestCode == 0) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+            }
+            // Nếu người dùng chọn ảnh từ thư viện
+            else if (requestCode == 1) {
+                Uri selectedImage = data.getData();
+                try {
+                    InputStream imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
+                    Bitmap originalBitmap = BitmapFactory.decodeStream(imageStream);
+                    // Nén ảnh
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    originalBitmap.compress(Bitmap.CompressFormat.JPEG, 5, out);
+                    Bitmap compressedBitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+                    bitmap = compressedBitmap;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (bitmap != null) {
+                // Gán ảnh cho currentUser
+                currentUser.setImage(Utils.convertBitmapToByteArray(bitmap));
+                if (userService.update_info(currentUser)) {
+                    Toast.makeText(getContext(),"Update Image successfully", Toast.LENGTH_SHORT).show();
+                    MainApplication.curentUser = currentUser;
+                    onResume();
+                } else {
+                    Toast.makeText(getContext(),"Update Image failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }

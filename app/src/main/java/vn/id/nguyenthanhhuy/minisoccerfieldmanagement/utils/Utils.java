@@ -3,6 +3,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -17,6 +18,10 @@ public class Utils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return outputStream.toByteArray();
+    }
+
+    public static Bitmap convertByteToBitmap(byte[] byteArray) {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
     }
 
     public static Timestamp toTimestamp(String updateAt) {
@@ -35,9 +40,5 @@ public class Utils {
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         return currencyVN.format(price);
     }
-
-
-
-
 
 }
