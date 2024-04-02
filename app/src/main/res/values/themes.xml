@@ -5,10 +5,18 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.MiniSoccerFieldManagement" parent="Base.Theme.MiniSoccerFieldManagement" />
+    <style name="Theme.MiniSoccerFieldManagement" parent="Base.Theme.MiniSoccerFieldManagement">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Thay đổi màu sắc của nút PositiveButton -->
+        <item name="colorAccent">@color/primaryColor</item>
+    </style>
 
     <style name="ThemeOverlay.MiniSoccerFieldManagement.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
 </resources>

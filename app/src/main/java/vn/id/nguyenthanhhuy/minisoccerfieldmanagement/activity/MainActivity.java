@@ -18,17 +18,21 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.HomeFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.WalletFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationViewMenu;
 
     private FloatingActionButton floatingActionButton;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Lấy dữ liệu User từ Intent
+        user = (User) MainApplication.curentUser;
 
         Lingver.getInstance().setLocale(MainActivity.this, MainApplication.language);
         getWindow().setStatusBarColor(getResources().getColor(R.color.primaryColor, getTheme()));

@@ -75,6 +75,27 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     @Override
+    public boolean update_info(User user) {
+        try {
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_NAME, user.getName());
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_GENDER, user.getGender());
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_PHONE_NUMBER, user.getPhoneNumber());
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_DATE_OF_BIRTH, user.getDateOfBirth());
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_IMAGE, user.getImage());
+            values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
+
+            long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{user.getId()});
+            return result != -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean softDelete(String id) {
         try {
             SQLiteDatabase db = dbHandler.getWritableDatabase();
