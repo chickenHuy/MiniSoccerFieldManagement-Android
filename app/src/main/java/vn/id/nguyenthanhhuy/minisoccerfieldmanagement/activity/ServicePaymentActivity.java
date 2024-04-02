@@ -99,7 +99,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
     public void onButtonPaymentClick(View view) {
         paymentSuccess = true;
 
-        Dialog dialog = new Dialog(ServicePaymentActivity.this);
+        Dialog dialog = new Dialog(this, R.style.rounded_corners_dialog);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_custom_dialog_payment_successfully, null);
 
