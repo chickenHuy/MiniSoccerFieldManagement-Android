@@ -83,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchFragment(Fragment newFragment) {
+        if (newFragment instanceof ServiceFragment) {
+            Bundle args = new Bundle();
+
+            args.putBoolean("hasMatch", false);
+            newFragment.setArguments(args);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, newFragment);

@@ -54,6 +54,7 @@
     <string name="add">Thêm</string>
     <string name="chosen">Đã chọn</string>
     <string name="calendar">Lịch</string>
+    <string name="payment">Thanh toán</string>
 
     <string name="delete">Xóa</string>
     <string name="field_name">Tên sân</string>
@@ -66,4 +67,16 @@
     <string name="setting_membership">Cài đặt hạn mức</string>
     <string name="membership_name">Tên hạn mức</string>
     <string name="minimum_spend_amount">Chi tiêu tối thiểu</string>
+
+    <string name="services_payment">Thanh toán các dịch vụ</string>
+    <string name="customer_information">Thông tin khách hàng</string>
+    <string name="add_customer">Thêm khách hàng</string>
+    <string name="total_price">Tổng giá</string>
+    <string name="discount">Giảm giá</string>
+    <string name="total_amount">Tổng cộng</string>
+    <string name="order_code">Mã đơn hàng</string>
+    <string name="payment_time">Thời gian thanh toán</string>
+    <string name="home_page">Trang chủ</string>
+    <string name="service_page">Dịch vụ</string>
+    <string name="payment_successfully">Thanh toán thành công!!!</string>
 </resources>

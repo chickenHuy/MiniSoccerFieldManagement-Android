@@ -2,18 +2,20 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_service_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
     <LinearLayout
+        android:id="@+id/linear_layout_service_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/background_white_radius_10dp"
-        android:backgroundTint="#F9F9FB"
+        android:backgroundTint="@color/itemServiceBackgroundColor"
         android:elevation="2dp"
         android:orientation="horizontal">
 
@@ -111,9 +113,33 @@
                 android:gravity="end"
                 android:orientation="horizontal">
 
+                <LinearLayout
+                    android:id="@+id/linear_layout_quantity"
+                    style="@style/width_wc_height_wc"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/text_view_quantity"
+                        style="@style/width_wc_height_wc"
+                        android:text="Quantity"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=" x "
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
                 <TextView
                     style="@style/width_wc_height_wc"
                     android:text="Price of service"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/primaryColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />

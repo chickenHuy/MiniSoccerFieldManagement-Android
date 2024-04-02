@@ -140,6 +140,7 @@
         android:background="@drawable/background_circular_50_percent"
         android:backgroundTint="@color/primaryColor"
         android:paddingStart="70dp"
+        android:textAllCaps="false"
         android:paddingEnd="70dp"
         android:text="@string/add"
         android:textColor="@color/white"

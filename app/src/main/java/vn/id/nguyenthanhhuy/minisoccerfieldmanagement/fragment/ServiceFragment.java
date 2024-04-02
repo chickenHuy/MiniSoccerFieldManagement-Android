@@ -22,15 +22,21 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServicePaymentActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentServiceBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 
 
 public class ServiceFragment extends Fragment {
     private FragmentServiceBinding binding;
     public static final int GET_QUANTITY = 0;
     public static final int GET_QUANTITY_SUCCESSFULLY = 1;
+    public static final int GO_TO_PAYMENT = 2;
+    public static final int PAYMENT_SUCCESSFULLY = 3;
 
     private ListView listViewService;
     private ListViewServiceAdapter listViewServiceAdapter;
@@ -40,6 +46,8 @@ public class ServiceFragment extends Fragment {
     private List<String> listServiceInCart;
     public static AppCompatButton buttonAdd;
     public static LinearLayout linearLayoutTittleCartService;
+
+    private boolean hasMatch;
 
     @Nullable
     @Override
@@ -54,6 +62,13 @@ public class ServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            hasMatch = getArguments().getBoolean("hasMatch");
+            if (!hasMatch) {
+                binding.buttonAdd.setText(getResources().getString(R.string.payment));
+            }
+        }
 
         setWidget();
         setListView();
@@ -71,6 +86,19 @@ public class ServiceFragment extends Fragment {
                 recyclerViewServiceAdapter.notifyDataSetChanged();
 
                 setCartServiceTittle(View.GONE);
+            }
+        });
+
+        ((AppCompatButton) binding.buttonAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!hasMatch) {
+                    Intent intent = new Intent(getActivity(), ServicePaymentActivity.class);
+
+                    intent.putExtra("hasMatch", hasMatch);
+                    intent.putStringArrayListExtra("listServiceInCart", (ArrayList<String>) listServiceInCart);
+                    startActivityForResult(intent, GO_TO_PAYMENT);
+                }
             }
         });
     }
@@ -107,7 +135,7 @@ public class ServiceFragment extends Fragment {
         });
     }
 
-    public void setCartServiceTittle(int status){
+    public void setCartServiceTittle(int status) {
         linearLayoutTittleCartService.setVisibility(status);
         buttonAdd.setVisibility(status);
     }
@@ -130,6 +158,14 @@ public class ServiceFragment extends Fragment {
             if (fragment != null) {
                 fragmentManager.beginTransaction().remove(fragment).commit();
             }
+            return;
+        }
+        if (resultCode == PAYMENT_SUCCESSFULLY && data != null) {
+            listServiceInCart.clear();
+            recyclerViewServiceAdapter.notifyDataSetChanged();
+            setCartServiceTittle(View.GONE);
+
+            return;
         }
     }
 
