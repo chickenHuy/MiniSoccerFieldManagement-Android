@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">MSFM</string>
+    <string name="app_name">MSFM</string>
 
     <string name="edit_profile_information">Edit profile information</string>
     <string name="notifications">Notifications</string>
@@ -39,6 +39,10 @@
     <string name="error_date_of_birth_not_exist">Date of birth does not exist</string>
     <string name="error_phone_number_empty">Phone number is required</string>
     <string name="error_phone_number_incorrect_format">The phone number must have 10 digits!!!</string>
+    <string name="error_password_not_match">Password does not match</string>
+    <string name="error_password_empty">Password is required</string>
+    <string name="error_password_incorrect">Password is incorrect</string>
+    <string name="error_password_too_short_or_long">Password must be at least 6 characters and at most 20 characters</string>
 
     <string name="hello">Hello</string>
     <string name="field">Field</string>

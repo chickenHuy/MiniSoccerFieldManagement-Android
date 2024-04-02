@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.yariksoffice.lingver.Lingver;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ChangePasswordActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
@@ -100,6 +101,12 @@ public class ShowUserProfileFragment extends Fragment {
             startActivityForResult(intent, EDIT_PROFILE_INFORMATION);
         });
 
+        binding.buttonChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            intent.putExtra("option", "changePassword");
+            startActivityForResult(intent, CHANGE_PASSWORD);
+        });
+
         binding.btnFieldManagement.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), FieldManagementActivity.class);
             startActivityForResult(intent, FIELD_MANAGEMENT);
@@ -136,5 +143,12 @@ public class ShowUserProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Update user information when the fragment resumes
+        setInformation();
     }
 }

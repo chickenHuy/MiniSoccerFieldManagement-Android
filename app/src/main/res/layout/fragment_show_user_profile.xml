@@ -230,6 +230,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="40dp"
+                    android:id="@+id/button_change_password"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"

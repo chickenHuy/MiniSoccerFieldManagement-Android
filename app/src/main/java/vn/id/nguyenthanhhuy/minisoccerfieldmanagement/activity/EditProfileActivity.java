@@ -3,6 +3,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -208,10 +209,16 @@ public class EditProfileActivity extends AppCompatActivity {
             System.out.println(currentUser.getId());
             if (userService.update_info(currentUser)) {
                 Toast.makeText(this, "Update profile successfully", Toast.LENGTH_SHORT).show();
+                MainApplication.curentUser = currentUser;
+                setWidget();
             } else {
                 Toast.makeText(this, "Update profile failed", Toast.LENGTH_SHORT).show();
             }
             System.out.println(currentUser.getName());
         }
+    }
+
+    public void goBack(View view) {
+        finish();
     }
 }

@@ -38,6 +38,7 @@
     <string name="error_phone_number_empty">Số điện thoại trống!!!</string>
     <string name="error_phone_number_incorrect_format">Số điện thoại phải có 10 chữ số!!!</string>
 
+    <string name="error_password_too_short_or_long">Mật khẩu tối thiểu 6 kí tự và tối đa là 20 kí tự</string>
     <string name="hello">Chào</string>
     <string name="field">Sân</string>
     <string name="upcoming">Sắp diễn ra</string>
@@ -69,4 +70,7 @@
     <string name="setting_price_list">Cài đặt giá sân</string>
     <string name="start_time">Thời gian BĐ:</string>
     <string name="end_time">Thời gian KT:</string>
+    <string name="error_password_not_match">Mật khẩu nhập lại không khớp</string>
+    <string name="error_password_empty">Mật khẩu không được để trống</string>
+    <string name="error_password_incorrect">Mật khẩu hiện tại không đúng</string>
 </resources>
