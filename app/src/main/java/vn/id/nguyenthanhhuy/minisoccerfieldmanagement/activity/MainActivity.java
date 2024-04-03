@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,9 +23,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationViewMenu;
-
-    private FloatingActionButton floatingActionButton;
+    public BottomNavigationView bottomNavigationViewMenu;
+    public FloatingActionButton floatingActionButton;
+    public Bundle args = new Bundle();
     private User user;
 
     @Override
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigationViewMenu();
 
         if (!MainApplication.isChangeLanguage) {
-            switchFragment(new HomeFragment());
+            switchFragment(new HomeFragment(), args);
         } else {
-            switchFragment(new ShowUserProfileFragment());
+            switchFragment(new ShowUserProfileFragment(), args);
             MainApplication.isChangeLanguage = false;
             floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
         }
@@ -55,22 +56,22 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewMenu.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.menu_option_transaction) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new BookingFragment());
+                switchFragment(new BookingFragment(), args);
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_service) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new ServiceFragment());
+                switchFragment(new ServiceFragment(), args);
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_wallet) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new WalletFragment());
+                switchFragment(new WalletFragment(), args);
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_show_user_profile) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new ShowUserProfileFragment());
+                switchFragment(new ShowUserProfileFragment(), args);
                 return true;
             }
             return true;
@@ -82,20 +83,17 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(v -> {
             floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.primaryColor, getTheme()));
             bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_home);
-            switchFragment(new HomeFragment());
+            switchFragment(new HomeFragment(), args);
         });
     }
 
-    public void switchFragment(Fragment newFragment) {
-        if (newFragment instanceof ServiceFragment) {
-            Bundle args = new Bundle();
+    public void switchFragment(Fragment newFragment, Bundle args) {
+        newFragment.setArguments(args);
 
-            args.putBoolean("hasMatch", false);
-            newFragment.setArguments(args);
-        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, newFragment);
+
         fragmentTransaction.commit();
     }
 }

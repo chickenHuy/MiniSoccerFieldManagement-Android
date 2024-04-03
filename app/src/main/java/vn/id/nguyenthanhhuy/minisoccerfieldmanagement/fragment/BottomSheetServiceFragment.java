@@ -2,6 +2,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,10 +14,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 
 public class BottomSheetServiceFragment extends BottomSheetDialogFragment {
+    private boolean openInHomePage;
+    private Fragment fragment;
+    private String service;
+
+    public BottomSheetServiceFragment(boolean openInHomePage, Fragment fragment, String service) {
+        this.openInHomePage = openInHomePage;
+        this.fragment = fragment;
+        this.service = service;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +57,23 @@ public class BottomSheetServiceFragment extends BottomSheetDialogFragment {
             editTextQuantity.setText(String.valueOf(quantity));
         });
         buttonAddToCart.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
-            Intent intent = new Intent();
-            intent.putExtra("QUANTITY", quantity);
-            getTargetFragment().onActivityResult(getTargetRequestCode(), ServiceFragment.GET_QUANTITY_SUCCESSFULLY, intent);
-            dismiss();
+            if (!openInHomePage) {
+                int quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
+                Intent intent = new Intent();
+                intent.putExtra("QUANTITY", quantity);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), ServiceFragment.GET_QUANTITY_SUCCESSFULLY, intent);
+                dismiss();
+            } else {
+                int quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
+                Activity activity = this.fragment.getActivity();
+
+                ((MainActivity) activity).args.putBoolean("has_match", false);
+                ((MainActivity) activity).args.putBoolean("open_with_service_item", true);
+                ((MainActivity) activity).args.putString("service_item", this.service);
+                ((MainActivity) activity).args.putInt("service_item_quantity", quantity);
+                ((MainActivity) activity).bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_service);
+                dismiss();
+            }
         });
     }
 }

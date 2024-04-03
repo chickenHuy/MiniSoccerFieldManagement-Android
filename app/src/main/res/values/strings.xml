@@ -87,6 +87,7 @@
     <string name="home_page">Home page</string>
     <string name="service_page">Service page</string>
     <string name="payment_successfully">Payment Successfully!!!</string>
+    <string name="payment_error">Payment Error!!!</string>
     <string name="setting_price_list">Setting Price List</string>
     <string name="start_time">Start time: </string>
     <string name="end_time">End time: </string>

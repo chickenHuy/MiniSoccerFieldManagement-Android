@@ -1,6 +1,5 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -20,20 +20,28 @@ import java.io.InputStream;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 
 public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerViewServiceAdapter.ViewHolder> {
 
-    private Context context;
-    private List<String> serviceList;
-    private boolean isCartService;
-    private LayoutInflater inflater;
+    private final Fragment fragment;
+    private final Context context;
+    private final List<String> serviceList;
+    private final boolean isCartService;
+    private final LayoutInflater inflater;
 
-    public RecyclerViewServiceAdapter(Context context, List<String> serviceList, boolean isCartService) {
+    private final FragmentManager fragmentManager;
+    private final Fragment targetFragment;
+
+    public RecyclerViewServiceAdapter(Fragment fragment, Context context, List<String> serviceList, boolean isCartService, FragmentManager fragmentManager) {
+        this.fragment = fragment;
         this.context = context;
         this.isCartService = isCartService;
         this.serviceList = serviceList;
         this.inflater = LayoutInflater.from(context);
+        this.fragmentManager = fragmentManager;
+        this.targetFragment = fragment;
     }
 
     @Override
@@ -73,6 +81,15 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
                             ServiceFragment.buttonAdd.setVisibility(View.GONE);
                         }
                     }
+                }
+            });
+        } else {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BottomSheetServiceFragment bottomSheet = new BottomSheetServiceFragment(true, fragment, service);
+                    bottomSheet.setTargetFragment(targetFragment, ServiceFragment.GET_QUANTITY);
+                    bottomSheet.show(fragmentManager, "ServiceBottomSheetDialogFragment");
                 }
             });
         }

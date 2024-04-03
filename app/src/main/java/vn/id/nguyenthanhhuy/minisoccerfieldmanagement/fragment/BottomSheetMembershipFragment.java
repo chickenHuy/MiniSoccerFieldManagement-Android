@@ -19,6 +19,8 @@ public class BottomSheetMembershipFragment extends BottomSheetServiceFragment {
 
     public BottomSheetMembershipFragment() {
         // Required empty public constructor
+        // Ko biết m có sài class này, thêm construtor này vào là ko lỗi
+        super(false, null, null);
     }
 
     // TODO: Rename and change types and number of parameters
@@ -26,7 +28,7 @@ public class BottomSheetMembershipFragment extends BottomSheetServiceFragment {
         BottomSheetMembershipFragment fragment = new BottomSheetMembershipFragment();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
-       // args.putString(ARG_PARAM2, param2);
+        // args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }

@@ -67,7 +67,7 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{user.getId()});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -88,7 +88,7 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{user.getId()});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -104,7 +104,7 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_IS_DELETED, 1);
 
             long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -296,7 +296,7 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE, role);
 
             long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -312,7 +312,7 @@ public class UserDAOImpl implements IUserDAO {
             values.put(SoccerFieldContract.UserEntry.COLUMN_NAME_PASSWORD, newPassword);
 
             long result = db.update(SoccerFieldContract.UserEntry.TABLE_NAME, values, SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
