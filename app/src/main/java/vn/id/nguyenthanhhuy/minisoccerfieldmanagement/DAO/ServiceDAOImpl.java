@@ -67,7 +67,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{service.getId()});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -83,7 +83,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED, 1);
 
             long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -325,7 +325,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS, status);
 
             long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -341,7 +341,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD, sold);
 
             long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -357,7 +357,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY, quantity);
 
             long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

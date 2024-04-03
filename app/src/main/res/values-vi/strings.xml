@@ -80,6 +80,7 @@
     <string name="home_page">Trang chủ</string>
     <string name="service_page">Dịch vụ</string>
     <string name="payment_successfully">Thanh toán thành công!!!</string>
+    <string name="payment_error">Thanh toán thất bại!!!</string>
 
     <string name="setting_price_list">Cài đặt giá sân</string>
     <string name="start_time">Thời gian BĐ:</string>

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
@@ -202,6 +203,13 @@ public class HomeFragment extends Fragment {
 
     public void setWidgets() {
         listViewMatch = binding.listViewMatch;
+        ((AppCompatButton) binding.buttonSeeAllService).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) requireActivity()).bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_service);
+                ((MainActivity) requireActivity()).switchFragment(new ServiceFragment());
+            }
+        });
     }
 
     public void setRecyclerViewListService() {

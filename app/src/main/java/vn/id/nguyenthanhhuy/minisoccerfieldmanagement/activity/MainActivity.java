@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,9 +23,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationViewMenu;
+    public BottomNavigationView bottomNavigationViewMenu;
 
-    private FloatingActionButton floatingActionButton;
+    public FloatingActionButton floatingActionButton;
     private User user;
 
     @Override

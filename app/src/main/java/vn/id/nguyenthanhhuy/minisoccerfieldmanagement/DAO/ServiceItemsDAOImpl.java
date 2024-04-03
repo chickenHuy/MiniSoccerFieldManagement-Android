@@ -56,7 +56,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_UPDATED_AT, new Timestamp(System.currentTimeMillis()).toString());
 
             long result = db.update(SoccerFieldContract.ServiceItemsEntry.TABLE_NAME, values, SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_ID + " = ?", new String[]{serviceItems.getId()});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -72,7 +72,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_QUANTITY, quantity);
 
             long result = db.update(SoccerFieldContract.ServiceItemsEntry.TABLE_NAME, values, SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -88,7 +88,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
             values.put(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_IS_DELETED, 1);
 
             long result = db.update(SoccerFieldContract.ServiceItemsEntry.TABLE_NAME, values, SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

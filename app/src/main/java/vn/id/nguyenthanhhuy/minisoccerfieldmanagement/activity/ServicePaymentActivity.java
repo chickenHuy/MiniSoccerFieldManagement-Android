@@ -9,26 +9,19 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.yariksoffice.lingver.Lingver;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityEditProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityServicePaymentBinding;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 
 public class ServicePaymentActivity extends AppCompatActivity {
@@ -97,11 +90,11 @@ public class ServicePaymentActivity extends AppCompatActivity {
     }
 
     public void onButtonPaymentClick(View view) {
-        paymentSuccess = true;
+        paymentSuccess = false;
 
         Dialog dialog = new Dialog(this, R.style.rounded_corners_dialog);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.layout_custom_dialog_payment_successfully, null);
+        View dialogView = inflater.inflate(R.layout.layout_custom_dialog_payment_notify, null);
 
         ((AppCompatButton) dialogView.findViewById(R.id.button_home_page)).setOnClickListener(v -> {
             dialog.dismiss();
@@ -117,9 +110,21 @@ public class ServicePaymentActivity extends AppCompatActivity {
             finish();
         });
 
-        ImageView imageView = dialogView.findViewById(R.id.image_view_success);
+        ImageView imageViewIconNotify = dialogView.findViewById(R.id.image_view_icon_notify);
+        TextView textViewNotifyMessage = dialogView.findViewById(R.id.text_view_notify_message);
+        if (paymentSuccess) {
+            imageViewIconNotify.setImageResource(R.drawable.image_success);
+            textViewNotifyMessage.setText(R.string.payment_successfully);
+        } else {
+            imageViewIconNotify.setImageResource(R.drawable.image_error);
+            textViewNotifyMessage.setText(R.string.payment_error);
+            TextView textViewDetailNotifyMessage = dialogView.findViewById(R.id.text_view_detail_notify_message);
+            textViewDetailNotifyMessage.setVisibility(View.VISIBLE);
+            textViewDetailNotifyMessage.setText("Số lượng sản phẫm không đủ!!!");
+        }
+
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fall_down);
-        imageView.startAnimation(animation);
+        imageViewIconNotify.startAnimation(animation);
 
         dialog.setContentView(dialogView);
         dialog.show();

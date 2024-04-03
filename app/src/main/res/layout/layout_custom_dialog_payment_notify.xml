@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/width_wc_height_wc"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image_view_icon_notify"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/text_view_notify_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="Notify message"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_view_detail_notify_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Error detail message"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_home_page"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:backgroundTint="@color/primaryColor"
+            android:lines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/home_page"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_service_page"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:backgroundTint="@color/primaryColor"
+            android:lines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/service_page"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
