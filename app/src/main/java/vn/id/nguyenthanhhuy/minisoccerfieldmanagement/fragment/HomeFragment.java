@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -207,7 +208,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity) requireActivity()).bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_service);
-                ((MainActivity) requireActivity()).switchFragment(new ServiceFragment());
             }
         });
     }
@@ -219,6 +219,16 @@ public class HomeFragment extends Fragment {
         recyclerViewListService.setLayoutManager(layoutManager);
         recyclerViewListService.addItemDecoration(new RecyclerViewServiceAdapter.StartEndSpaceItemDecoration(55, 20, 55));
 
+        recyclerViewListService.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (!recyclerView.canScrollHorizontally(1)) {
+                    Toast.makeText(getActivity(), "Đã cuộn đến cuối danh sách!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         List<String> serviceList = new ArrayList<>();
         serviceList.add("Service 1");
         serviceList.add("Service 2");
@@ -228,7 +238,7 @@ public class HomeFragment extends Fragment {
         serviceList.add("Service 6");
         serviceList.add("Service 7");
 
-        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(getContext(), serviceList, false);
+        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(this, getContext(), serviceList, false, getParentFragmentManager());
 
         recyclerViewListService.setAdapter(adapter);
     }
