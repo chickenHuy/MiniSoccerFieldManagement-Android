@@ -63,7 +63,7 @@ public class CustomerDAOImpl implements ICustomerDAO{
 
             int result = (int) db.update(SoccerFieldContract.CustomerEntry.TABLE_NAME, values, SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID + " = ?", new String[]{customer.getId()});
             db.close();
-            return result != -1;
+            return result > 0;
         }
         catch (Exception e)
         {
@@ -82,7 +82,7 @@ public class CustomerDAOImpl implements ICustomerDAO{
 
             int result = (int) db.update(SoccerFieldContract.CustomerEntry.TABLE_NAME, values, SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
             db.close();
-            return result != -1;
+            return result > 0;
         }
         catch (Exception e)
         {
