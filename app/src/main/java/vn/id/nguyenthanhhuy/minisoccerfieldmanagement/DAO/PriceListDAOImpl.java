@@ -75,7 +75,7 @@ public class PriceListDAOImpl implements IPriceListDAO{
             db.close();
 
             // if insert is successful, result will be the row ID of the new row, otherwise it will be -1
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             // Handle the exception
             e.printStackTrace();
