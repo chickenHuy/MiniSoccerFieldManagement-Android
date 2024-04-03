@@ -10,7 +10,7 @@ public final class SoccerFieldContract {
         public static final String COLUMN_NAME_FIELD_NAME = "name";
         public static final String COLUMN_NAME_STATUS = "status";
         public static final String COLUMN_NAME_IMAGE = "image";
-        public static final String COLUMN_NAME_TYPE_FIELD = "typeField";
+        public static final String COLUMN_NAME_TYPE_FIELD = "type";
         public static final String COLUMN_NAME_COMBINE_FIELD1 = "combineField1";
         public static final String COLUMN_NAME_COMBINE_FIELD2 = "combineField2";
         public static final String COLUMN_NAME_COMBINE_FIELD3 = "combineField3";

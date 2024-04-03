@@ -25,7 +25,11 @@ import java.io.IOException;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.FieldChooserFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class EditOrAddFieldActivity extends AppCompatActivity {
@@ -39,6 +43,7 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
     TextView tvIdSubField1, tvIdSubField2, tvIdSubField3, tvNameSubField1, tvNameSubField2, tvNameSubField3;
     LinearLayout llSubField;
     IFieldService fieldService;
+    Bitmap bitmapFieldImage;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int PICK_IMAGE_REQUEST = 2;
 
@@ -105,7 +110,12 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
                 // Get the field information from the UI elements
                 String fieldName = edtName.getText().toString();
                 boolean fieldStatus = swtStatus.isChecked();
-                byte[] fieldImage = Utils.convertBitmapToByteArray(((BitmapDrawable) imgField.getDrawable()).getBitmap());
+                byte[] fieldImage;
+                if (bitmapFieldImage!= null) {
+                    fieldImage = Utils.convertBitmapToByteArray(bitmapFieldImage);
+                } else {
+                    fieldImage = null;
+                }
                 // Validate the field information
                 if (fieldName.isEmpty()) {
                     edtName.setError("Field name is required");
@@ -138,6 +148,27 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
     private void saveFieldInformationHasSubField(String fieldName, boolean fieldStatus, byte[] fieldImage, String id1, String id2, String id3) {
     }
     private void saveFieldInformationNormal(String fieldName, boolean fieldStatus, byte[] fieldImage) {
+        Field field = new Field();
+        field.setId(CurrentTimeID.nextId("F"));
+        field.setName(fieldName);
+        field.setType(StaticString.TYPE_5_A_SIDE);
+        if (fieldStatus)
+        {
+            field.setStatus("active");
+        }
+        else
+        {
+            field.setStatus("inactive");
+        }
+        field.setImage(fieldImage);
+        if (fieldService.add(field))
+        {
+            Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+        }
 
     }
     private void setWigets() {
@@ -152,6 +183,7 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
         tvIdSubField1 = findViewById(R.id.tvIdSubField1);
         tvIdSubField2 = findViewById(R.id.tvIdSubField2);
         tvIdSubField3 = findViewById(R.id.tvIdSubField3);
+        fieldService = new FieldServiceImpl(this);
 
     }
     @Override
@@ -163,15 +195,15 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
 
             try {
                 // Đặt ảnh đã chọn vào ImageView
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imgField.setImageBitmap(bitmap);
+                bitmapFieldImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                imgField.setImageBitmap(bitmapFieldImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imgField.setImageBitmap(imageBitmap);
+            bitmapFieldImage  = (Bitmap) extras.get("data");
+            imgField.setImageBitmap(bitmapFieldImage);
         }
     }
 }
