@@ -171,6 +171,14 @@ public class ShowUserProfileFragment extends Fragment {
             }
         });
 
+        binding.buttonPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://1drv.ms/b/s!Am7QqX0gxVCPg6dktfbps9TbhruxXQ?e=sTgjI5"));
+                startActivity(browserIntent);
+            }
+        });
+
         Drawable overflowIcon = binding.settings.getOverflowIcon();
 
         if (overflowIcon != null) {
