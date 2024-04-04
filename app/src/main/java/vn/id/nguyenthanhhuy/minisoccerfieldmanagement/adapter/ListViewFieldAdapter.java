@@ -13,11 +13,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.io.InputStream;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ListViewFieldAdapter extends ArrayAdapter<Field> {
 
@@ -41,10 +46,21 @@ public class ListViewFieldAdapter extends ArrayAdapter<Field> {
             TextView tvIdField = convertView.findViewById(R.id.tvIdField);
             TextView tvNameField = convertView.findViewById(R.id.tvNameField);
             TextView tvStatusField = convertView.findViewById(R.id.tvStatusField);
+            ImageView imgField = convertView.findViewById(R.id.ivImgField);
             if (field != null) {
                 tvStatusField.setText(field.getStatus());
                 tvNameField.setText(field.getName());
                 tvIdField.setText(field.getId());
+                if (field.getImage() != null) {
+//                    byte[] image = field.getImage();
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+//                    imgField.setImageBitmap(bitmap);
+
+                    Glide.with(context)
+                            .load(Utils.convertByteToBitmap(field.getImage()))
+                            .apply(new RequestOptions().circleCrop())
+                            .into(imgField);
+                }
             }
 
         }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewFieldAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class FieldManagementActivity extends AppCompatActivity {
@@ -27,6 +30,7 @@ public class FieldManagementActivity extends AppCompatActivity {
     ListView lvFields;
     Button btnAddField, btnBack;
     RadioGroup rdgTypeField;
+    IFieldService fieldService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,24 +76,12 @@ public class FieldManagementActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         rdgTypeField = findViewById(R.id.rdgTypeField);
         fieldList = new ArrayList<Field>();
-        for (int i = 1; i <= 10; i++) {
-            String id = "id" + i;
-            String name = "Field " + i;
-            String status = i % 2 == 0 ? "Active" : "Inactive";
-            String type = i % 3 == 0 ? "Type A" : "Type B";
-            byte[] image = new byte[0];
-            String combineField1 = "Combine " + i;
-            String combineField2 = "Combine " + (i + 1);
-            String combineField3 = "Combine " + (i + 2);
-            Boolean isDeleted = false;
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-            Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
+        fieldService = new FieldServiceImpl(this);
 
-            Field field = new Field(id, name, status, type, image, combineField1, combineField2, combineField3, isDeleted, createdAt, updatedAt);
-            fieldList.add(field);
-        }
+        fieldList = fieldService.findAllNormalField();
         listViewFieldAdapter = new ListViewFieldAdapter(this, R.layout.item_list_field_in_activity_fieldmanagement);
         listViewFieldAdapter.addAll(fieldList);
+        Toast.makeText(this,  fieldList.get(0).getId() + "             a", Toast.LENGTH_SHORT).show();
         lvFields.setAdapter(listViewFieldAdapter);
     }
 
