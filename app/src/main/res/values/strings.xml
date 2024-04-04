@@ -95,4 +95,5 @@
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
     <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="add_field">Add Field</string>
 </resources>

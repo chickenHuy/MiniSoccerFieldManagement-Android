@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -23,6 +25,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.FieldRecyclerViewAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewFieldAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class FieldChooserFragment extends BottomSheetDialogFragment {
@@ -30,7 +34,13 @@ public class FieldChooserFragment extends BottomSheetDialogFragment {
     ListViewFieldAdapter listViewFieldAdapter;
     RecyclerView recyclerView;
     FieldRecyclerViewAdapter adapterField;
+    IFieldService fieldService;
+    Button btnSave;
+    private OnSaveSelectedFieldsListener onSaveSelectedFieldsListener;
 
+    public void setOnSaveSelectedFieldsListener(OnSaveSelectedFieldsListener listener) {
+        this.onSaveSelectedFieldsListener = listener;
+    }
     public FieldChooserFragment() {
         // Required empty public constructor
     }
@@ -55,27 +65,40 @@ public class FieldChooserFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setWigets(view);
+        setEvents(view);
+    }
 
+    private void setEvents(View view) {
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onSaveSelectedFieldsListener != null) {
+                    // Get the selected fields
+                    List<Field> selectedFields = adapterField.getSelectedFields();
+                    if (selectedFields.size() == 3){
+                    onSaveSelectedFieldsListener.onSaveSelectedFields(selectedFields);
+                    dismiss();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Please select 3 fields", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void setWigets(View view) {
+        fieldService = new FieldServiceImpl(this.getContext());
         recyclerView = view.findViewById(R.id.recycler_view_file_chooser);
-        fields = new ArrayList<Field>();
-        for (int i = 1; i <= 10; i++) {
-            String id = "id" + i;
-            String name = "Field " + i;
-            String status = i % 2 == 0 ? "Active" : "Inactive";
-            String type = i % 3 == 0 ? "Type 5" : "Type B";
-            byte[] image = new byte[0];
-            String combineField1 = "Combine " + i;
-            String combineField2 = "Combine " + (i + 1);
-            String combineField3 = "Combine " + (i + 2);
-            Boolean isDeleted = false;
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-            Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
-
-            Field field = new Field(id, name, status, type, image, combineField1, combineField2, combineField3, isDeleted, createdAt, updatedAt);
-            fields.add(field);
-        }
+        fields = fieldService.findAllNormalField();
         adapterField = new FieldRecyclerViewAdapter(getContext(), fields);
         recyclerView.setAdapter(adapterField);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        btnSave = view.findViewById(R.id.btnSave);
+
+
     }
 }

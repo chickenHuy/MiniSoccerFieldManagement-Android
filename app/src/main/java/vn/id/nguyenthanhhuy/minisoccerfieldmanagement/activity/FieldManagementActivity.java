@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class FieldManagementActivity extends AppCompatActivity {
     Button btnAddField, btnBack;
     RadioGroup rdgTypeField;
     IFieldService fieldService;
+    RadioGroup rbTypeField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +48,13 @@ public class FieldManagementActivity extends AppCompatActivity {
         lvFields.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Lấy field được chọn
                 Field selectedField = fieldList.get(position);
-                // Tạo một Intent mới để mở EditOrAddFieldActivity
+
+                Bundle args = new Bundle();
+                args.putSerializable("fieldSelected", (Serializable) selectedField);
                 Intent intent = new Intent(FieldManagementActivity.this, EditOrAddFieldActivity.class);
 
-                // Truyền ID của field qua Intent
-                intent.putExtra("FIELD_ID", selectedField.getId());
-
-                // Mở EditOrAddFieldActivity
+                intent.putExtra("args", args);
                 startActivity(intent);
             }
 
@@ -68,6 +69,17 @@ public class FieldManagementActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        rdgTypeField.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rdbField7) {
+                fieldList = fieldService.findAllCombinedField();
+                listViewFieldAdapter.addAll(fieldList);
+            } else if (checkedId == R.id.rdbField5) {
+                fieldList = fieldService.findAllNormalField();
+            }
+            listViewFieldAdapter.clear();
+            listViewFieldAdapter.addAll(fieldList);
+        });
     }
 
     private void setWigets() {
@@ -77,7 +89,6 @@ public class FieldManagementActivity extends AppCompatActivity {
         rdgTypeField = findViewById(R.id.rdgTypeField);
         fieldList = new ArrayList<Field>();
         fieldService = new FieldServiceImpl(this);
-
         fieldList = fieldService.findAllNormalField();
         listViewFieldAdapter = new ListViewFieldAdapter(this, R.layout.item_list_field_in_activity_fieldmanagement);
         listViewFieldAdapter.addAll(fieldList);

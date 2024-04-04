@@ -17,9 +17,9 @@
 
         <TextView
             style="@style/header_text_custom"
-            android:id="@+id/idFields"
+            android:id="@+id/tvIdFields"
             android:layout_gravity="center"
-            android:text="#Field-212"
+            android:text="@string/add_field"
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton

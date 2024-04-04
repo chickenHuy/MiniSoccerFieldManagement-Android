@@ -1,9 +1,10 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Timestamp;
 
-public class Field {
+public class Field implements Serializable {
     private String id;
     private String name;
     private String status;

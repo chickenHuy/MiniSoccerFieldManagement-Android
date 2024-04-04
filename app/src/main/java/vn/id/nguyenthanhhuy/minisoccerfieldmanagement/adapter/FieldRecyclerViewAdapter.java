@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -17,11 +19,13 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 
 public class FieldRecyclerViewAdapter extends RecyclerView.Adapter<FieldRecyclerViewAdapter.ViewHolder> {
     private List<Field> fields;
+    private List<Boolean> selectedFields;
     private Context context;
 
     public FieldRecyclerViewAdapter(Context context, List<Field> fields) {
         this.context = context;
         this.fields = fields;
+        this.selectedFields = new ArrayList<>(Collections.nCopies(fields.size(), false));
     }
 
     @NonNull
@@ -36,6 +40,11 @@ public class FieldRecyclerViewAdapter extends RecyclerView.Adapter<FieldRecycler
         Field field = fields.get(position);
         holder.tvIdField.setText(field.getId());
         holder.tvNameField.setText(field.getName());
+        holder.chkSelectField.setChecked(selectedFields.get(position));
+
+        holder.chkSelectField.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            selectedFields.set(position, isChecked);
+        });
     }
 
     @Override
@@ -55,4 +64,16 @@ public class FieldRecyclerViewAdapter extends RecyclerView.Adapter<FieldRecycler
             chkSelectField = itemView.findViewById(R.id.chkSelectField);
         }
     }
+    public List<Field> getSelectedFields() {
+        List<Field> selected = new ArrayList<>();
+        for (int i = 0; i < fields.size(); i++) {
+            if (selectedFields.get(i)) {
+                selected.add(fields.get(i));
+            }
+        }
+        return selected;
+    }
+
+
+
 }
