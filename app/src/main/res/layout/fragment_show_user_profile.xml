@@ -265,6 +265,7 @@
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:id="@+id/button_contact_us"
                     android:drawableEnd="@drawable/ic_chevron_right"
                     android:drawableTint="@color/blackGray"
                     android:paddingEnd="13dp" />

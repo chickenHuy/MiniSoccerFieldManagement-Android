@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -90,8 +91,8 @@ public class ShowUserProfileFragment extends Fragment {
         }
     }
 
-    private void setInformation(){
-        if(currentUser.getImage() == null){
+    private void setInformation() {
+        if (currentUser.getImage() == null) {
             setDefaultImage(binding.imageViewAvatar);
         } else {
             Glide.with(this)
@@ -143,8 +144,7 @@ public class ShowUserProfileFragment extends Fragment {
 
         binding.settings.inflateMenu(R.menu.setting_menu);
         binding.settings.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_price_list)
-            {
+            if (item.getItemId() == R.id.action_price_list) {
                 Intent intent = new Intent(getActivity(), SettingPriceListActivity.class);
                 startActivity(intent);
             } else if (item.getItemId() == R.id.action_membership) {
@@ -153,6 +153,22 @@ public class ShowUserProfileFragment extends Fragment {
 
             }
             return false;
+        });
+
+        binding.buttonContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"chickencontactservice@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Contact for Mini Soccer Field Management App");
+                emailIntent.setPackage("com.google.android.gm");
+                try {
+                    startActivity(emailIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Gmail App is not installed", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         Drawable overflowIcon = binding.settings.getOverflowIcon();
@@ -194,10 +210,11 @@ public class ShowUserProfileFragment extends Fragment {
                 .setNegativeButton(R.string.choose_from_gallery, (dialog, which) -> {
                     // Mở thư viện ảnh để chọn ảnh
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , 1);
+                    startActivityForResult(pickPhoto, 1);
                 })
                 .show();
     }
+
     public void setDefaultImage(ImageView imageView) {
         AssetManager assetManager = getContext().getAssets();
 
@@ -211,6 +228,7 @@ public class ShowUserProfileFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -242,11 +260,11 @@ public class ShowUserProfileFragment extends Fragment {
                 // Gán ảnh cho currentUser
                 currentUser.setImage(Utils.convertBitmapToByteArray(bitmap));
                 if (userService.update_info(currentUser)) {
-                    Toast.makeText(getContext(),"Update Image successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Update Image successfully", Toast.LENGTH_SHORT).show();
                     MainApplication.curentUser = currentUser;
                     onResume();
                 } else {
-                    Toast.makeText(getContext(),"Update Image failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Update Image failed", Toast.LENGTH_SHORT).show();
                 }
             }
         }
