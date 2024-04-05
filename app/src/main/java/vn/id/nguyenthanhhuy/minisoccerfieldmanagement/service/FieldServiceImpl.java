@@ -27,7 +27,7 @@ public class FieldServiceImpl implements IFieldService{
 
     @Override
     public Boolean softDelete(String id) {
-        return softDelete(id);
+        return fieldDAO.softDelete(id);
     }
 
     @Override

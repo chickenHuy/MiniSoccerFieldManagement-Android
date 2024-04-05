@@ -1,5 +1,6 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,18 @@ public class FieldRecyclerViewAdapter extends RecyclerView.Adapter<FieldRecycler
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_field_chooser, parent, false);
         return new ViewHolder(view);
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    public void setSelectedFields(@NonNull List<Field> fs) {
+        for (Field field : fs) {
+            for (int i = 0; i < fields.size(); i++) {
+                if (fields.get(i).getId().equals(field.getId())) {
+                    selectedFields.set(i, true);
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
