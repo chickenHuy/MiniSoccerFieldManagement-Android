@@ -21,4 +21,6 @@ public interface IPriceListService {
     PriceList findById(String id);
 
     BigDecimal findPriceByTime(Time timeIn, Time timeOut, String date);
+
+    List<PriceList> findByDateAndType(String date, String type);
 }

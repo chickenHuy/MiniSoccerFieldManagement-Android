@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -18,6 +19,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.WeekAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetMembershipFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IPriceListService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.PriceListServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class SettingPriceListActivity extends AppCompatActivity {
@@ -26,7 +30,7 @@ public class SettingPriceListActivity extends AppCompatActivity {
     PriceListRecyclerViewAdapter adapterPriceList;
     RecyclerView recyclerViewWeek;
     RecyclerView recyclerViewPriceList;
-
+    IPriceListService priceListService;
     List<PriceList> priceLists;
 
     @Override
@@ -45,32 +49,22 @@ public class SettingPriceListActivity extends AppCompatActivity {
         recyclerViewWeek = findViewById(R.id.recyclerViewWeek);
         adapterWeek = new WeekAdapter();
         recyclerViewWeek.setAdapter(adapterWeek);
-
-        priceLists = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Time startTime = new Time(System.currentTimeMillis());
-            Time endTime = new Time(System.currentTimeMillis() + 3600000); // 1 hour later
-            BigDecimal unitPrice = new BigDecimal("1000.00");
-            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-
-            PriceList priceList = new PriceList(
-                    "id" + i,
-                    startTime,
-                    endTime,
-                    "typeField" + i,
-                    "dateOfWeek" + i,
-                    unitPrice,
-                    false,
-                    currentTimestamp,
-                    currentTimestamp
-            );
-
-            priceLists.add(priceList);
-        }
+        //priceLists = priceListService.findByDateAndType();
+        priceListService = new PriceListServiceImpl(this);
+        priceLists = priceListService.findByDateAndType("Monday", StaticString.TYPE_5_A_SIDE);
         recyclerViewPriceList = findViewById(R.id.recyclerViewPrice);
         adapterPriceList = new PriceListRecyclerViewAdapter(priceLists);
         recyclerViewPriceList.setAdapter(adapterPriceList);
+
+        adapterWeek.setOnItemClickListener(new WeekAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String date) {
+                // Thực hiện hành động khi một mục được nhấp vào
+                // Ví dụ: cập nhật danh sách giá cả dựa trên ngày được chọn
+                Toast.makeText(SettingPriceListActivity.this, date, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
 

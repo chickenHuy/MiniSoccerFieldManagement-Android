@@ -73,4 +73,5 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
             dayTextView = itemView.findViewById(R.id.tv_date_in_week);
         }
     }
+
 }

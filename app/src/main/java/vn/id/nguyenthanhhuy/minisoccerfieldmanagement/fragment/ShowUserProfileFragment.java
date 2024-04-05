@@ -202,7 +202,7 @@ public class ShowUserProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Update user information when the fragment resumes
-        setWidget();
+        //setWidget();
         setInformation();
     }
 

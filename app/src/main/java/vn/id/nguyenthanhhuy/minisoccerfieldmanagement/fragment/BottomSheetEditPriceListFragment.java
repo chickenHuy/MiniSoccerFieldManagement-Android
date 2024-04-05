@@ -12,11 +12,14 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentEditPriceListBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IPriceListService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.PriceListServiceImpl;
 
 public class BottomSheetEditPriceListFragment extends BottomSheetDialogFragment {
     private FragmentEditPriceListBinding binding;
@@ -47,7 +50,36 @@ public class BottomSheetEditPriceListFragment extends BottomSheetDialogFragment 
             binding.timeStart.setText(priceList.getStartTime().toString().substring(0, 5));
             binding.editUnitPrice.setText(String.valueOf(df.format(priceList.getUnitPricePer30Minutes())));
         }
+        setEvents();
     }
+
+    private void setEvents() {
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
+
+    }
+
+    private void save() {
+        try {
+            BigDecimal bigDecimal = new BigDecimal(String.valueOf(binding.editUnitPrice.getText()));
+            priceList.setUnitPricePer30Minutes(bigDecimal);
+            IPriceListService priceListService = new PriceListServiceImpl(this.getContext());
+            if (priceListService.update(priceList)) {
+                Toast.makeText(getContext(), "Price list has been updated", Toast.LENGTH_SHORT).show();
+                dismiss();
+            } else {
+                Toast.makeText(getContext(), "Update failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (Exception e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

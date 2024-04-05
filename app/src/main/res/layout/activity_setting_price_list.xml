@@ -43,7 +43,49 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_date_month"
         tools:listitem="@layout/date_in_week_item" />
+    <RadioGroup
+        android:id="@+id/rdoGroupTypeField"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/gray_outline"
+        android:baselineAligned="false"
+        android:checkedButton="@+id/offer"
+        android:orientation="horizontal"
+        android:padding="4dp">
 
+        <RadioButton
+            android:id="@+id/rdo5aside"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_toggle_widget"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/_5_a_side"
+            android:textColor="@color/primaryColor" />
+
+
+
+        <RadioButton
+            android:id="@+id/rdo7aside"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_toggle_widget"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/_7_a_side"
+            android:textColor="@color/primaryColor" />
+    </RadioGroup>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPrice"
         android:layout_width="match_parent"
