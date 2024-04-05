@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
@@ -32,7 +33,9 @@ public class SettingPriceListActivity extends AppCompatActivity {
     RecyclerView recyclerViewPriceList;
     IPriceListService priceListService;
     List<PriceList> priceLists;
+    private String dateSelected;
 
+    RadioGroup rdgTypeField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,31 @@ public class SettingPriceListActivity extends AppCompatActivity {
     }
 
     private void setEvents() {
+        adapterWeek.setOnItemClickListener(new WeekAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String date) {
+                String type = StaticString.TYPE_5_A_SIDE;
+                if (rdgTypeField.getCheckedRadioButtonId() == R.id.rdo7aside) {
+                    type = StaticString.TYPE_7_A_SIDE;
+                }
+                priceLists = priceListService.findByDateAndType(date, type);
+                adapterPriceList = new PriceListRecyclerViewAdapter(priceLists);
+                recyclerViewPriceList.setAdapter(adapterPriceList);
+            }
+        });
+
+        rdgTypeField.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String type = StaticString.TYPE_5_A_SIDE;
+                if (checkedId == R.id.rdo7aside) {
+                    type = StaticString.TYPE_7_A_SIDE;
+                }
+                priceLists = priceListService.findByDateAndType(dateSelected, type);
+                adapterPriceList = new PriceListRecyclerViewAdapter(priceLists);
+                recyclerViewPriceList.setAdapter(adapterPriceList);
+            }
+        });
     }
 
     private void setWidgets() {
@@ -55,18 +83,14 @@ public class SettingPriceListActivity extends AppCompatActivity {
         recyclerViewPriceList = findViewById(R.id.recyclerViewPrice);
         adapterPriceList = new PriceListRecyclerViewAdapter(priceLists);
         recyclerViewPriceList.setAdapter(adapterPriceList);
+        rdgTypeField = findViewById(R.id.rdoGroupTypeField);
+        dateSelected = "Monday";
 
-        adapterWeek.setOnItemClickListener(new WeekAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String date) {
-                // Thực hiện hành động khi một mục được nhấp vào
-                // Ví dụ: cập nhật danh sách giá cả dựa trên ngày được chọn
-                Toast.makeText(SettingPriceListActivity.this, date, Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
 
 
 
     }
+
 }

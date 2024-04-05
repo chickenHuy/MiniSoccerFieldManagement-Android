@@ -60,6 +60,8 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
     public int getItemCount() {
         return weekDays.size();
     }
+
+
     public interface OnItemClickListener {
         void onItemClick(String date);
     }
