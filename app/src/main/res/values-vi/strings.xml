@@ -97,4 +97,5 @@
     <string name="error_membership_name_empty">Tên loại thành viên không được bỏ trống</string>
     <string name="error_minimum_spend_amount_too_low">Mức chi tiêu tối thiểu phải lớn hơn 1000000</string>
     <string name="error_empty">Trường này không được để trống</string>
+    <string name="unit_price_30m">Unit price / 30m</string>
 </resources>

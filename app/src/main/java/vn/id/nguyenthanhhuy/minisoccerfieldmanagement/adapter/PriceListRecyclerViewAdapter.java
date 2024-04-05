@@ -1,5 +1,7 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,10 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class PriceListRecyclerViewAdapter extends RecyclerView.Adapter<PriceListRecyclerViewAdapter.ViewHolder>{
     List<PriceList> list;
+    Context context;
+    public  void setContext(Context context) {
+        this.context = context;
+    }
 
     public PriceListRecyclerViewAdapter(List<PriceList> list) {
         this.list = list;
@@ -39,15 +45,22 @@ public class PriceListRecyclerViewAdapter extends RecyclerView.Adapter<PriceList
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View v) {
                 BottomSheetEditPriceListFragment editPriceListFragment = new BottomSheetEditPriceListFragment();
+                editPriceListFragment.setOnPriceUpdatedListener(priceList1 -> {
+                    list.set(position, priceList1);
+                    notifyDataSetChanged();
+                });
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("priceList", list.get(position));
                 editPriceListFragment.setArguments(bundle);
                 editPriceListFragment.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), editPriceListFragment.getTag());
             }
         });
+
+
     }
 
     @Override
