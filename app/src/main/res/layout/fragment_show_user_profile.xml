@@ -38,17 +38,16 @@
                 android:translationX="50dp" />
 
             <Toolbar
+                android:id="@+id/settings"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:paddingEnd="12dp"
-                android:id="@+id/settings"
                 android:layout_gravity="right |top"
-                />
+                android:paddingEnd="12dp" />
         </FrameLayout>
 
         <TextView
-            style="@style/header_text_custom"
             android:id="@+id/text_view_name"
+            style="@style/header_text_custom"
             android:layout_gravity="center"
             android:layout_marginTop="23dp"
             android:text="Thanh Huy"
@@ -60,8 +59,8 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/content_text_custom"
                 android:id="@+id/text_view_username"
+                style="@style/content_text_custom"
                 android:text="chickenHuy"
                 android:textColor="@color/black" />
 
@@ -72,8 +71,8 @@
                 android:textStyle="bold" />
 
             <TextView
-                style="@style/content_text_custom"
                 android:id="@+id/text_view_phone_number"
+                style="@style/content_text_custom"
                 android:text="0869017464"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -119,8 +118,8 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="40dp"
                     android:id="@+id/button_edit_profile"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"
@@ -229,8 +228,8 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="40dp"
                     android:id="@+id/button_change_password"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"
@@ -262,10 +261,10 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_contact_us"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:id="@+id/button_contact_us"
                     android:drawableEnd="@drawable/ic_chevron_right"
                     android:drawableTint="@color/blackGray"
                     android:paddingEnd="13dp" />
@@ -296,6 +295,7 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_privacy_policy"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
