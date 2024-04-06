@@ -92,4 +92,6 @@
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>
     <string name="add_field">Add Field</string>
+    <string name="active">Hoạt động</string>
+    <string name="inactive">Ngừng hoạt động</string>
 </resources>

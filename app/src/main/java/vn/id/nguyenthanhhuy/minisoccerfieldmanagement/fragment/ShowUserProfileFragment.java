@@ -38,6 +38,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ChangePasswordActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingPriceListActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
@@ -107,18 +108,40 @@ public class ShowUserProfileFragment extends Fragment {
 
     public void setWidget() {
 
+        binding.switchVietnamese.setChecked(MainApplication.language.equals("vi"));
+        binding.switchNotification.setChecked(MainApplication.notify);
+
         binding.switchVietnamese.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!buttonView.isShown()) {
                 return;
             }
             if (isChecked) {
                 MainApplication.language = "vi";
+                MainApplication.editor.putString("language", "vi");
+                MainApplication.editor.apply();
             } else {
                 MainApplication.language = "en";
+                MainApplication.editor.putString("language", "en");
+                MainApplication.editor.apply();
             }
             Lingver.getInstance().setLocale(requireActivity(), MainApplication.language);
             MainApplication.isChangeLanguage = true;
             requireActivity().recreate();
+        });
+
+        binding.switchNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!buttonView.isShown()) {
+                return;
+            }
+            if (isChecked) {
+                MainApplication.notify = true;
+                MainApplication.editor.putBoolean("notify", true);
+                MainApplication.editor.apply();
+            } else {
+                MainApplication.notify = false;
+                MainApplication.editor.putBoolean("notify", false);
+                MainApplication.editor.apply();
+            }
         });
 
         binding.buttonEditProfile.setOnClickListener(v -> {
@@ -178,6 +201,15 @@ public class ShowUserProfileFragment extends Fragment {
                 startActivity(browserIntent);
             }
         });
+
+        binding.buttonServiceManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ServiceManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         Drawable overflowIcon = binding.settings.getOverflowIcon();
 

@@ -96,4 +96,8 @@
     <string name="take_photo">Take photo</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="add_field">Add Field</string>
+    <string name="active">Active</string>
+    <string name="inactive">Inactive</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

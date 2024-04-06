@@ -1,6 +1,8 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
@@ -8,7 +10,10 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 public class MainApplication extends Application {
-    public static String language = "en";
+    public static String language;
+    public static Boolean notify = false;
+    public static SharedPreferences.Editor editor;
+
     public static User curentUser = null;
 
     User newUser = new User();
@@ -18,10 +23,20 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        getUserSetting();
+
         Lingver.init(MainApplication.this, language);
         Lingver.getInstance().setLocale(MainApplication.this, language);
 
         createfakeUser();
+    }
+
+    public void getUserSetting() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserSettings", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        language = sharedPreferences.getString("language", "en");
+        notify = sharedPreferences.getBoolean("notify", false);
     }
 
     private void createfakeUser() {
