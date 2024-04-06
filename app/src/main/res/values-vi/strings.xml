@@ -39,6 +39,8 @@
     <string name="error_phone_number_incorrect_format">Số điện thoại phải có 10 chữ số!!!</string>
 
     <string name="error_password_too_short_or_long">Mật khẩu tối thiểu 6 kí tự và tối đa là 20 kí tự</string>
+    <string name="error_minimum_spend_amount_empty">Mức chi tiêu không được bỏ trống</string>
+    <string name="error_discount_rate_too_high">Mức giảm giá không được cao hơn 50%</string>
     <string name="hello">Chào</string>
     <string name="field">Sân</string>
     <string name="upcoming">Sắp diễn ra</string>
@@ -92,5 +94,8 @@
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>
     <string name="add_field">Add Field</string>
+    <string name="error_membership_name_empty">Tên loại thành viên không được bỏ trống</string>
+    <string name="error_minimum_spend_amount_too_low">Mức chi tiêu tối thiểu phải lớn hơn 1000000</string>
+    <string name="error_empty">Trường này không được để trống</string>
     <string name="unit_price_30m">Unit price / 30m</string>
 </resources>

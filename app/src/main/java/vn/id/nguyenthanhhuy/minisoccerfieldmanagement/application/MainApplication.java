@@ -28,7 +28,7 @@ public class MainApplication extends Application {
         newUser.setName("Nguyễn Thiện Luân");
         newUser.setUserName("1");
         newUser.setPassword("admin");
-        newUser.setId(CurrentTimeID.nextId("user"));
+        newUser.setId("user1711953275532");
         newUser.setDateOfBirth("08/12/2003");
         newUser.setImage(null);
         newUser.setPhoneNumber("0889192145");
