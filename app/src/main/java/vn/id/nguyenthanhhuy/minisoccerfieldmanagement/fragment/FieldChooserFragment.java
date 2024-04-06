@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,11 @@ public class FieldChooserFragment extends BottomSheetDialogFragment {
     public FieldChooserFragment() {
         // Required empty public constructor
     }
-    public static FieldChooserFragment newInstance(String param1, String param2) {
+    @NonNull
+    public static FieldChooserFragment newInstance(List<Field> fields) {
         FieldChooserFragment fragment = new FieldChooserFragment();
         Bundle args = new Bundle();
+        args.putSerializable("fields", (Serializable) fields);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +69,16 @@ public class FieldChooserFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setWigets(view);
+        getFieldChooser();
         setEvents(view);
+
+    }
+
+    private void getFieldChooser() {
+        if (getArguments() != null) {
+            fields = (List<Field>) getArguments().getSerializable("fields");
+            adapterField.setSelectedFields(fields);
+        }
     }
 
     private void setEvents(View view) {
@@ -98,6 +110,7 @@ public class FieldChooserFragment extends BottomSheetDialogFragment {
         recyclerView.setAdapter(adapterField);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnSave = view.findViewById(R.id.btnSave);
+
 
 
     }

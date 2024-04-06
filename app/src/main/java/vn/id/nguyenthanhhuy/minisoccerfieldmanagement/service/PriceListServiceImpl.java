@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
@@ -97,5 +98,17 @@ public class PriceListServiceImpl implements IPriceListService{
             }
         }
         return totalPrice;
+    }
+
+    @Override
+    public List<PriceList> findByDateAndType(String date, String type) {
+        List<PriceList> priceLists = priceListDAO.findByDateOfWeek(date);
+        List<PriceList> result = new ArrayList<>();
+        for (PriceList priceList : priceLists) {
+            if (priceList.getTypeField().equals(type)) {
+                result.add(priceList);
+            }
+        }
+        return  result;
     }
 }

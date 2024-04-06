@@ -23,6 +23,9 @@
             android:name=".activity.SettingMembershipActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.SettingPriceListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.EditOrAddFieldActivity"
             android:exported="false" />
         <activity

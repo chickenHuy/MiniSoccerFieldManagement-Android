@@ -35,7 +35,7 @@
                 style="@style/width_mp_height_wc"
                 android:autofillHints="emailAddress"
                 android:hint="@string/minimum_spend_amount"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textSize="17sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -87,7 +87,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_add_to_cart"
+            android:id="@+id/button_save_membership"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"

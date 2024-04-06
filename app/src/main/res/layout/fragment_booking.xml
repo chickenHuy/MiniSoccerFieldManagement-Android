@@ -95,38 +95,36 @@
         android:layout_gravity="end"
         android:layout_margin="10dp"
         android:background="@drawable/baseline_add_24" />
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginStart="10dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ScrollView
+        android:layout_width="match_parent">
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+        <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-
-            <TableLayout
-                android:id="@+id/tableLayoutFixed"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerTimeScheduler"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </ScrollView>
-
+                android:layout_height="match_parent"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="horizontal" />
+        </HorizontalScrollView >
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerTimeSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="horizontal" />
+        </HorizontalScrollView >
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableLayout
-                    android:id="@+id/tableLayoutScroll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </ScrollView>
-
-        </HorizontalScrollView>
 
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

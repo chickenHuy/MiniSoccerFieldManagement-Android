@@ -43,6 +43,11 @@
     <string name="error_password_empty">Password is required</string>
     <string name="error_password_incorrect">Password is incorrect</string>
     <string name="error_password_too_short_or_long">Password must be at least 6 characters and at most 20 characters</string>
+    <string name="error_minimum_spend_amount_empty">Minimum spend amount is required</string>
+    <string name="error_membership_name_empty">Membership name is required</string>
+    <string name="error_minimum_spend_amount_too_low">Minimum spend amount must be greater than 1000000</string>
+    <string name="error_empty">This field is required</string>
+    <string name="error_discount_rate_too_high">Discount rate must be less than 50%</string>
 
     <string name="hello">Hello</string>
     <string name="field">Field</string>
@@ -100,4 +105,5 @@
     <string name="inactive">Inactive</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="unit_price_30m">Unit price / 30m</string>
 </resources>

@@ -33,7 +33,6 @@ public class FieldManagementActivity extends AppCompatActivity {
     Button btnAddField, btnBack;
     RadioGroup rdgTypeField;
     IFieldService fieldService;
-    RadioGroup rbTypeField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +70,7 @@ public class FieldManagementActivity extends AppCompatActivity {
         });
 
         rdgTypeField.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rdbField7) {
-                fieldList = fieldService.findAllCombinedField();
-                listViewFieldAdapter.addAll(fieldList);
-            } else if (checkedId == R.id.rdbField5) {
-                fieldList = fieldService.findAllNormalField();
-            }
-            listViewFieldAdapter.clear();
-            listViewFieldAdapter.addAll(fieldList);
+            loadFieldData(checkedId);
         });
     }
 
@@ -92,8 +84,31 @@ public class FieldManagementActivity extends AppCompatActivity {
         fieldList = fieldService.findAllNormalField();
         listViewFieldAdapter = new ListViewFieldAdapter(this, R.layout.item_list_field_in_activity_fieldmanagement);
         listViewFieldAdapter.addAll(fieldList);
-        Toast.makeText(this,  fieldList.get(0).getId() + "             a", Toast.LENGTH_SHORT).show();
         lvFields.setAdapter(listViewFieldAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            loadFieldData(rdgTypeField.getCheckedRadioButtonId());
+            listViewFieldAdapter.notifyDataSetChanged();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadFieldData(int checkedId) {
+        if (checkedId == R.id.rdbField7) {
+            fieldList = fieldService.findAllCombinedField();
+            listViewFieldAdapter.addAll(fieldList);
+        } else if (checkedId == R.id.rdbField5) {
+            fieldList = fieldService.findAllNormalField();
+        }
+        listViewFieldAdapter.clear();
+        listViewFieldAdapter.addAll(fieldList);
     }
 
 

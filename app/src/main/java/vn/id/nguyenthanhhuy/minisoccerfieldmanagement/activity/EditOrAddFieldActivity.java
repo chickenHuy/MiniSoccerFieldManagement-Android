@@ -1,5 +1,6 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -92,6 +95,32 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
 
                     }
                     imgField.setImageBitmap(bitmapFieldImage);
+                    if (field.getType().equals(StaticString.TYPE_5_A_SIDE)) {
+                        rdoGroupTypeField.check(R.id.rdo5aside);
+                    } else if (field.getType().equals(StaticString.TYPE_7_A_SIDE)) {
+                        rdoGroupTypeField.check(R.id.rdo7aside);
+                        llSubField.setVisibility(LinearLayout.VISIBLE);
+                        tvIdSubField1.setText(field.getCombineField1());
+                        tvIdSubField2.setText(field.getCombineField2());
+                        tvIdSubField3.setText(field.getCombineField3());
+                        Field field1 = fieldService.findById(field.getCombineField1());
+                        Field field2 = fieldService.findById(field.getCombineField2());
+                        Field field3 = fieldService.findById(field.getCombineField3());
+                        if (field1 != null) {
+                            // Set the name of the sub-fields (if they exist
+                            tvNameSubField1.setText(field1.getName());
+                        }
+                        if (field2 != null) {
+                            tvNameSubField2.setText(field2.getName());
+                        }
+                        if (field3 != null) {
+                            tvNameSubField3.setText(field3.getName());
+
+                        }
+                    }
+                    else {
+                        rdoGroupTypeField.check(R.id.rdo5aside);
+                    }
                 }
             }
         }
@@ -110,7 +139,42 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Tạo một instance mới của FieldChooserFragment
+                Field field1 = fieldService.findById(tvIdSubField1.getText().toString());
+                Field field2 = fieldService.findById(tvIdSubField2.getText().toString());
+                Field field3 = fieldService.findById(tvIdSubField3.getText().toString());
+                List<Field> fields = new ArrayList<Field>();
+                if (field1 != null)
+                {
+                    fields.add(field1);
+                }
+                if (field2 != null)
+                {
+                    fields.add(field2);
+                }
+                if (field3 != null)
+                {
+                    fields.add(field3);
+                }
+                if (fields.size() != 0)
+                {
+                    fieldChooserFragment = FieldChooserFragment.newInstance(fields);
+                }
+                else
+                {
+                    fieldChooserFragment = new FieldChooserFragment();
+                }
+                fieldChooserFragment.setOnSaveSelectedFieldsListener(new OnSaveSelectedFieldsListener() {
+                    @Override
+                    public void onSaveSelectedFields(List<Field> selectedFields) {
+                        tvIdSubField1.setText(selectedFields.get(0).getId());
+                        tvNameSubField1.setText(selectedFields.get(0).getName());
+                        tvIdSubField2.setText(selectedFields.get(1).getId());
+                        tvNameSubField2.setText(selectedFields.get(1).getName());
+                        tvIdSubField3.setText(selectedFields.get(2).getId());
+                        tvNameSubField3.setText(selectedFields.get(2).getName());
 
+                    }
+                });
                 fieldChooserFragment.show(getSupportFragmentManager(), "fieldChooserFragment");
             }
         });
@@ -174,33 +238,38 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
                         saveFieldInformationHasSubField(fieldName, fieldStatus, fieldImage, tvIdSubField1.getText().toString(), tvIdSubField2.getText().toString(), tvIdSubField3.getText().toString());
                     }
                 }
-
-
-                // Show a success message
-                Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
             }
 
 
         });
 
-        fieldChooserFragment.setOnSaveSelectedFieldsListener(new OnSaveSelectedFieldsListener() {
+
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSaveSelectedFields(List<Field> selectedFields) {
-                tvIdSubField1.setText(selectedFields.get(0).getId());
-                tvNameSubField1.setText(selectedFields.get(0).getName());
-                tvIdSubField2.setText(selectedFields.get(1).getId());
-                tvNameSubField2.setText(selectedFields.get(1).getName());
-                tvIdSubField3.setText(selectedFields.get(2).getId());
-                tvNameSubField3.setText(selectedFields.get(2).getName());
+            public void onClick(View v) {
+                Field field = fieldService.findById(tvIdField.getText().toString());
+                if (field != null) {
 
+                    if (fieldService.softDelete(field.getId())) {
+                        Toast.makeText(EditOrAddFieldActivity.this, "Field deleted successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(EditOrAddFieldActivity.this, "Failed to delete field", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
+
         });
-
-
     }
     private void saveFieldInformationHasSubField(String fieldName, boolean fieldStatus, byte[] fieldImage, String id1, String id2, String id3) {
-        Field field = new Field();
-        field.setId(CurrentTimeID.nextId("F"));
+        Field field = fieldService.findById(String.valueOf(tvIdField.getText()));
+        int action = 0;
+        if (field  == null) {
+            field = new Field();
+            field.setId(CurrentTimeID.nextId("F"));
+            action = 1;
+        }
         field.setName(fieldName);
         field.setType(StaticString.TYPE_7_A_SIDE);
         if (fieldStatus)
@@ -215,18 +284,37 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
         field.setCombineField1(tvIdSubField1.getText().toString());
         field.setCombineField2(tvIdSubField2.getText().toString());
         field.setCombineField3(tvIdSubField3.getText().toString());
-        if (fieldService.add(field))
+
+        if (action == 1)
         {
-            Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            if ( fieldService.add(field))
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+            }
         }
-        else
-        {
-            Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+        else {
+            if (fieldService.update(field))
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     private void saveFieldInformationNormal(String fieldName, boolean fieldStatus, byte[] fieldImage) {
-        Field field = new Field();
-        field.setId(CurrentTimeID.nextId("F"));
+        int action = 0 ;
+        Field field = fieldService.findById(String.valueOf(tvIdField.getText()));
+        if (field  == null) {
+            field = new Field();
+            field.setId(CurrentTimeID.nextId("F"));
+            action = 1;
+        }
         field.setName(fieldName);
         field.setType(StaticString.TYPE_5_A_SIDE);
         if (fieldStatus)
@@ -238,14 +326,28 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
             field.setStatus("inactive");
         }
         field.setImage(fieldImage);
-        if (fieldService.add(field))
+        if (action == 1)
         {
-            Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            if ( fieldService.add(field))
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+            }
         }
-        else
-        {
-            Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+        else {
+            if (fieldService.update(field))
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Field information saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(EditOrAddFieldActivity.this, "Failed to save field information", Toast.LENGTH_SHORT).show();
+            }
         }
+
 
     }
     private void setWigets() {
@@ -255,6 +357,8 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
 
         btnAddField = findViewById(R.id.btnAddField);
         btnAddImageField = findViewById(R.id.btnAddImgField);
+        btnDelete = findViewById(R.id.btnDeleted);
+
         imgField = findViewById(R.id.imgField);
         btnSave = findViewById(R.id.btnSave);
         edtName = findViewById(R.id.edtName);
@@ -299,4 +403,6 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
             imgField.setImageBitmap(bitmapFieldImage);
         }
     }
+
+
 }

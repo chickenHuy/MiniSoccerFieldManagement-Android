@@ -234,7 +234,7 @@ public class ShowUserProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Update user information when the fragment resumes
-        setWidget();
+        //setWidget();
         setInformation();
     }
 
@@ -305,6 +305,7 @@ public class ShowUserProfileFragment extends Fragment {
                     onResume();
                 } else {
                     Toast.makeText(getContext(), "Update Image failed", Toast.LENGTH_SHORT).show();
+                    currentUser.setImage(null);
                 }
             }
         }

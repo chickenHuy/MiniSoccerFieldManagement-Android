@@ -1,6 +1,7 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,15 @@ public class MembershipRecyclerViewAdapter extends  RecyclerView.Adapter<Members
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Membership membership = memberships.get(position);
         holder.tvNameMembership .setText(membership.getName());
-        holder.tvPriceMembership.setText(String.valueOf(membership.getMinimumSpendAmount()));
-        holder.tvRateMembership.setText(String.valueOf(membership.getDiscountRate()));
+        holder.tvPriceMembership.setText(String.valueOf(membership.getMinimumSpendAmount().toBigInteger()));
+
+        String rateText = String.valueOf(membership.getDiscountRate());
+        if (rateText.length() > 1) {
+            holder.tvRateMembership.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30); // giảm kích thước chữ xuống 14sp
+        } else {
+            holder.tvRateMembership.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42); // giữ nguyên kích thước chữ là 18sp
+        }
+        holder.tvRateMembership.setText(rateText);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

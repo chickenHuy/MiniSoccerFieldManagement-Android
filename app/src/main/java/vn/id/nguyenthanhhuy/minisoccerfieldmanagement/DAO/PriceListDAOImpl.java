@@ -121,8 +121,8 @@ public class PriceListDAOImpl implements IPriceListDAO{
                     SoccerFieldContract.PriceListEntry.COLUMN_NAME_UPDATED_AT
             };
 
-            String selection = SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK + " = ? AND " + SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED + " = ?";
-            String[] selectionArgs = { date, "0" };
+            String selection = SoccerFieldContract.PriceListEntry.COLUMN_NAME_DATE_OF_WEEK + " = ? AND " + SoccerFieldContract.PriceListEntry.COLUMN_NAME_IS_DELETED + " = 0";
+            String[] selectionArgs = { date};
 
             cursor = db.query(
                     SoccerFieldContract.PriceListEntry.TABLE_NAME,

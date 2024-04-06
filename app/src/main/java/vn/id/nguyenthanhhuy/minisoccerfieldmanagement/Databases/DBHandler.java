@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+
 public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "mini_soccer_field_mgmt.db";
     private static final int DATABASE_VERSION = 1;
@@ -176,6 +178,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY(serviceUsageId) REFERENCES ServiceUsage(id)" +
                 ");";
         db.execSQL(CREATE_TRANSACTION_TABLE);
+        insertPriceList(db);
     }
 
     @Override
@@ -203,6 +206,105 @@ public class DBHandler extends SQLiteOpenHelper {
             // Enable foreign key constraints
             db.setForeignKeyConstraintsEnabled(true);
         }
+    }
+
+    private void insertPriceList(@NonNull SQLiteDatabase db)
+    {
+        int id = 0;
+        String INSERT_DATA = "INSERT INTO PriceList (id, startTime, endTime, typeField, dateOfWeek, unitPricePer30Minutes, isDeleted, createdAt, updatedAt)\n" +
+                "VALUES\n" +
+                // Monday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Monday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Monday', 150000, 0, datetime('now'), NULL),\n" +
+                // Tuesday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Tuesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Tuesday', 150000, 0, datetime('now'), NULL),\n" +
+                // Wednesday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Wednesday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Wednesday', 150000, 0, datetime('now'), NULL),\n" +
+                // Thursday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Thursday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Thursday', 150000, 0, datetime('now'), NULL),\n" +
+                // Friday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Friday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Friday', 150000, 0, datetime('now'), NULL),\n" +
+                // Saturday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Saturday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Saturday', 150000, 0, datetime('now'), NULL),\n" +
+                // Sunday
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '5 a side', 'Sunday', 100000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '06:00:00', '08:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '08:00:00', '10:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '10:00:00', '14:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '14:00:00', '16:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '16:00:00', '18:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL),\n" +
+                "('"+ (id++) +"', '18:00:00', '23:00:00', '7 a side', 'Sunday', 150000, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
     }
 
 
