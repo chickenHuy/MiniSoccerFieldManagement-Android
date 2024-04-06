@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
@@ -41,12 +42,17 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.MembershipDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SchedulerAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.BookingAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentBookingBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 
@@ -64,6 +70,17 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
     private ArrayList<Date> dates = new ArrayList<>();
     private CalendarAdapter adapter;
     private ArrayList<CalendarDateModel> calendarList2 = new ArrayList<>();
+
+
+
+    private BookingAdapter bookingAdapter;
+    private List<Booking> bookingList;
+    private List<Field> fieldList;
+    private List<Time> timeList;
+
+    private SchedulerAdapter schedulerAdapter;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -78,14 +95,43 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
-        test();
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bookingList = new ArrayList<>();
+        fieldList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            Field field = new Field();
+            field.setName("Field " + i);
+            fieldList.add(field);
+        }
 
+        // Tạo dữ liệu mẫu cho bookingList
+        for (int i = 1; i <= 5; i++) {
+            Booking booking = new Booking();
+            booking.setId("Booking " + i);
+            bookingList.add(booking);
+        }
+        // Tạo một instance của BookingAdapter
+        bookingAdapter = new BookingAdapter(bookingList, fieldList);
+        RecyclerView recyclerTimeSlot = binding.recyclerTimeSlot;
+        recyclerTimeSlot.setAdapter(bookingAdapter);
+        int numberOfColumns = fieldList.size();
+        List<Time> timeList = TimeGenerator.generateTimes();
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),numberOfColumns);
+        recyclerTimeSlot.setLayoutManager(layoutManager);
+
+
+        RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getContext(),1);
+        schedulerAdapter = new SchedulerAdapter();
+        binding.recyclerTimeScheduler.setAdapter(schedulerAdapter);
+        binding.recyclerTimeScheduler.setLayoutManager(layoutManager2);
+
+        binding.recyclerTimeScheduler.setOnTouchListener((v, event) -> true);
+        binding.recyclerTimeSlot.setOnTouchListener((v, event) -> true);
     }
 
     @Override
@@ -162,64 +208,6 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             recyclerView.scrollToPosition(todayPosition);
         }
     }
-    private void test() {
-        TableLayout tableLayoutFixed = binding.tableLayoutFixed;
-        TableLayout tableLayoutScroll = binding.tableLayoutScroll;
 
-        // Tạo hàng đầu tiên chứa tên các sân
-        TableRow firstRowFixed = new TableRow(getContext());
-        firstRowFixed.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-        // Thêm một TextView trống vào đầu hàng để tạo không gian cho cột chứa giờ
-        TextView emptyView = new TextView(getContext());
-        emptyView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-        emptyView.setText("");
-        firstRowFixed.addView(emptyView);
-
-        tableLayoutFixed.addView(firstRowFixed);
-
-        TableRow firstRowScroll = new TableRow(getContext());
-        firstRowScroll.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-        // Thêm tên các sân vào hàng đầu tiên
-        for (char field = 'A'; field <= 'F'; field++) {
-            TextView textView = new TextView(getContext());
-            textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-            textView.setText("Sân " + field);
-            firstRowScroll.addView(textView);
-        }
-
-        tableLayoutScroll.addView(firstRowScroll);
-
-        // Tạo các hàng tiếp theo chứa thông tin booking
-        for (int i = 6; i <= 23; i++) {
-            for (int j = 0; j < 2; j++) { // Thêm vòng lặp này để tạo các hàng cho 30 phút
-                TableRow tableRowFixed = new TableRow(getContext());
-                tableRowFixed.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-                // Thêm giờ vào đầu mỗi hàng
-                TextView timeView = new TextView(getContext());
-                timeView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-                timeView.setText(i + ":" + (j == 0 ? "00" : "30")); // Thay đổi ở đây để hiển thị 30 phút
-                tableRowFixed.addView(timeView);
-
-                tableLayoutFixed.addView(tableRowFixed);
-
-                TableRow tableRowScroll = new TableRow(getContext());
-                tableRowScroll.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-                // Thêm thông tin booking vào mỗi hàng
-                for (char field = 'A'; field <= 'F'; field++) {
-                    TextView textView = new TextView(getContext());
-                    textView.setBackgroundColor(Color.RED);
-                    textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-                    textView.setText("Thông tin booking");
-                    tableRowScroll.addView(textView);
-                }
-
-                tableLayoutScroll.addView(tableRowScroll);
-            }
-        }
-    }
 
 }
