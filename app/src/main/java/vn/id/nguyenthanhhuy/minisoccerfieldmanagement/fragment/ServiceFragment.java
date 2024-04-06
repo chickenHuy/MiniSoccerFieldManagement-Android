@@ -30,6 +30,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentServiceBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 
 
 public class ServiceFragment extends Fragment {
@@ -45,14 +46,16 @@ public class ServiceFragment extends Fragment {
 
     private RecyclerView recyclerViewCartService;
     private RecyclerViewServiceAdapter recyclerViewServiceAdapter;
-    private List<String> listServiceInCart;
+    private List<Service> listService;
+    private List<Service> listServiceInCart;
     public static AppCompatButton buttonAdd;
     public static LinearLayout linearLayoutTittleCartService;
 
     private boolean hasMatch;
     private boolean openWithServiceItem;
-    private String serviceItem;
+    private Service serviceItem;
     private int quantity;
+    private int positionSelected = -1;
 
     @Nullable
     @Override
@@ -72,6 +75,8 @@ public class ServiceFragment extends Fragment {
         setWidget();
         setListView();
         setRecyclerViewCartService();
+
+        loadService(7, 0, "Active");
     }
 
     public void getData() {
@@ -79,7 +84,7 @@ public class ServiceFragment extends Fragment {
             hasMatch = getArguments().getBoolean("has_match");
             openWithServiceItem = getArguments().getBoolean("open_with_service_item");
             if (openWithServiceItem) {
-                serviceItem = getArguments().getString("service_item");
+                serviceItem = (Service) getArguments().getSerializable("service_item");
                 quantity = getArguments().getInt("service_item_quantity");
             }
         }
@@ -88,6 +93,7 @@ public class ServiceFragment extends Fragment {
     public void setWidget() {
         buttonAdd = binding.buttonAdd;
         linearLayoutTittleCartService = binding.linearLayoutTittleCartService;
+        listService = new ArrayList<>();
 
         ((AppCompatButton) binding.buttonClearCartService).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +115,7 @@ public class ServiceFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), ServicePaymentActivity.class);
 
                     intent.putExtra("hasMatch", hasMatch);
-                    intent.putStringArrayListExtra("listServiceInCart", (ArrayList<String>) listServiceInCart);
+                    intent.putExtra("listServiceInCart", (ArrayList<Service>) listServiceInCart);
                     startActivityForResult(intent, GO_TO_PAYMENT);
                 }
             }
@@ -119,28 +125,13 @@ public class ServiceFragment extends Fragment {
     public void setListView() {
         listViewService = binding.listViewService;
 
-        List<String> serviceList = new ArrayList<>();
-        serviceList.add("Service 1");
-        serviceList.add("Service 2");
-        serviceList.add("Service 3");
-        serviceList.add("Service 4");
-        serviceList.add("Service 5");
-        serviceList.add("Service 1");
-        serviceList.add("Service 2");
-        serviceList.add("Service 3");
-        serviceList.add("Service 4");
-        serviceList.add("Service 5");
-        serviceList.add("Service 1");
-        serviceList.add("Service 2");
-        serviceList.add("Service 3");
-        serviceList.add("Service 4");
-        serviceList.add("Service 5");
-
-        listViewServiceAdapter = new ListViewServiceAdapter(getContext(), serviceList);
+        listViewServiceAdapter = new ListViewServiceAdapter(getContext(), listService);
         listViewService.setAdapter(listViewServiceAdapter);
         listViewService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                positionSelected = position;
+
                 BottomSheetServiceFragment bottomSheet = new BottomSheetServiceFragment(false, null, null);
                 bottomSheet.setTargetFragment(ServiceFragment.this, GET_QUANTITY);
                 bottomSheet.show(getParentFragmentManager(), "ServiceBottomSheetDialogFragment");
@@ -157,9 +148,12 @@ public class ServiceFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == GET_QUANTITY_SUCCESSFULLY && data != null) {
-            int quantity = data.getIntExtra("QUANTITY", 0);
 
-            listServiceInCart.add("Service " + (listServiceInCart.size() + 1));
+            Service serviceSelected = listService.get(positionSelected);
+            serviceSelected.setOrderQuantity(data.getIntExtra("QUANTITY", 0));
+            listServiceInCart.add(serviceSelected);
+            positionSelected = -1;
+
             if (listServiceInCart.size() == 1) {
                 setCartServiceTittle(View.VISIBLE);
             }
@@ -197,6 +191,16 @@ public class ServiceFragment extends Fragment {
         }
         recyclerViewServiceAdapter = new RecyclerViewServiceAdapter(this, getContext(), listServiceInCart, true, getParentFragmentManager());
         recyclerViewCartService.setAdapter(recyclerViewServiceAdapter);
+    }
+
+    public void loadService(int limit, int offset, String status) {
+        ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
+        List<Service> listServiceLoad = new ArrayList<>();
+        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status);
+        if (listServiceLoad.size() > 0) {
+            listService.addAll(listServiceLoad);
+            listViewServiceAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -22,19 +22,21 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerViewServiceAdapter.ViewHolder> {
 
     private final Fragment fragment;
     private final Context context;
-    private final List<String> serviceList;
+    private final List<Service> serviceList;
     private final boolean isCartService;
     private final LayoutInflater inflater;
 
     private final FragmentManager fragmentManager;
     private final Fragment targetFragment;
 
-    public RecyclerViewServiceAdapter(Fragment fragment, Context context, List<String> serviceList, boolean isCartService, FragmentManager fragmentManager) {
+    public RecyclerViewServiceAdapter(Fragment fragment, Context context, List<Service> serviceList, boolean isCartService, FragmentManager fragmentManager) {
         this.fragment = fragment;
         this.context = context;
         this.isCartService = isCartService;
@@ -52,11 +54,18 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String service = serviceList.get(position);
-        holder.textViewServiceName.setText(service);
+        Service service = serviceList.get(position);
+
+        holder.textViewServiceName.setText(service.getName());
+        holder.textViewServiceUnit.setText(service.getUnit());
+        holder.textViewServicePrice.setText(Utils.formatVND(service.getPrice()));
+
+        if(isCartService){
+            holder.textViewQuantity.setText("x" + String.valueOf(service.getOrderQuantity()));
+        }
 
         try {
-            InputStream is = context.getAssets().open("viewPagerImages/background_field_1.png");
+            InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             holder.imageViewServiceImage.setImageBitmap(bitmap);
         } catch (IOException e) {
@@ -103,6 +112,9 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewServiceName;
         ImageView imageViewServiceImage;
+        TextView textViewServiceUnit;
+        TextView textViewServicePrice;
+
         AppCompatButton buttonClose;
         TextView textViewQuantity;
 
@@ -111,6 +123,8 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
 
             textViewServiceName = itemView.findViewById(R.id.text_view_service_name);
             imageViewServiceImage = itemView.findViewById(R.id.image_view_service_image);
+            textViewServiceUnit = itemView.findViewById(R.id.text_view_unit);
+            textViewServicePrice = itemView.findViewById(R.id.text_view_price);
 
             if (isCartService) {
                 buttonClose = itemView.findViewById(R.id.button_close);

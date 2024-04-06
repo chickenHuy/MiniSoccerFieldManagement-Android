@@ -1,9 +1,10 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-public class Service {
+public class Service implements Serializable {
     private String id;
     private String name;
     private BigDecimal price;
@@ -16,6 +17,8 @@ public class Service {
     private Boolean isDeleted;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    private int orderQuantity;
 
     public Service() {
     }
@@ -129,5 +132,13 @@ public class Service {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 }

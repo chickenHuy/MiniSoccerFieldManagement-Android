@@ -55,12 +55,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/text_view_service_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Service name"
                     android:textColor="@color/black"
-                    android:textSize="19sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -76,6 +77,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/text_view_in_stock"
                     style="@style/width_wc_height_wc"
                     android:text="10"
                     android:textColor="#5C5C5C"
@@ -102,6 +104,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/text_view_unit_of_service"
                     style="@style/width_wc_height_wc"
                     android:text="Unit of service"
                     android:textColor="@color/blackGray"
@@ -137,6 +140,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/text_view_price_of_service"
                     style="@style/width_wc_height_wc"
                     android:text="Price of service"
                     android:textAlignment="textEnd"

@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
@@ -144,7 +145,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
     @Override
     public List<ServiceItems> findByServiceUsage(String serviceUsageId) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<ServiceItems> listServiceItems = null;
+        List<ServiceItems> listServiceItems = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {
@@ -192,7 +193,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
     @Override
     public List<ServiceItems> findByService(String serviceId) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<ServiceItems> listServiceItems = null;
+        List<ServiceItems> listServiceItems = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {

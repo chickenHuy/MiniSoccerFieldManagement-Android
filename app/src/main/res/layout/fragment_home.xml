@@ -24,8 +24,8 @@
             android:textColor="@color/black" />
 
         <TextView
-            style="@style/header_text_custom"
             android:id="@+id/text_view_name"
+            style="@style/header_text_custom"
             android:text="Thanh Huy"
             android:textColor="@color/primaryColor" />
     </LinearLayout>
@@ -107,6 +107,7 @@
 
         <LinearLayout
             style="@style/width_mp_height_wc"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -132,8 +133,16 @@
                 android:textAllCaps="false"
                 android:textColor="#6E6E6E"
                 android:textSize="17sp" />
-        </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_list_service"
@@ -142,5 +151,6 @@
             android:paddingTop="7dp"
             android:scrollbarSize="0dp"
             android:scrollbars="horizontal" />
+
     </LinearLayout>
 </LinearLayout>

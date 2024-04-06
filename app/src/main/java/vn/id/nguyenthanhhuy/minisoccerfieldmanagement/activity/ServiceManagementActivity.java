@@ -52,13 +52,13 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
     public void switchFragment(Fragment fragment, String nameInBackStack, AppCompatButton buttonActive, AppCompatButton buttonInactive1, AppCompatButton buttonInactive2) {
 
-        buttonActive.setBackgroundColor(getResources().getColor(R.color.primaryColor, getTheme()));
+        buttonActive.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
         buttonActive.setTextColor(getResources().getColor(R.color.white, getTheme()));
 
-        buttonInactive1.setBackgroundColor(getResources().getColor(R.color.whiteGray, getTheme()));
+        buttonInactive1.setBackgroundTintList(getResources().getColorStateList(R.color.whiteGray));
         buttonInactive1.setTextColor(getResources().getColor(R.color.black, getTheme()));
 
-        buttonInactive2.setBackgroundColor(getResources().getColor(R.color.whiteGray, getTheme()));
+        buttonInactive2.setBackgroundTintList(getResources().getColorStateList(R.color.whiteGray));
         buttonInactive2.setTextColor(getResources().getColor(R.color.black, getTheme()));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.linear_layout_list_service, fragment).addToBackStack(nameInBackStack).commit();

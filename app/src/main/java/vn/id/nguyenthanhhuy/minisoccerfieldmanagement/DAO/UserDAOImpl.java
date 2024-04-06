@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.annotation.RequiresApi;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
@@ -172,7 +173,7 @@ public class UserDAOImpl implements IUserDAO {
     @Override
     public List<User> findAll() {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<User> users = null;
+        List<User> users = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {

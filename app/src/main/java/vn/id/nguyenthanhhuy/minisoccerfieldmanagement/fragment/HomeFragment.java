@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
@@ -29,6 +30,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -43,6 +46,7 @@ public class HomeFragment extends Fragment {
     private Button buttonTomorrow;
     private ArrayList<Button> listButton;
     private ListView listViewMatch;
+    private List<Service> listService;
 
     private RecyclerView recyclerViewListService;
 
@@ -67,6 +71,8 @@ public class HomeFragment extends Fragment {
         setListButton();
         text_view_name.setText(MainApplication.curentUser.getName());
         setRecyclerViewListService();
+
+        loadService(5, 0, "Active");
     }
 
     public void setViewPagerImages() {
@@ -210,6 +216,8 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) requireActivity()).bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_service);
             }
         });
+
+        listService = new ArrayList<>();
     }
 
     public void setRecyclerViewListService() {
@@ -225,22 +233,31 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
 
                 if (!recyclerView.canScrollHorizontally(1)) {
-                    Toast.makeText(getActivity(), "Đã cuộn đến cuối danh sách!", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadService(3, listService.size(), "Active");
+                            binding.progressBar.setVisibility(View.GONE);
+                        }
+                    }, 1300);
                 }
             }
         });
-        List<String> serviceList = new ArrayList<>();
-        serviceList.add("Service 1");
-        serviceList.add("Service 2");
-        serviceList.add("Service 3");
-        serviceList.add("Service 4");
-        serviceList.add("Service 5");
-        serviceList.add("Service 6");
-        serviceList.add("Service 7");
 
-        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(this, getContext(), serviceList, false, getParentFragmentManager());
+        RecyclerViewServiceAdapter adapter = new RecyclerViewServiceAdapter(this, getContext(), listService, false, getParentFragmentManager());
 
         recyclerViewListService.setAdapter(adapter);
+    }
+
+    public void loadService(int limit, int offset, String status) {
+        ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
+        List<Service> listServiceLoad = new ArrayList<>();
+        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status);
+        if (listServiceLoad.size() > 0) {
+            listService.addAll(listServiceLoad);
+            recyclerViewListService.getAdapter().notifyDataSetChanged();
+        }
     }
 
 

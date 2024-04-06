@@ -8,17 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.InputStream;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ListViewServiceAdapter extends BaseAdapter {
     private Context context;
-    private List<String> serviceList;
+    private List<Service> serviceList;
 
-    public ListViewServiceAdapter(Context context, List<String> serviceList) {
+    public ListViewServiceAdapter(Context context, List<Service> serviceList) {
         this.context = context;
         this.serviceList = serviceList;
     }
@@ -44,6 +47,11 @@ public class ListViewServiceAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_service_in_fragment_service, parent, false);
         }
 
+        ((TextView) convertView.findViewById(R.id.text_view_service_name)).setText(serviceList.get(position).getName());
+        ((TextView) convertView.findViewById(R.id.text_view_unit_of_service)).setText(serviceList.get(position).getUnit());
+        ((TextView) convertView.findViewById(R.id.text_view_in_stock)).setText(String.valueOf(serviceList.get(position).getQuantity()));
+        ((TextView) convertView.findViewById(R.id.text_view_price_of_service)).setText(Utils.formatVND(serviceList.get(position).getPrice()));
+
         try {
             InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
             Bitmap bitmap = BitmapFactory.decodeStream(is);
@@ -51,6 +59,8 @@ public class ListViewServiceAdapter extends BaseAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         return convertView;
     }
 }

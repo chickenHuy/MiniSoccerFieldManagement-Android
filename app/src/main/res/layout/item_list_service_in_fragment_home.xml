@@ -50,7 +50,8 @@
 
             <TextView
                 android:id="@+id/text_view_service_name"
-                style="@style/width_wc_height_wc"
+                style="@style/width_mp_height_wc"
+                android:ellipsize="end"
                 android:lines="1"
                 android:text="Service name"
                 android:textColor="#001C33"
@@ -59,16 +60,41 @@
 
             <LinearLayout
                 style="@style/width_mp_height_wc"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
                     android:layout_weight="1"
-                    android:lines="1"
-                    android:text="Unit of service"
-                    android:textColor="#7A7A7A"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="@string/unit"
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text=": "
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_unit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lines="1"
+                        android:text="Unit"
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/text_view_quantity"
@@ -81,6 +107,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/text_view_price"
                 style="@style/width_wc_height_wc"
                 android:lines="1"
                 android:text="Price of service"

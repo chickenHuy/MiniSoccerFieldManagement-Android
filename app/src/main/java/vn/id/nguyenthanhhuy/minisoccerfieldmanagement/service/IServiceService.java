@@ -1,10 +1,10 @@
-package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 
-public interface IServiceDAO {
+public interface IServiceService {
     public boolean add(Service service);
 
     public boolean update(Service service);
@@ -26,4 +26,5 @@ public interface IServiceDAO {
     public boolean updateQuantity(String id, int quantity);
 
     public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status);
+
 }

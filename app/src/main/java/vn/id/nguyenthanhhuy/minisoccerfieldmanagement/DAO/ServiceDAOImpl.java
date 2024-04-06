@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
@@ -148,7 +150,7 @@ public class ServiceDAOImpl implements IServiceDAO {
     @Override
     public List<Service> findAll() {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<Service> services = null;
+        List<Service> services = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {
@@ -205,7 +207,7 @@ public class ServiceDAOImpl implements IServiceDAO {
     @Override
     public List<Service> findByStatus(String status) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<Service> services = null;
+        List<Service> services = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {
@@ -262,7 +264,7 @@ public class ServiceDAOImpl implements IServiceDAO {
     @Override
     public List<Service> findByInfo(String name, String description) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<Service> services = null;
+        List<Service> services = new ArrayList<>();
         Cursor cursor = null;
         try {
             String[] projection = {
@@ -362,5 +364,33 @@ public class ServiceDAOImpl implements IServiceDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status){
+        List<Service> services = new ArrayList<>();
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+
+        String query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? LIMIT ? OFFSET ?";
+        Cursor cursor = db.rawQuery(query, new String[]{status, String.valueOf(limit), String.valueOf(offset)});
+
+        while (cursor.moveToNext()) {
+            Service service = new Service();
+            service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
+            service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
+            service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
+            service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+            service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+            service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+            service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+            service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
+            service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
+            service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
+
+            services.add(service);
+        }
+
+        cursor.close();
+        return services;
     }
 }

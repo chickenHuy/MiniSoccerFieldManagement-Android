@@ -103,7 +103,5 @@
     <string name="add_field">Add Field</string>
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="unit_price_30m">Unit price / 30m</string>
 </resources>

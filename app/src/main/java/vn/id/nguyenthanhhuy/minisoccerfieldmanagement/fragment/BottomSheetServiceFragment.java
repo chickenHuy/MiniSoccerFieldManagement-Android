@@ -18,13 +18,14 @@ import androidx.fragment.app.Fragment;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 
 public class BottomSheetServiceFragment extends BottomSheetDialogFragment {
     private boolean openInHomePage;
     private Fragment fragment;
-    private String service;
+    private Service service;
 
-    public BottomSheetServiceFragment(boolean openInHomePage, Fragment fragment, String service) {
+    public BottomSheetServiceFragment(boolean openInHomePage, Fragment fragment, Service service) {
         this.openInHomePage = openInHomePage;
         this.fragment = fragment;
         this.service = service;
@@ -69,7 +70,7 @@ public class BottomSheetServiceFragment extends BottomSheetDialogFragment {
 
                 ((MainActivity) activity).args.putBoolean("has_match", false);
                 ((MainActivity) activity).args.putBoolean("open_with_service_item", true);
-                ((MainActivity) activity).args.putString("service_item", this.service);
+                ((MainActivity) activity).args.putSerializable("service_item", this.service);
                 ((MainActivity) activity).args.putInt("service_item_quantity", quantity);
                 ((MainActivity) activity).bottomNavigationViewMenu.setSelectedItemId(R.id.menu_option_service);
                 dismiss();
