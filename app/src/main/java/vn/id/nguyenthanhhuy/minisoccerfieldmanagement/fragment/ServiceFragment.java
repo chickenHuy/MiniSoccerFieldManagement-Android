@@ -54,7 +54,6 @@ public class ServiceFragment extends Fragment {
     private boolean hasMatch;
     private boolean openWithServiceItem;
     private Service serviceItem;
-    private int quantity;
     private int positionSelected = -1;
 
     @Nullable
@@ -85,7 +84,6 @@ public class ServiceFragment extends Fragment {
             openWithServiceItem = getArguments().getBoolean("open_with_service_item");
             if (openWithServiceItem) {
                 serviceItem = (Service) getArguments().getSerializable("service_item");
-                quantity = getArguments().getInt("service_item_quantity");
             }
         }
     }
@@ -132,7 +130,7 @@ public class ServiceFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 positionSelected = position;
 
-                BottomSheetServiceFragment bottomSheet = new BottomSheetServiceFragment(false, null, null);
+                BottomSheetServiceFragment bottomSheet = new BottomSheetServiceFragment(false, null, listService.get(positionSelected));
                 bottomSheet.setTargetFragment(ServiceFragment.this, GET_QUANTITY);
                 bottomSheet.show(getParentFragmentManager(), "ServiceBottomSheetDialogFragment");
             }
@@ -196,7 +194,7 @@ public class ServiceFragment extends Fragment {
     public void loadService(int limit, int offset, String status) {
         ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
         List<Service> listServiceLoad = new ArrayList<>();
-        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status);
+        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status, 0);
         if (listServiceLoad.size() > 0) {
             listService.addAll(listServiceLoad);
             listViewServiceAdapter.notifyDataSetChanged();

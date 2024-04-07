@@ -253,7 +253,7 @@ public class HomeFragment extends Fragment {
     public void loadService(int limit, int offset, String status) {
         ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
         List<Service> listServiceLoad = new ArrayList<>();
-        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status);
+        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status, 0);
         if (listServiceLoad.size() > 0) {
             listService.addAll(listServiceLoad);
             recyclerViewListService.getAdapter().notifyDataSetChanged();

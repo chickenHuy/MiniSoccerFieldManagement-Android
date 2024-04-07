@@ -74,10 +74,10 @@
     <string name="services_payment">Thanh toán các dịch vụ</string>
     <string name="customer_information">Thông tin khách hàng</string>
     <string name="add_customer">Thêm khách hàng</string>
-    <string name="total_price">Tổng giá</string>
+    <string name="total_service_price">Tổng giá dịch vụ</string>
     <string name="discount">Giảm giá</string>
     <string name="total_amount">Tổng cộng</string>
-    <string name="order_code">Mã đơn hàng</string>
+    <string name="payment_code">Mã thanh toán</string>
     <string name="payment_time">Thời gian thanh toán</string>
     <string name="home_page">Trang chủ</string>
     <string name="service_page">Dịch vụ</string>
@@ -100,4 +100,6 @@
     <string name="error_minimum_spend_amount_too_low">Mức chi tiêu tối thiểu phải lớn hơn 1000000</string>
     <string name="error_empty">Trường này không được để trống</string>
     <string name="unit_price_30m">Unit price / 30m</string>
+    <string name="total_field_price">Tổng tiền sân</string>
+    <string name="additional_fee">Phí phụ thu</string>
 </resources>

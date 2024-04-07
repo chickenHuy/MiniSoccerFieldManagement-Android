@@ -367,12 +367,20 @@ public class ServiceDAOImpl implements IServiceDAO {
     }
 
     @Override
-    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status){
+    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted) {
         List<Service> services = new ArrayList<>();
         SQLiteDatabase db = dbHandler.getReadableDatabase();
 
-        String query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? LIMIT ? OFFSET ?";
-        Cursor cursor = db.rawQuery(query, new String[]{status, String.valueOf(limit), String.valueOf(offset)});
+        String query = null;
+        Cursor cursor = null;
+        if (isDeleted == -1) {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{status, String.valueOf(limit), String.valueOf(offset)});
+        } else {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?  LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{status, String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
+        }
+
 
         while (cursor.moveToNext()) {
             Service service = new Service();

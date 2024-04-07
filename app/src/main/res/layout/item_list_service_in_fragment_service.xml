@@ -132,7 +132,7 @@
 
                     <TextView
                         style="@style/width_wc_height_wc"
-                        android:text=" x "
+                        android:text="x "
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold" />

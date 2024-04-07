@@ -35,22 +35,36 @@ public class ServiceManagementActivity extends AppCompatActivity {
     }
 
     public void setWidget() {
-        switchFragment(new ListAllServiceFragment(), "see_all_service_fragment", binding.buttonSeeAll, binding.buttonActive, binding.buttonInactive);
+        switchFragment(new ListAllServiceFragment(), "see_all_service_fragment");
 
         binding.buttonSeeAll.setOnClickListener(v -> {
-            switchFragment(new ListAllServiceFragment(), "see_all_service_fragment", binding.buttonSeeAll, binding.buttonActive, binding.buttonInactive);
+            switchFragment(new ListAllServiceFragment(), "see_all_service_fragment");
         });
 
         binding.buttonActive.setOnClickListener(v -> {
-            switchFragment(new ListActiveServiceFragment(), "active_service_fragment", binding.buttonActive, binding.buttonInactive, binding.buttonSeeAll);
+            switchFragment(new ListActiveServiceFragment(), "active_service_fragment");
         });
 
         binding.buttonInactive.setOnClickListener(v -> {
-            switchFragment(new ListInactiveServiceFragment(), "inactive_service_fragment", binding.buttonInactive, binding.buttonActive, binding.buttonSeeAll);
+            switchFragment(new ListInactiveServiceFragment(), "inactive_service_fragment");
         });
     }
 
-    public void switchFragment(Fragment fragment, String nameInBackStack, AppCompatButton buttonActive, AppCompatButton buttonInactive1, AppCompatButton buttonInactive2) {
+    public void switchFragment(Fragment fragment, String nameInBackStack) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.linear_layout_list_service, fragment).addToBackStack(nameInBackStack).commit();
+    }
+
+    public void switchButtonSelected(int index) {
+        if (index == 1) {
+            switchButton(binding.buttonSeeAll, binding.buttonActive, binding.buttonInactive);
+        } else if (index == 2) {
+            switchButton(binding.buttonActive, binding.buttonInactive, binding.buttonSeeAll);
+        } else {
+            switchButton(binding.buttonInactive, binding.buttonActive, binding.buttonSeeAll);
+        }
+    }
+
+    public void switchButton(AppCompatButton buttonActive, AppCompatButton buttonInactive1, AppCompatButton buttonInactive2) {
 
         buttonActive.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
         buttonActive.setTextColor(getResources().getColor(R.color.white, getTheme()));
@@ -60,7 +74,5 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
         buttonInactive2.setBackgroundTintList(getResources().getColorStateList(R.color.whiteGray));
         buttonInactive2.setTextColor(getResources().getColor(R.color.black, getTheme()));
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.linear_layout_list_service, fragment).addToBackStack(nameInBackStack).commit();
     }
 }

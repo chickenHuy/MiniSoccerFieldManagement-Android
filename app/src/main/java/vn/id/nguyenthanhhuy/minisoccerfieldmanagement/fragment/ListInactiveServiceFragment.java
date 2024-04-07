@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentListInactiveServiceBinding;
 
 public class ListInactiveServiceFragment extends Fragment {
@@ -28,7 +29,7 @@ public class ListInactiveServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        ((ServiceManagementActivity) requireActivity()).switchButtonSelected(3);
     }
 
     @Override

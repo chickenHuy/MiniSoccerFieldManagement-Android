@@ -9,11 +9,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.List;
+
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentListAllServiceBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 
 public class ListAllServiceFragment extends Fragment {
     private FragmentListAllServiceBinding binding;
+
+    private ListView listViewListService;
+    private List<Service> listAllService;
+    private ListViewServiceAdapter listViewServiceAdapter;
 
     @Nullable
     @Override
@@ -28,7 +39,13 @@ public class ListAllServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((ServiceManagementActivity) requireActivity()).switchButtonSelected(1);
 
+        setWidget();
+    }
+
+    public void setWidget() {
+        listViewListService = binding.listViewAllService;
     }
 
     @Override

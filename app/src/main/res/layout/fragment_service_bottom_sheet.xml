@@ -13,6 +13,7 @@
         android:paddingEnd="25dp">
 
         <TextView
+            android:id="@+id/text_view_service_name"
             style="@style/width_mp_height_wc"
             android:text="Service name"
             android:textColor="@color/black"
@@ -38,10 +39,36 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/text_view_unit_of_service"
                 style="@style/width_wc_height_wc"
                 android:text="Unit of service"
                 android:textColor="@color/blackGray"
                 android:textSize="16sp" />
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/in_stock"
+                    android:textColor="@color/blackGray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/blackGray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_view_in_stock"
+                    style="@style/width_wc_height_wc"
+                    android:text="In stock"
+                    android:textColor="@color/blackGray"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -51,6 +78,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/text_view_price_of_service"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -70,11 +98,11 @@
 
             <EditText
                 android:id="@+id/edit_text_quantity"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:maxLength="5"
                 android:inputType="number"
+                android:maxLength="5"
                 android:text="1"
                 android:textAlignment="center"
                 android:textColor="@color/black"

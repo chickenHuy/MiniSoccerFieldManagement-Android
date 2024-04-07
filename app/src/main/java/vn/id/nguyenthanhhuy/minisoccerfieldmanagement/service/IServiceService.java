@@ -25,6 +25,5 @@ public interface IServiceService {
 
     public boolean updateQuantity(String id, int quantity);
 
-    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status);
-
+    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted);
 }
