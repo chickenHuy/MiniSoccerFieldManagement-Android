@@ -102,4 +102,8 @@
     <string name="unit_price_30m">Unit price / 30m</string>
     <string name="total_field_price">Tổng tiền sân</string>
     <string name="additional_fee">Phí phụ thu</string>
+    <string name="sold">Đã bán</string>
+    <string name="view_detail">Xem chi tiết</string>
+    <string name="revert">Khôi phục</string>
+    <string name="deleted">Đã xóa</string>
 </resources>

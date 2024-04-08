@@ -7,9 +7,13 @@
     tools:context=".fragment.ListAllServiceFragment">
 
     <ListView
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:id="@+id/list_view_all_service"
         android:layout_width="match_parent"
+        android:scrollbarSize="0dp"
         android:layout_height="0dp"
+        android:divider="@color/white"
         android:layout_weight="1" />
 
 </LinearLayout>

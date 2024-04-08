@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.ListActiveServiceFragment">
+    tools:context=".fragment.ListServiceDeletedFragment">
 
     <ListView
         android:paddingStart="10dp"

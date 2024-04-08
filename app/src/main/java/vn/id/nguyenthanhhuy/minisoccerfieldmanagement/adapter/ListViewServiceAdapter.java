@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -20,10 +21,12 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 public class ListViewServiceAdapter extends BaseAdapter {
     private Context context;
     private List<Service> serviceList;
+    private boolean isServiceManagement;
 
-    public ListViewServiceAdapter(Context context, List<Service> serviceList) {
+    public ListViewServiceAdapter(Context context, List<Service> serviceList, boolean isServiceManagement) {
         this.context = context;
         this.serviceList = serviceList;
+        this.isServiceManagement = isServiceManagement;
     }
 
     @Override
@@ -51,6 +54,11 @@ public class ListViewServiceAdapter extends BaseAdapter {
         ((TextView) convertView.findViewById(R.id.text_view_unit_of_service)).setText(serviceList.get(position).getUnit());
         ((TextView) convertView.findViewById(R.id.text_view_in_stock)).setText(String.valueOf(serviceList.get(position).getQuantity()));
         ((TextView) convertView.findViewById(R.id.text_view_price_of_service)).setText(Utils.formatVND(serviceList.get(position).getPrice()));
+
+        if (isServiceManagement) {
+            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.VISIBLE);
+            ((TextView) convertView.findViewById(R.id.text_view_sold)).setText(String.valueOf(serviceList.get(position).getSold()));
+        }
 
         try {
             InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");

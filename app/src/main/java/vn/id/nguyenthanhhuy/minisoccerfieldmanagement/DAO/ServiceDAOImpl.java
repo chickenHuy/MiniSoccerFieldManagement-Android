@@ -374,9 +374,15 @@ public class ServiceDAOImpl implements IServiceDAO {
         String query = null;
         Cursor cursor = null;
         if (isDeleted == -1) {
-            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? LIMIT ? OFFSET ?";
-            cursor = db.rawQuery(query, new String[]{status, String.valueOf(limit), String.valueOf(offset)});
-        } else {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(limit), String.valueOf(offset)});
+        } else
+        if(status.equals("")){
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?  LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
+        }
+        else
+        {
             query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?  LIMIT ? OFFSET ?";
             cursor = db.rawQuery(query, new String[]{status, String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
         }
