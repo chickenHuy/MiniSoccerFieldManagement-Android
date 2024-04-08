@@ -6,14 +6,28 @@
     android:orientation="vertical"
     tools:context=".fragment.ListServiceDeletedFragment">
 
-    <ListView
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:id="@+id/list_view_all_service"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:scrollbarSize="0dp"
         android:layout_height="0dp"
-        android:divider="@color/white"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/list_view_all_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:scrollbarSize="0dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center | bottom"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </LinearLayout>

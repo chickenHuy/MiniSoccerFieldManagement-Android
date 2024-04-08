@@ -12,12 +12,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
@@ -25,6 +29,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAda
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentListAllServiceBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 
 public class ListAllServiceFragment extends Fragment {
     private FragmentListAllServiceBinding binding;
@@ -32,6 +37,8 @@ public class ListAllServiceFragment extends Fragment {
     private ListView listViewListService;
     private List<Service> listAllService;
     private ListViewServiceAdapter listViewServiceAdapter;
+    private boolean isLoading = false;
+    private ExecutorService executorService;
 
     @Nullable
     @Override
@@ -50,7 +57,7 @@ public class ListAllServiceFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        getListServiceFromDatabase();
+        loadService(10, 0, "", 0);
     }
 
     public void setWidget() {
@@ -87,12 +94,61 @@ public class ListAllServiceFragment extends Fragment {
                 popup.show();
             }
         });
+
+        listViewListService.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    loadService(10, listAllService.size(), "", 0);
+                }
+            }
+        });
     }
 
 
-    public void getListServiceFromDatabase() {
-        listAllService.addAll(((ServiceManagementActivity) requireActivity()).getListServiceFromDatabase(10, 0, "", 0));
-        listViewServiceAdapter.notifyDataSetChanged();
+    public void loadService(int limit, int offset, String status, int isDeleted) {
+        if (isLoading) {
+            return;
+        }
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
+
+        if (service.countServices(status, isDeleted) == listAllService.size()) {
+            return;
+        }
+
+        isLoading = true;
+        executorService = Executors.newSingleThreadExecutor();
+        binding.progressBar.setVisibility(View.VISIBLE);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listServiceLoad.size() > 0) {
+                            listAllService.addAll(listServiceLoad);
+                        }
+
+                        binding.progressBar.setVisibility(View.GONE);
+                        listViewServiceAdapter.notifyDataSetChanged();
+                        isLoading = false;
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (executorService != null) {
+            executorService.shutdownNow();
+        }
     }
 
     @Override

@@ -26,4 +26,6 @@ public interface IServiceDAO {
     public boolean updateQuantity(String id, int quantity);
 
     public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted);
+
+    public int countServices(String status, int isDeleted);
 }

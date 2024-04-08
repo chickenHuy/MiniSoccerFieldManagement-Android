@@ -407,4 +407,30 @@ public class ServiceDAOImpl implements IServiceDAO {
         cursor.close();
         return services;
     }
+
+    @Override
+    public int countServices(String status, int isDeleted) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        String query = null;
+
+        if (isDeleted == -1) {
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME;
+            cursor = db.rawQuery(query, null);
+        } else
+        if(status.equals("")){
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(isDeleted)});
+        }
+        else
+        {
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            cursor = db.rawQuery(query, new String[]{status, String.valueOf(isDeleted)});
+        }
+
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
 }

@@ -119,6 +119,14 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:visibility="visible" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_see_all_service"
                 android:layout_width="wrap_content"
@@ -134,14 +142,6 @@
                 android:textColor="#6E6E6E"
                 android:textSize="17sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:visibility="gone" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

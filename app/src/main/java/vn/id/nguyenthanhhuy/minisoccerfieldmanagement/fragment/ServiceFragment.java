@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
@@ -55,6 +59,9 @@ public class ServiceFragment extends Fragment {
     private boolean openWithServiceItem;
     private Service serviceItem;
     private int positionSelected = -1;
+    private boolean isLoading = false;
+    private ExecutorService executorService;
+
 
     @Nullable
     @Override
@@ -75,7 +82,7 @@ public class ServiceFragment extends Fragment {
         setListView();
         setRecyclerViewCartService();
 
-        loadService(7, 0, "Active");
+        loadService(10, 0, "Active", 0);
     }
 
     public void getData() {
@@ -135,6 +142,19 @@ public class ServiceFragment extends Fragment {
                 bottomSheet.show(getParentFragmentManager(), "ServiceBottomSheetDialogFragment");
             }
         });
+
+        listViewService.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    loadService(10, listService.size(), "Active", 0);
+                }
+            }
+        });
     }
 
     public void setCartServiceTittle(int status) {
@@ -191,13 +211,44 @@ public class ServiceFragment extends Fragment {
         recyclerViewCartService.setAdapter(recyclerViewServiceAdapter);
     }
 
-    public void loadService(int limit, int offset, String status) {
-        ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
-        List<Service> listServiceLoad = new ArrayList<>();
-        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status, 0);
-        if (listServiceLoad.size() > 0) {
-            listService.addAll(listServiceLoad);
-            listViewServiceAdapter.notifyDataSetChanged();
+    public void loadService(int limit, int offset, String status, int isDeleted) {
+        if (isLoading) {
+            return;
+        }
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
+
+        if (service.countServices(status, isDeleted) == listService.size()) {
+            return;
+        }
+
+        isLoading = true;
+        executorService = Executors.newSingleThreadExecutor();
+        binding.progressBar.setVisibility(View.VISIBLE);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listServiceLoad.size() > 0) {
+                            listService.addAll(listServiceLoad);
+                        }
+
+                        binding.progressBar.setVisibility(View.GONE);
+                        listViewServiceAdapter.notifyDataSetChanged();
+                        isLoading = false;
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (executorService != null) {
+            executorService.shutdownNow();
         }
     }
 

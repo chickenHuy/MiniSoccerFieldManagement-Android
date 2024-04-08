@@ -223,9 +223,68 @@ public class DBHandler extends SQLiteOpenHelper {
                 "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
                 "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
                 "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì sandwich', 20000, NULL, 'Bánh mì sandwich', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
-                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Fanta', 12000, NULL, 'Nước ngọt Fanta', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước suối Lavie', 8000, NULL, 'Nước suối Lavie', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước khoáng Aquafina', 10000, NULL, 'Nước khoáng Aquafina', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước tăng lực Red Bull', 25000, NULL, 'Nước tăng lực Red Bull', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước cam Sunny', 15000, NULL, 'Nước cam Sunny', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Mirinda', 12000, NULL, 'Nước ngọt Mirinda', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
                 "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hamburger', 30000, NULL, 'Bánh mì hamburger', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
-                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì bơ tỏi', 15000, NULL, 'Bánh mì bơ tỏi', 'Cái', 50, 0, 'Active', datetime('now'), NULL);";
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì sandwich', 20000, NULL, 'Bánh mì sandwich', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Fanta', 12000, NULL, 'Nước ngọt Fanta', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Fanta', 12000, NULL, 'Nước ngọt Fanta', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước suối Lavie', 8000, NULL, 'Nước suối Lavie', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước khoáng Aquafina', 10000, NULL, 'Nước khoáng Aquafina', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước tăng lực Red Bull', 25000, NULL, 'Nước tăng lực Red Bull', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước cam Sunny', 15000, NULL, 'Nước cam Sunny', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Mirinda', 12000, NULL, 'Nước ngọt Mirinda', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hamburger', 30000, NULL, 'Bánh mì hamburger', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì sandwich', 20000, NULL, 'Bánh mì sandwich', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Fanta', 12000, NULL, 'Nước ngọt Fanta', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước suối Lavie', 8000, NULL, 'Nước suối Lavie', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước khoáng Aquafina', 10000, NULL, 'Nước khoáng Aquafina', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước tăng lực Red Bull', 25000, NULL, 'Nước tăng lực Red Bull', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước cam Sunny', 15000, NULL, 'Nước cam Sunny', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Mirinda', 12000, NULL, 'Nước ngọt Mirinda', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hamburger', 30000, NULL, 'Bánh mì hamburger', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước suối Lavie', 8000, NULL, 'Nước suối Lavie', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước khoáng Aquafina', 10000, NULL, 'Nước khoáng Aquafina', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước tăng lực Red Bull', 25000, NULL, 'Nước tăng lực Red Bull', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước cam Sunny', 15000, NULL, 'Nước cam Sunny', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Mirinda', 12000, NULL, 'Nước ngọt Mirinda', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hamburger', 30000, NULL, 'Bánh mì hamburger', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Coca Cola', 10000, NULL, 'Nước ngọt Coca cola', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Pepsi', 10000, NULL, 'Nước ngọt Pepsi', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', '7 Up', 10000, NULL, 'Nước ngọt 7 Up', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì sandwich', 20000, NULL, 'Bánh mì sandwich', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hotdog', 25000, NULL, 'Bánh mì hotdog', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Fanta', 12000, NULL, 'Nước ngọt Fanta', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước suối Lavie', 8000, NULL, 'Nước suối Lavie', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước khoáng Aquafina', 10000, NULL, 'Nước khoáng Aquafina', 'Chai', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước tăng lực Red Bull', 25000, NULL, 'Nước tăng lực Red Bull', 'Lon', 100, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước cam Sunny', 15000, NULL, 'Nước cam Sunny', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Nước ngọt Mirinda', 12000, NULL, 'Nước ngọt Mirinda', 'Lon', 100, 0, 'Inactive', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì hamburger', 30000, NULL, 'Bánh mì hamburger', 'Cái', 50, 0, 'Active', datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("SV")) + "', 'Bánh mì bơ tỏi', 15000, NULL, 'Bánh mì bơ tỏi', 'Cái', 50, 0, 'Inactive', datetime('now'), NULL);";
         db.execSQL(INSERT_DATA);
     }
 
