@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -42,6 +43,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.MembershipDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditOrAddBookingActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SchedulerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.BookingAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
@@ -132,6 +134,20 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
         binding.recyclerTimeScheduler.setOnTouchListener((v, event) -> true);
         binding.recyclerTimeSlot.setOnTouchListener((v, event) -> true);
+
+        setEvents();
+    }
+
+    private void setEvents() {
+        binding.addBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Thực hiện chuyển sang activity EditOrAddBookingActivity
+                // và truyền dữ liệu qua intent
+                Intent intent = new Intent(getContext(), EditOrAddBookingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

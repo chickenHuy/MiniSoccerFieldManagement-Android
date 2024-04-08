@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="22dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    tools:context=".activity.EditProfileActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_gravity="center"
+            android:text="@string/add_booking"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:onClick="goBack" />
+    </FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/iv_calendar_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:src="@drawable/ic_chevron_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_calendar_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:src="@drawable/ic_chevron_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_date_month"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_calendar_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_calendar_next"
+        tools:text="December 2020" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_date_month"
+        tools:listitem="@layout/date_layout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+
+        <TextView
+            style="@style/header_text_custom"
+            android:text="Schedule"
+            android:textColor="@color/primaryColor" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/text_input_layout_custom"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/edtPhoneCustomer"
+                style="@style/width_mp_height_wc"
+                android:autofillHints="emailAddress"
+                android:hint="@string/phone_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="17sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/text_input_layout_custom"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/edtNameCustomer"
+                style="@style/width_mp_height_wc"
+                android:hint="@string/customer_name"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textSize="17sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <TableLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <TableRow android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/start_time"
+                android:textColor="@color/blackGray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/end_time"
+                android:textColor="@color/blackGray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </TableRow>
+        <TableRow android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input_layout_custom"
+                android:layout_weight="1"
+                android:layout_margin="5dp">
+
+                <EditText
+                    android:id="@+id/edtStartTime"
+                    style="@style/width_mp_height_wc"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:drawableStart="@drawable/baseline_access_time_24"
+                    android:drawablePadding="10dp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input_layout_custom"
+                android:layout_weight="1"
+                android:layout_margin="5dp">
+
+                <EditText
+                    android:id="@+id/edtEndTime"
+                    style="@style/width_mp_height_wc"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/baseline_access_time_24"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </TableRow>
+        <TableRow android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_border_2dp_radius_10dp"
+            android:padding="15dp"
+
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Field"
+                android:textColor="@color/blackGray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerField"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

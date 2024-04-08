@@ -85,8 +85,8 @@
     <string name="payment_error">Thanh toán thất bại!!!</string>
 
     <string name="setting_price_list">Cài đặt giá sân</string>
-    <string name="start_time">Thời gian BĐ:</string>
-    <string name="end_time">Thời gian KT:</string>
+    <string name="start_time">Thời gian BĐ</string>
+    <string name="end_time">Thời gian KT</string>
     <string name="error_password_not_match">Mật khẩu nhập lại không khớp</string>
     <string name="error_password_empty">Mật khẩu không được để trống</string>
     <string name="error_password_incorrect">Mật khẩu hiện tại không đúng</string>
@@ -102,4 +102,6 @@
     <string name="unit_price_30m">Unit price / 30m</string>
     <string name="total_field_price">Tổng tiền sân</string>
     <string name="additional_fee">Phí phụ thu</string>
+    <string name="add_booking">Add booking</string>
+    <string name="customer_name">Customer name</string>
 </resources>
