@@ -106,6 +106,8 @@
     <string name="unit_price_30m">Unit price / 30m</string>
     <string name="total_field_price">Total field price</string>
     <string name="additional_fee">Additional fee</string>
+    <string name="add_booking">Add booking</string>
+    <string name="customer_name">Customer name</string>
     <string name="sold">Sold</string>
     <string name="view_detail">View detail</string>
     <string name="revert">Revert</string>
