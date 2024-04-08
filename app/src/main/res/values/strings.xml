@@ -94,8 +94,8 @@
     <string name="payment_successfully">Payment Successfully!!!</string>
     <string name="payment_error">Payment Error!!!</string>
     <string name="setting_price_list">Setting Price List</string>
-    <string name="start_time">Start time </string>
-    <string name="end_time">End time </string>
+    <string name="start_time">Start time: </string>
+    <string name="end_time">End time: </string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
@@ -108,5 +108,8 @@
     <string name="additional_fee">Additional fee</string>
     <string name="add_booking">Add booking</string>
     <string name="customer_name">Customer name</string>
-    <string name="kh_ch_h_ng_m_i">new customer</string>
+    <string name="sold">Sold</string>
+    <string name="view_detail">View detail</string>
+    <string name="revert">Revert</string>
+    <string name="deleted">Deleted</string>
 </resources>

@@ -123,7 +123,7 @@ public class ServiceFragment extends Fragment {
     public void setListView() {
         listViewService = binding.listViewService;
 
-        listViewServiceAdapter = new ListViewServiceAdapter(getContext(), listService);
+        listViewServiceAdapter = new ListViewServiceAdapter(getContext(), listService, false);
         listViewService.setAdapter(listViewServiceAdapter);
         listViewService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
