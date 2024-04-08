@@ -13,6 +13,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BookingDAOImpl implements IBookingDAO{
     DBHandler dbHandler;
@@ -35,7 +36,7 @@ public class BookingDAOImpl implements IBookingDAO{
             values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END, booking.getTimeEnd().toString());
             values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE, booking.getPrice().doubleValue());
             values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED, 0);
-            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT, booking.getCreatedAt().toString());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT, String.valueOf(new Timestamp(System.currentTimeMillis())));
 
 
             long newRowId = db.insert(SoccerFieldContract.BookingEntry.TABLE_NAME, null, values);
@@ -144,7 +145,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,7 +206,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
@@ -265,7 +268,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
@@ -326,7 +330,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
@@ -387,7 +392,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
@@ -448,7 +454,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
@@ -509,7 +516,8 @@ public class BookingDAOImpl implements IBookingDAO{
                 booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
                 booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
-                booking.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
                 bookings.add(booking);
             }
         } catch (Exception e) {
