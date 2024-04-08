@@ -53,6 +53,7 @@ public class SettingPriceListActivity extends AppCompatActivity {
                 if (rdgTypeField.getCheckedRadioButtonId() == R.id.rdo7aside) {
                     type = StaticString.TYPE_7_A_SIDE;
                 }
+                dateSelected = date;
                 priceLists = priceListService.findByDateAndType(date, type);
                 adapterPriceList = new PriceListRecyclerViewAdapter(priceLists);
                 recyclerViewPriceList.setAdapter(adapterPriceList);
