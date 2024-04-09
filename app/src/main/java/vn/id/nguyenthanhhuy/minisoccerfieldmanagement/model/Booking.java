@@ -130,4 +130,18 @@ public class Booking {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id='" + id + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", fieldId='" + fieldId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", status='" + status + '\'' +
+                ", note='" + note + '\'' +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                ", price=" + price;
+    }
 }

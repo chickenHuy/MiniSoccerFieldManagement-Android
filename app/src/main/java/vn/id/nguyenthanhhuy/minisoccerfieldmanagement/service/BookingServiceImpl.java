@@ -1,13 +1,19 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.BookingDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IBookingDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 
 public class BookingServiceImpl implements IBookingService{
     IBookingDAO bookingDAO;
@@ -16,6 +22,147 @@ public class BookingServiceImpl implements IBookingService{
         bookingDAO = new BookingDAOImpl(context);
         this.context = context;
     }
+
+
+    @Override
+    public Boolean isBookedOfParentField(Field child, Timestamp date, Time start, Time end) {
+        IFieldService fieldService = new FieldServiceImpl(context);
+
+        List<Field> parentFields = fieldService.findParent(child.getId());
+        //Check itself
+        parentFields.add(child);
+        List<Booking> bookings = new ArrayList<>();
+        for (Field field : parentFields) {
+            bookings.addAll(bookingDAO.findByDateAndField(date, field.getId()));
+        }
+        String hourString = start.toString().substring(0, 2);
+        String minuteString = start.toString().substring(3, 5);
+
+        int hour = Integer.parseInt(hourString);
+        int minute = Integer.parseInt(minuteString);
+        LocalTime startLocalTime = LocalTime.of(hour, minute);
+
+        hourString = end.toString().substring(0, 2);
+        minuteString = end.toString().substring(3, 5);
+
+        hour = Integer.parseInt(hourString);
+        minute = Integer.parseInt(minuteString);
+        LocalTime endLocalTime = LocalTime.of(hour, minute);
+        Calendar cal = Calendar.getInstance();
+        for (Booking booking : bookings) {
+            cal.setTimeInMillis(booking.getTimeStart().getTime());
+
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+
+            LocalTime bookedStart = LocalTime.of(hour, minute);
+
+            cal.setTimeInMillis(booking.getTimeEnd().getTime());
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+
+            LocalTime bookedEnd = LocalTime.of(hour, minute);
+
+            if (startLocalTime.isAfter(bookedStart) && startLocalTime.isBefore(bookedEnd)) {
+                return true;
+            }
+            else if (endLocalTime.isAfter(bookedStart) && endLocalTime.isBefore(bookedEnd)) {
+                return true;
+            }
+            else if (startLocalTime.isBefore(bookedStart) && endLocalTime.isAfter(bookedEnd)) {
+                return true;
+            }
+            else if (startLocalTime.equals(bookedStart))
+            {
+                return true;
+            }
+            else if (endLocalTime.equals(bookedEnd))
+            {
+                return true;
+            }
+
+
+        }
+
+        return false;
+    }
+
+    @Override
+    public Boolean isBookedOfChildField(Field Parent, Timestamp date, Time start, Time end) {
+        IFieldService fieldService = new FieldServiceImpl(context);
+        List<Field> childFields = new ArrayList<>();
+        Field child1 = fieldService.findById(Parent.getCombineField1());
+        Field child2 = fieldService.findById(Parent.getCombineField2());
+        Field child3 = fieldService.findById(Parent.getCombineField3());
+        if (child1 != null) {
+            childFields.add(child1);
+        }
+        if (child2 != null) {
+            childFields.add(child2);
+        }
+        if (child3 != null) {
+            childFields.add(child3);
+        }
+        // tính toán luôn cả chính nó
+        childFields.add(Parent);
+        List<Booking> bookings = new ArrayList<>();
+        for (Field field : childFields) {
+            bookings.addAll(bookingDAO.findByDateAndField(date, field.getId()));
+        }
+
+        String hourString = start.toString().substring(0, 2);
+        String minuteString = start.toString().substring(3, 5);
+
+        int hour = Integer.parseInt(hourString);
+        int minute = Integer.parseInt(minuteString);
+        LocalTime startLocalTime = LocalTime.of(hour, minute);
+
+        hourString = end.toString().substring(0, 2);
+        minuteString = end.toString().substring(3, 5);
+
+        hour = Integer.parseInt(hourString);
+        minute = Integer.parseInt(minuteString);
+        LocalTime endLocalTime = LocalTime.of(hour, minute);
+        Calendar cal = Calendar.getInstance();
+        for (Booking booking : bookings) {
+            cal.setTimeInMillis(booking.getTimeStart().getTime());
+
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+
+            LocalTime bookedStart = LocalTime.of(hour, minute);
+
+            cal.setTimeInMillis(booking.getTimeEnd().getTime());
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            minute = cal.get(Calendar.MINUTE);
+
+            LocalTime bookedEnd = LocalTime.of(hour, minute);
+
+            if (startLocalTime.isAfter(bookedStart) && startLocalTime.isBefore(bookedEnd)) {
+                return true;
+            }
+            else if (endLocalTime.isAfter(bookedStart) && endLocalTime.isBefore(bookedEnd)) {
+                return true;
+            }
+            else if (startLocalTime.isBefore(bookedStart) && endLocalTime.isAfter(bookedEnd)) {
+                return true;
+            }
+            else if (startLocalTime.equals(bookedStart))
+            {
+                return true;
+            }
+            else if (endLocalTime.equals(bookedEnd))
+            {
+                return true;
+            }
+
+
+        }
+        return  false;
+
+
+    }
+
     @Override
     public Boolean add(Booking booking) {
         return bookingDAO.add(booking);

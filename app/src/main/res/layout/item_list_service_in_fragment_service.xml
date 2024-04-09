@@ -109,6 +109,34 @@
                     android:text="Unit of service"
                     android:textColor="@color/blackGray"
                     android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_sold"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/sold"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_sold"
+                        style="@style/width_wc_height_wc"
+                        android:text="Sold"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

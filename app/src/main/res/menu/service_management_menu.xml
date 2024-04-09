@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_option_view_detail"
+        android:title="@string/view_detail"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_active"
+        android:title="@string/active"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_inactive"
+        android:title="@string/inactive"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_revert"
+        android:title="@string/revert"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_delete"
+        android:title="@string/delete"
+        app:showAsAction="never" />
+</menu>

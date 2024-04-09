@@ -2,6 +2,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.FieldDAOImpl;
@@ -53,5 +54,24 @@ public class FieldServiceImpl implements IFieldService{
     @Override
     public List<Field> findByStatus(String status) {
         return fieldDAO.findByStatus(status);
+    }
+
+    @Override
+    public List<Field> findParent(String id) {
+        List<Field> tmp = fieldDAO.findAllCombinedField();
+        List<Field> result = new ArrayList<>();
+        for (Field field : tmp) {
+            if (field.getCombineField1().equals(id)) {
+                result.add(field);
+            }
+            else if (field.getCombineField2().equals(id)) {
+                result.add(field);
+            }
+            else if (field.getCombineField3().equals(id))
+            {
+                result.add(field);
+            }
+        }
+        return result;
     }
 }

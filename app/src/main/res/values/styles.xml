@@ -103,4 +103,10 @@
     <style name="rounded_corners_dialog" parent="@style/Theme.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">20dp</item>
     </style>
+
+    <style name="popup_menu_background_white_radius_10dp" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:popupBackground">@drawable/background_white_radius_10dp</item>
+    </style>
 </resources>

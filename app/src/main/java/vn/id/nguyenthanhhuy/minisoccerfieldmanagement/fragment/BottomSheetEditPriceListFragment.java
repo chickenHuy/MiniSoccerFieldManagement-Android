@@ -55,6 +55,7 @@ public class BottomSheetEditPriceListFragment extends BottomSheetDialogFragment 
             binding.timeEnd.setText(priceList.getEndTime().toString().substring(0, 5));
             binding.timeStart.setText(priceList.getStartTime().toString().substring(0, 5));
             binding.editUnitPrice.setText(String.valueOf(df.format(priceList.getUnitPricePer30Minutes())));
+            binding.dateInWeek.setText(String.valueOf(priceList.getDateOfWeek()));
         }
         setEvents();
     }

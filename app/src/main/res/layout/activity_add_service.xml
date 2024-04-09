@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".activity.AddServiceActivity">
+
+    <FrameLayout
+        style="@style/width_mp_height_wc"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/text_view_activity_tittle"
+            style="@style/header_text_custom"
+            android:layout_gravity="center"
+            android:text="Activity Title"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow"
+            android:onClick="goBack" />
+    </FrameLayout>
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_view_service_image"
+            android:layout_width="match_parent"
+            android:src="@drawable/image_service_default"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:id="@+id/image_button_add_image"
+            style="@style/width_wc_height_wc"
+            android:layout_gravity="end"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/transparent"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:src="@drawable/baseline_add_a_photo_24" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="0dp">
+
+        <EditText
+            android:id="@+id/edit_text_service_name"
+            style="@style/width_mp_height_wc"
+            android:hint="@string/service_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/edit_text_service_price"
+            style="@style/width_mp_height_wc"
+            android:hint="@string/service_price"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/edit_text_service_quantity"
+            style="@style/width_mp_height_wc"
+            android:hint="@string/service_quantity"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/edit_text_service_description"
+            style="@style/width_mp_height_wc"
+            android:hint="@string/service_description"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_green_radius_10dp"
+        android:paddingStart="70dp"
+        android:paddingEnd="70dp"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

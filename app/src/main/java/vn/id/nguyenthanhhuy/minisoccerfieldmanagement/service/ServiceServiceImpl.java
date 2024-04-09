@@ -67,7 +67,12 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
-    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted) {
-        return serviceDAO.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted, String orderBy) {
+        return serviceDAO.getServicesWithLimitAndOffset(limit, offset, status, isDeleted, orderBy);
+    }
+
+    @Override
+    public int countServices(String status, int isDeleted) {
+        return serviceDAO.countServices(status, isDeleted);
     }
 }

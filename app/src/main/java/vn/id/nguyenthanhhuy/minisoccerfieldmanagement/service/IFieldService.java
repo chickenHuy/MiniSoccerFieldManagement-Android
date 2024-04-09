@@ -13,4 +13,6 @@ public interface IFieldService {
     List<Field> findAllNormalField();
     Field findById (String id);
     List<Field> findByStatus (String status);
+
+    List<Field> findParent(String id);
 }
