@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         text_view_name.setText(MainApplication.curentUser.getName());
         setRecyclerViewListService();
 
-        loadService(10, 0, "Active", 0);
+        loadService(10, 0, "Active", 0, "");
     }
 
     public void setViewPagerImages() {
@@ -242,7 +242,7 @@ public class HomeFragment extends Fragment {
 
                 if (!recyclerView.canScrollHorizontally(1)) {
                     binding.progressBar.setVisibility(View.VISIBLE);
-                    loadService(10, listService.size(), "Active", 0);
+                    loadService(10, listService.size(), "Active", 0, "");
                 }
             }
         });
@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment {
         recyclerViewListService.setAdapter(adapter);
     }
 
-    public void loadService(int limit, int offset, String status, int isDeleted) {
+    public void loadService(int limit, int offset, String status, int isDeleted, String orderBy) {
         if (isLoading) {
             return;
         }
@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted, orderBy);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

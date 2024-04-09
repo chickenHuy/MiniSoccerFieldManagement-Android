@@ -113,4 +113,12 @@
     <string name="revert">Revert</string>
     <string name="deleted">Deleted</string>
     <string name="kh_ch_h_ng_m_i">new customer</string>
+    <string name="price">Price</string>
+    <string name="filter_default">Default</string>
+    <string name="increase">Increase</string>
+    <string name="decrease">Decrease</string>
+    <string name="service_name">Name</string>
+    <string name="service_price">Price</string>
+    <string name="service_quantity">Quantity</string>
+    <string name="service_description">Description</string>
 </resources>

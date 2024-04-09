@@ -109,4 +109,12 @@
     <string name="add_booking">Add booking</string>
     <string name="customer_name">Customer name</string>
     <string name="kh_ch_h_ng_m_i">new customer</string>
+    <string name="price">Giá</string>
+    <string name="filter_default">Mặc định</string>
+    <string name="increase">Tăng dần</string>
+    <string name="decrease">Giảm dần</string>
+    <string name="service_name">Tên</string>
+    <string name="service_price">Giá</string>
+    <string name="service_quantity">Số lượng</string>
+    <string name="service_description">Mô tả</string>
 </resources>

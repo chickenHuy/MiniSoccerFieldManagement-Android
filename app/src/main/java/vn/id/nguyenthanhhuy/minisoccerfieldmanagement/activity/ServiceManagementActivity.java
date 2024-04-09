@@ -2,9 +2,12 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.widget.ListView;
 
 import com.yariksoffice.lingver.Lingver;
@@ -25,8 +28,13 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl
 
 public class ServiceManagementActivity extends AppCompatActivity {
     private ActivityServiceManagementBinding binding;
-    private ListView listViewListService;
-    private ListViewServiceAdapter listViewListServiceAdapter;
+    public String orderBy = "ORDER BY ";
+    public String filed = "id";
+    public String direction = " ASC";
+    public String filter = orderBy + filed + direction;
+
+    public static final int ADD_SERVICE = 1;
+    public static final int ADD_SERVICE_SUCCESSFULLY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,78 @@ public class ServiceManagementActivity extends AppCompatActivity {
         binding.buttonDeleted.setOnClickListener(v -> {
             switchFragment(new ListServiceDeletedFragment());
         });
+
+        binding.buttonFilter.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(new ContextThemeWrapper(ServiceManagementActivity.this, R.style.popup_menu_background_white_radius_10dp), v);
+            popupMenu.getMenuInflater().inflate(R.menu.service_filter_menu, popupMenu.getMenu());
+
+            if (direction.equals(" ASC")) {
+                popupMenu.getMenu().findItem(R.id.menu_option_increase).setChecked(true);
+            } else {
+                if (direction.equals(" DESC")) {
+                    popupMenu.getMenu().findItem(R.id.menu_option_decrease).setChecked(true);
+                }
+            }
+
+            if (filed.equals("id")) {
+                popupMenu.getMenu().findItem(R.id.menu_option_default).setChecked(true);
+            } else {
+                if (filed.equals("price")) {
+                    popupMenu.getMenu().findItem(R.id.menu_option_price).setChecked(true);
+                } else {
+                    if (filed.equals("sold")) {
+                        popupMenu.getMenu().findItem(R.id.menu_option_sold).setChecked(true);
+                    } else {
+                        if (filed.equals("quantity")) {
+                            popupMenu.getMenu().findItem(R.id.menu_option_in_stock).setChecked(true);
+                        }
+                    }
+                }
+            }
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.menu_option_increase) {
+                    item.setChecked(true);
+                    direction = " ASC";
+                } else {
+                    if (item.getItemId() == R.id.menu_option_decrease) {
+                        item.setChecked(true);
+                        direction = " DESC";
+                    } else {
+                        if (item.getItemId() == R.id.menu_option_default) {
+                            item.setChecked(true);
+                            filed = "id";
+                        } else {
+                            if (item.getItemId() == R.id.menu_option_price) {
+                                item.setChecked(true);
+                                filed = "price";
+                            } else {
+                                if (item.getItemId() == R.id.menu_option_sold) {
+                                    item.setChecked(true);
+                                    filed = "sold";
+                                } else {
+                                    if (item.getItemId() == R.id.menu_option_in_stock) {
+                                        item.setChecked(true);
+                                        filed = "quantity";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                filter = orderBy + filed + direction;
+                return true;
+            });
+
+            popupMenu.show();
+        });
+
+        binding.floatingActionButtonAddService.setOnClickListener(v -> {
+            Intent intent = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
+            intent.putExtra("isAdd", true);
+            startActivityForResult(intent, ADD_SERVICE);
+        });
     }
 
     public void switchFragment(Fragment fragment) {
@@ -76,11 +156,11 @@ public class ServiceManagementActivity extends AppCompatActivity {
         }
     }
 
-    public List<Service> getListServiceFromDatabase(int limit, int offset, String status, int isDeleted) {
+    public List<Service> getListServiceFromDatabase(int limit, int offset, String status, int isDeleted, String orderBy) {
         List<Service> listService = null;
 
         ServiceServiceImpl serviceService = new ServiceServiceImpl(ServiceManagementActivity.this);
-        listService = serviceService.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+        listService = serviceService.getServicesWithLimitAndOffset(limit, offset, status, isDeleted, orderBy);
 
         return listService;
     }

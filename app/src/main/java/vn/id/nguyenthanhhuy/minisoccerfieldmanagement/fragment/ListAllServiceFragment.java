@@ -57,7 +57,7 @@ public class ListAllServiceFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        loadService(10, 0, "", 0);
+        loadService(10, 0, "", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
     public void setWidget() {
@@ -103,14 +103,14 @@ public class ListAllServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-                    loadService(10, listAllService.size(), "", 0);
+                    loadService(10, listAllService.size(), "", 0, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });
     }
 
 
-    public void loadService(int limit, int offset, String status, int isDeleted) {
+    public void loadService(int limit, int offset, String status, int isDeleted, String orderBy) {
         if (isLoading) {
             return;
         }
@@ -126,7 +126,7 @@ public class ListAllServiceFragment extends Fragment {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted, orderBy);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
