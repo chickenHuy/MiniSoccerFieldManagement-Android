@@ -1,8 +1,5 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
-import static vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R.drawable.background_green_radius_10dp;
-
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,48 +9,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.CustomerDAOImpl;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IPriceListDAO;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.MembershipDAOImpl;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.PriceListDAOImpl;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditOrAddBookingActivity;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SchedulerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.BookingAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.SchedulerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentBookingBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.PriceList;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IBookingService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
@@ -71,6 +55,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
     private Calendar currentDate = Calendar.getInstance(Locale.ENGLISH);
     private ArrayList<Date> dates = new ArrayList<>();
     private CalendarAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     private ArrayList<CalendarDateModel> calendarList2 = new ArrayList<>();
 
 
@@ -82,6 +67,8 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
     private SchedulerAdapter schedulerAdapter;
 
+    private IFieldService fieldService;
+    private IBookingService bookingService;
 
     @Nullable
     @Override
@@ -100,31 +87,28 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         return binding.getRoot();
     }
 
+    private void loadScheduler(String date) {
+        Timestamp dateTimestamp = new Timestamp(Utils.convertStringToSqlDate(date).getTime());
+        bookingList = bookingService.findByDate(dateTimestamp);
+        bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
+        binding.recyclerTimeSlot.setAdapter(bookingAdapter);
+        binding.recyclerTimeSlot.setLayoutManager(layoutManager);
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bookingList = new ArrayList<>();
-        fieldList = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            Field field = new Field();
-            field.setName("Field " + i);
-            fieldList.add(field);
-        }
 
-        // Tạo dữ liệu mẫu cho bookingList
-        for (int i = 1; i <= 5; i++) {
-            Booking booking = new Booking();
-            booking.setId("Booking " + i);
-            bookingList.add(booking);
-        }
-        // Tạo một instance của BookingAdapter
-        bookingAdapter = new BookingAdapter(bookingList, fieldList);
-        RecyclerView recyclerTimeSlot = binding.recyclerTimeSlot;
-        recyclerTimeSlot.setAdapter(bookingAdapter);
+        fieldService = new FieldServiceImpl(getContext());
+        bookingService = new BookingServiceImpl(getContext());
+        bookingList = bookingService.findByDate(new Timestamp(System.currentTimeMillis()));
+        fieldList = fieldService.findAll();
+
+
+        bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
+        binding.recyclerTimeSlot.setAdapter(bookingAdapter);
         int numberOfColumns = fieldList.size();
-        List<Time> timeList = TimeGenerator.generateTimes();
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),numberOfColumns);
-        recyclerTimeSlot.setLayoutManager(layoutManager);
+        layoutManager = new GridLayoutManager(getContext(),numberOfColumns);
+        binding.recyclerTimeSlot.setLayoutManager(layoutManager);
 
 
         RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getContext(),1);
@@ -158,9 +142,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
     @Override
     public void onItemClick(String text, String date, String day) {
-//        binding.selectedDate.setText("Selected date: " + text);
-//        binding.selectedDD.setText("Selected DD: " + date);
-//        binding.selectedDay.setText("Selected day: " + day);
+        loadScheduler(text);
     }
 
     private void setUpClickListener() {
