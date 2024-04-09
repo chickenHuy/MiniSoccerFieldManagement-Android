@@ -53,17 +53,29 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view_service"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="1"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:scrollbarSize="0dp" />
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/list_view_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:divider="@null"
+            android:scrollbarSize="0dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center | bottom"
+            android:layout_marginBottom="10dp" />
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/linear_layout_tittle_cart_service"
@@ -140,9 +152,9 @@
         android:background="@drawable/background_circular_50_percent"
         android:backgroundTint="@color/primaryColor"
         android:paddingStart="70dp"
-        android:textAllCaps="false"
         android:paddingEnd="70dp"
         android:text="@string/add"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold"

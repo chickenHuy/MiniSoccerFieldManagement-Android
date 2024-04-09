@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,12 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -39,6 +45,8 @@ public class HomeFragment extends Fragment {
     private String[] imagePathArray;
     private ViewPagerAdapter viewPagerImageAdapter;
     private int duration = 7000;
+    private boolean isLoading = false;
+    private ExecutorService executorService;
 
     private Button buttonUpcoming;
     private Button buttonLive;
@@ -72,7 +80,7 @@ public class HomeFragment extends Fragment {
         text_view_name.setText(MainApplication.curentUser.getName());
         setRecyclerViewListService();
 
-        loadService(5, 0, "Active");
+        loadService(10, 0, "Active", 0);
     }
 
     public void setViewPagerImages() {
@@ -234,13 +242,7 @@ public class HomeFragment extends Fragment {
 
                 if (!recyclerView.canScrollHorizontally(1)) {
                     binding.progressBar.setVisibility(View.VISIBLE);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadService(3, listService.size(), "Active");
-                            binding.progressBar.setVisibility(View.GONE);
-                        }
-                    }, 1300);
+                    loadService(10, listService.size(), "Active", 0);
                 }
             }
         });
@@ -250,16 +252,45 @@ public class HomeFragment extends Fragment {
         recyclerViewListService.setAdapter(adapter);
     }
 
-    public void loadService(int limit, int offset, String status) {
-        ServiceServiceImpl serviceService = new ServiceServiceImpl(getContext());
-        List<Service> listServiceLoad = new ArrayList<>();
-        listServiceLoad = serviceService.getServicesWithLimitAndOffset(limit, offset, status, 0);
-        if (listServiceLoad.size() > 0) {
-            listService.addAll(listServiceLoad);
-            recyclerViewListService.getAdapter().notifyDataSetChanged();
+    public void loadService(int limit, int offset, String status, int isDeleted) {
+        if (isLoading) {
+            return;
         }
+
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
+        if (service.countServices(status, isDeleted) == listService.size()) {
+            return;
+        }
+
+        isLoading = true;
+        executorService = Executors.newSingleThreadExecutor();
+        binding.progressBar.setVisibility(View.VISIBLE);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listServiceLoad.size() > 0) {
+                            listService.addAll(listServiceLoad);
+                        }
+                        binding.progressBar.setVisibility(View.GONE);
+                        recyclerViewListService.getAdapter().notifyDataSetChanged();
+                        isLoading = false;
+                    }
+                });
+            }
+        });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (executorService != null) {
+            executorService.shutdownNow();
+        }
+    }
 
     @Override
     public void onDestroyView() {

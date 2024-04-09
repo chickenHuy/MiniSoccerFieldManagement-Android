@@ -12,17 +12,21 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentListServiceDeletedBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 
 public class ListServiceDeletedFragment extends Fragment {
     private FragmentListServiceDeletedBinding binding;
@@ -30,12 +34,12 @@ public class ListServiceDeletedFragment extends Fragment {
     private ListView listViewListService;
     private List<Service> listAllService;
     private ListViewServiceAdapter listViewServiceAdapter;
+    private boolean isLoading = false;
+    private ExecutorService executorService;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = FragmentListServiceDeletedBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -45,6 +49,10 @@ public class ListServiceDeletedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((ServiceManagementActivity) requireActivity()).switchButtonSelected(4);
+
+        setWidget();
+        listViewSetUp();
+        loadService(10, 0, "", 1);
     }
 
     public void setWidget() {
@@ -81,12 +89,61 @@ public class ListServiceDeletedFragment extends Fragment {
                 popup.show();
             }
         });
+
+        listViewListService.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    loadService(10, listAllService.size(), "", 1);
+                }
+            }
+        });
     }
 
 
-    public void getListServiceFromDatabase() {
-        listAllService.addAll(((ServiceManagementActivity) requireActivity()).getListServiceFromDatabase(10, 0, "", 1));
-        listViewServiceAdapter.notifyDataSetChanged();
+    public void loadService(int limit, int offset, String status, int isDeleted) {
+        if (isLoading) {
+            return;
+        }
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
+
+        if (service.countServices(status, isDeleted) == listAllService.size()) {
+            return;
+        }
+
+        isLoading = true;
+        executorService = Executors.newSingleThreadExecutor();
+        binding.progressBar.setVisibility(View.VISIBLE);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listServiceLoad.size() > 0) {
+                            listAllService.addAll(listServiceLoad);
+                        }
+
+                        binding.progressBar.setVisibility(View.GONE);
+                        listViewServiceAdapter.notifyDataSetChanged();
+                        isLoading = false;
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (executorService != null) {
+            executorService.shutdownNow();
+        }
     }
 
 
