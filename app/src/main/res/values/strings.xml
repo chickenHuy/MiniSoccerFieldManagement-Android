@@ -113,4 +113,13 @@
     <string name="revert">Revert</string>
     <string name="deleted">Deleted</string>
     <string name="kh_ch_h_ng_m_i">new customer</string>
+    <string name="booking_day">Booking day</string>
+    <string name="match_day">Match day</string>
+    <string name="customer">Customer</string>
+    <string name="to">To</string>
+    <string name="from">From</string>
+    <string name="price">Price:</string>
+    <string name="status">Status:</string>
+    <string name="phone">Phone</string>
+    <string name="customer_2">Customer</string>
 </resources>

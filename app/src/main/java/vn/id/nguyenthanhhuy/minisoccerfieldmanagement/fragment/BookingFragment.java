@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -63,12 +64,15 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
     private BookingAdapter bookingAdapter;
     private List<Booking> bookingList;
     private List<Field> fieldList;
-    private List<Time> timeList;
 
     private SchedulerAdapter schedulerAdapter;
 
     private IFieldService fieldService;
     private IBookingService bookingService;
+
+    public  interface onAdapterChangedListener{
+        void onAdapterChanged(String date);
+    }
 
     @Nullable
     @Override
@@ -84,6 +88,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
+        java.sql.Date date1 = new java.sql.Date(System.currentTimeMillis());
         return binding.getRoot();
     }
 
@@ -91,6 +96,12 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         Timestamp dateTimestamp = new Timestamp(Utils.convertStringToSqlDate(date).getTime());
         bookingList = bookingService.findByDate(dateTimestamp);
         bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
+        bookingAdapter.onAdapterChangedListener(new BookingFragment.onAdapterChangedListener() {
+            @Override
+            public void onAdapterChanged(String date) {
+                loadScheduler(date);
+            }
+        });
         binding.recyclerTimeSlot.setAdapter(bookingAdapter);
         binding.recyclerTimeSlot.setLayoutManager(layoutManager);
     }
@@ -132,6 +143,8 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -206,6 +219,5 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             recyclerView.scrollToPosition(todayPosition);
         }
     }
-
 
 }

@@ -63,7 +63,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 public class EditOrAddBookingActivity extends AppCompatActivity implements CalendarAdapter.OnItemClickListener  {
     private  int adapterPosition = -1;
     private RecyclerView recyclerView;
-    private TextView tvDateMonth;
+    private SimpleDateFormat sdfScheule;
+    private TextView tvDateMonth, tvSchedule;
     private ImageView ivCalendarNext;
     private ImageView ivCalendarPrevious;
     private ICustomerService customerService;
@@ -94,6 +95,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         setContentView(R.layout.activity_edit_or_add_booking);
         day = "Monday";
         dateSelected = new java.sql.Date(new Date().getTime());
+        sdfScheule = new SimpleDateFormat("dd/MM/yyyy");
         fieldSelected = new Field();
         tvDateMonth = findViewById(R.id.text_date_month);
         recyclerView = findViewById(R.id.recyclerView);
@@ -112,6 +114,8 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
         tvPrice = findViewById(R.id.tvPrice);
+        tvSchedule = findViewById(R.id.tvSchedule);
+        tvSchedule.setText(sdfScheule.format(dateSelected));
         edtPhoneNumber = findViewById(R.id.edtPhoneCustomer);
         edtCustomerName = findViewById(R.id.edtNameCustomer);
         bookingService = new BookingServiceImpl(this);
@@ -143,8 +147,6 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                 try {
 
                     LocalDate localDateFromSqlDate = dateSelected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-                    java.util.Date utilDate = new java.util.Date();
 
                     LocalDate localDate = LocalDate.now();
 
@@ -185,8 +187,13 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                         customer.setName(edtCustomerName.getText().toString());
                         customer.setPhoneNumber(edtPhoneNumber.getText().toString());
                         customer.setId(CurrentTimeID.nextId("C"));
+                        customer.setMemberShipId("1");
+                        customer.setTotalSpend(BigDecimal.ZERO);
                         customerService.add(customer);
                         booking.setCustomerId(customer.getId());
+                        IMembershipService membershipService = new MembershipServiceImpl(EditOrAddBookingActivity.this);
+                        Membership membership = membershipService.findBySpendAmount(new BigDecimal(9999));
+                        Toast.makeText(EditOrAddBookingActivity.this, membership.getId() , Toast.LENGTH_SHORT).show();
                     }
                     booking.setNote("");
                     Field fieldSelected = (Field) spinnerField.getSelectedItem();
@@ -378,6 +385,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     public void onItemClick(String text, String date, String day) {
         this.dateSelected = Utils.convertStringToSqlDate(text);
         this.day = Utils.convertDay(day);
+        tvSchedule.setText(sdfScheule.format(dateSelected));
         getPrice();
     }
 
