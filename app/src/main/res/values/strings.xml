@@ -80,6 +80,7 @@
     <string name="setting_membership">Setting Membership</string>
     <string name="membership_name">Membership name</string>
     <string name="minimum_spend_amount">Minimum spend amount</string>
+    <string name="apply_for_customer">Apply for customer spending over</string>
 
     <string name="services_payment">Services payment</string>
     <string name="customer_information">Customer information</string>
@@ -108,4 +109,10 @@
     <string name="additional_fee">Additional fee</string>
     <string name="add_booking">Add booking</string>
     <string name="customer_name">Customer name</string>
+
+    <string name="employee_management">Employee management</string>
+    <string name="edit">Edit</string>
+    <string name="dismissal">Dimissal</string>
+    <string name="add_employee">Add employee</string>
+    <string name="edit_employee">Edit employee</string>
 </resources>

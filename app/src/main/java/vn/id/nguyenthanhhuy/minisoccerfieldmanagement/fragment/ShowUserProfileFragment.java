@@ -37,6 +37,7 @@ import java.io.InputStream;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ChangePasswordActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EmployeeManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
@@ -206,6 +207,14 @@ public class ShowUserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ServiceManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.buttonEmplManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EmployeeManagementActivity.class);
                 startActivity(intent);
             }
         });

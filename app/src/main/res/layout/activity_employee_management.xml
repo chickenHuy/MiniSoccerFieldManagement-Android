@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingStart="10dp"
+    android:paddingTop="15dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="15dp"
+    tools:context=".activity.EmployeeManagementActivity">
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:orientation="vertical">
+
+        <FrameLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/text_view_activity_tittle"
+                style="@style/header_text_custom"
+                android:layout_gravity="center"
+                android:text="@string/employee_management"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_back_arrow"
+                android:onClick="goBack" />
+        </FrameLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:background="@drawable/background_border_1dp_radius_40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="15dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="7dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_view_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search"
+                android:inputType="text"
+                android:lines="1"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="@color/whiteGray"
+                android:drawableTop="@drawable/ic_search"
+                android:drawableTint="@color/primaryColor"
+                android:paddingStart="1dp"
+                android:paddingTop="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_list_employee"
+            style="@style/width_mp_height_wc"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="@color/white"
+            android:orientation="vertical"
+            android:scrollbarSize="0dp" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_employee"
+                style="@style/width_mp_height_wc" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom | end"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primaryColor"
+        android:onClick="onHomeClick"
+        android:src="@drawable/ic_big_addition"
+        app:elevation="3dp"
+        app:tint="@color/white" />
+</FrameLayout>
