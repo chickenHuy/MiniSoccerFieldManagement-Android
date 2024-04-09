@@ -12,7 +12,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "mini_soccer_field_mgmt.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
