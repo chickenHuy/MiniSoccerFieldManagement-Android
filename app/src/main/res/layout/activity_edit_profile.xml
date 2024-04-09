@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp">
 
         <TextView
-            android:id="@+id/text_view_activity_tittle"
+            android:id="@+id/text_view_profile_tittle"
             style="@style/header_text_custom"
             android:layout_gravity="center"
             android:text="@string/edit_profile"
@@ -31,6 +31,7 @@
 
     <LinearLayout
         style="@style/width_mp_height_wc"
+        android:id="@+id/linear_layout_status"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:paddingTop="5dp"
@@ -167,6 +168,21 @@
             android:popupBackground="@drawable/background_white_radius_10dp"
             android:popupElevation="5dp" />
     </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/text_input_layout_custom"
+        android:layout_marginTop="10dp"
+        android:id="@+id/layout_username">
+
+        <EditText
+            android:id="@+id/edit_text_username"
+            style="@style/width_mp_height_wc"
+            android:autofillHints="emailAddress"
+            android:hint="@string/username"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"

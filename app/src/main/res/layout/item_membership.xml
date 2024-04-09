@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="5dp"
-            android:text="for customers spending from"
+            android:text="@string/apply_for_customer"
             android:textColor="#7A7A7A"
             android:textSize="12dp" />
 

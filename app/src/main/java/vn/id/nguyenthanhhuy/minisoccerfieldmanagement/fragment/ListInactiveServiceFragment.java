@@ -40,9 +40,7 @@ public class ListInactiveServiceFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = FragmentListInactiveServiceBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -55,7 +53,7 @@ public class ListInactiveServiceFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        loadService(10, 0, "Inactive", 0);
+        loadService(10, 0, "Inactive", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
     public void setWidget() {
@@ -100,14 +98,14 @@ public class ListInactiveServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !isLoading) {
-                    loadService(10, listAllService.size(), "Inactive", 0);
+                    loadService(10, listAllService.size(), "Inactive", 0, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });
     }
 
 
-    public void loadService(int limit, int offset, String status, int isDeleted) {
+    public void loadService(int limit, int offset, String status, int isDeleted, String orderBy) {
         if (isLoading) {
             return;
         }
@@ -123,7 +121,7 @@ public class ListInactiveServiceFragment extends Fragment {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted);
+                final List<Service> listServiceLoad = service.getServicesWithLimitAndOffset(limit, offset, status, isDeleted, orderBy);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

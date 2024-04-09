@@ -169,6 +169,65 @@ public class UserDAOImpl implements IUserDAO {
         }
         return user;
     }
+    @Override
+    public List<User> findUser(String searchParam) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<User> users = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String[] projection = {
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_NAME,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_GENDER,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_DATE_OF_BIRTH,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_IMAGE,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_PHONE_NUMBER,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_USER_NAME,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_PASSWORD,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT
+            };
+            String selection = SoccerFieldContract.UserEntry.COLUMN_NAME_IS_DELETED + " = ? AND " + SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE + " = ? AND (" + SoccerFieldContract.UserEntry.COLUMN_NAME_PHONE_NUMBER + " LIKE ? OR " + SoccerFieldContract.UserEntry.COLUMN_NAME_NAME + " LIKE ?)";
+            String[] selectionArgument = {"0", "Staff", "%" + searchParam + "%", "%" + searchParam + "%"};
+
+            cursor = db.query(
+                    SoccerFieldContract.UserEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgument,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                User user = new User();
+                user.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ID)));
+                user.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_NAME)));
+                user.setGender(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_GENDER)));
+                user.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_DATE_OF_BIRTH)));
+                user.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_IMAGE)));
+                user.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_PHONE_NUMBER)));
+                user.setUserName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_USER_NAME)));
+                user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_PASSWORD)));
+                user.setRole(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE)));
+                user.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_TYPE)));
+                user.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT))));
+                user.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT))));
+
+                users.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return users;
+    }
 
     @Override
     public List<User> findAll() {
@@ -203,7 +262,7 @@ public class UserDAOImpl implements IUserDAO {
                     null
             );
 
-            if (cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 User user = new User();
                 user.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_ID)));
                 user.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_NAME)));

@@ -71,6 +71,7 @@
     <string name="membership_name">Tên hạn mức</string>
     <string name="minimum_spend_amount">Chi tiêu tối thiểu</string>
 
+    <string name="apply_for_customer">Áp dụng cho khách có mức chi tiêu từ</string>
     <string name="services_payment">Thanh toán các dịch vụ</string>
     <string name="customer_information">Thông tin khách hàng</string>
     <string name="add_customer">Thêm khách hàng</string>
@@ -109,12 +110,24 @@
     <string name="add_booking">Add booking</string>
     <string name="customer_name">Customer name</string>
     <string name="kh_ch_h_ng_m_i">new customer</string>
+    <string name="price">Giá</string>
+    <string name="filter_default">Mặc định</string>
+    <string name="increase">Tăng dần</string>
+    <string name="decrease">Giảm dần</string>
+    <string name="service_name">Tên</string>
+    <string name="service_price">Giá</string>
+    <string name="service_quantity">Số lượng</string>
+    <string name="service_description">Mô tả</string>
+    <string name="employee_management">Quản lí nhân viên</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="dismissal">Sa thải</string>
+    <string name="add_employee">Thêm nhân viên</string>
+    <string name="edit_employee">Chỉnh sửa hồ sơ nhân viên</string>
     <string name="booking_day">Booking day</string>
     <string name="match_day">Match day</string>
     <string name="customer">Customer</string>
     <string name="to">To</string>
     <string name="from">From</string>
-    <string name="price">Price:</string>
     <string name="status">Status:</string>
     <string name="phone">Phone</string>
     <string name="customer_2">Customer</string>

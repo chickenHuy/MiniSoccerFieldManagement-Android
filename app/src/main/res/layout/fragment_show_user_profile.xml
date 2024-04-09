@@ -337,12 +337,13 @@
                     style="@style/content_text_custom"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/account_management"
+                    android:text="@string/employee_management"
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
+                    android:id="@+id/button_empl_management"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"
                     android:drawableTint="@color/blackGray"

@@ -367,23 +367,20 @@ public class ServiceDAOImpl implements IServiceDAO {
     }
 
     @Override
-    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted) {
+    public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted, String orderBy) {
         List<Service> services = new ArrayList<>();
         SQLiteDatabase db = dbHandler.getReadableDatabase();
 
         String query = null;
         Cursor cursor = null;
         if (isDeleted == -1) {
-            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " LIMIT ? OFFSET ?";
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " " + orderBy + " LIMIT ? OFFSET ?";
             cursor = db.rawQuery(query, new String[]{String.valueOf(limit), String.valueOf(offset)});
-        } else
-        if(status.equals("")){
-            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?  LIMIT ? OFFSET ?";
+        } else if (status.equals("")) {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ? " + orderBy + " LIMIT ? OFFSET ?";
             cursor = db.rawQuery(query, new String[]{String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
-        }
-        else
-        {
-            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?  LIMIT ? OFFSET ?";
+        } else {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ? " + orderBy + "  LIMIT ? OFFSET ?";
             cursor = db.rawQuery(query, new String[]{status, String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
         }
 
@@ -417,13 +414,10 @@ public class ServiceDAOImpl implements IServiceDAO {
         if (isDeleted == -1) {
             query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME;
             cursor = db.rawQuery(query, null);
-        } else
-        if(status.equals("")){
+        } else if (status.equals("")) {
             query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
             cursor = db.rawQuery(query, new String[]{String.valueOf(isDeleted)});
-        }
-        else
-        {
+        } else {
             query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
             cursor = db.rawQuery(query, new String[]{status, String.valueOf(isDeleted)});
         }

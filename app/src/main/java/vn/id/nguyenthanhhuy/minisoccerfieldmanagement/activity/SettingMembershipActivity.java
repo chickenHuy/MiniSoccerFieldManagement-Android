@@ -82,6 +82,10 @@ public class SettingMembershipActivity extends AppCompatActivity {
         });
     }
 
+    public void goBack(View view) {
+        finish();
+    }
+
     private void setWigets() {
         recyclerViewMemberShip = findViewById(R.id.recycler_view_membership_setting);
         btnAddMembership = findViewById(R.id.btnAddMembership);
