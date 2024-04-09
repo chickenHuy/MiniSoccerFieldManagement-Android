@@ -8,6 +8,7 @@
     <string name="service_management">Quản lí dịch vụ</string>
     <string name="field_management">Quản lí sân bóng</string>
     <string name="invoice_management">Quản lí hóa đơn</string>
+    <string name="customer_management">Quản lí khách hàng</string>
 
     <string name="login">Đăng nhập</string>
     <string name="username">Tên người dùng</string>

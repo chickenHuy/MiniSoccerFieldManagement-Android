@@ -10,6 +10,7 @@
     <string name="service_management">Service management</string>
     <string name="field_management">Field management</string>
     <string name="invoice_management">Invoice management</string>
+    <string name="customer_management">Customer management</string>
 
     <string name="login">Login</string>
     <string name="username">Username</string>
