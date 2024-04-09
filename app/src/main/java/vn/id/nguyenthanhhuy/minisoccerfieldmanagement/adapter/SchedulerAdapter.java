@@ -1,24 +1,21 @@
-package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
+package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.BookingAdapter;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 
 public class SchedulerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private List<Time> timeList;
+    private List<LocalTime> timeList;
     private static final int TYPE_TIME_SCHEDULER = 1;
     private static final int TYPE_FIELD_NAME = 0;
 
@@ -38,10 +35,10 @@ public class SchedulerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View view ;
         if (viewType == TYPE_FIELD_NAME) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_corner, parent, false);
-            return new SchedulerAdapter.FieldNameViewHolder(view);
+            return new FieldNameViewHolder(view);
         }
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time_scheduler, parent, false);
-        return new SchedulerAdapter.TimeSchedulerViewHolder(view);
+        return new TimeSchedulerViewHolder(view);
 
 
     }
@@ -51,8 +48,8 @@ public class SchedulerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (position == 0) {
             return;
         } else
-        if (holder instanceof SchedulerAdapter.TimeSchedulerViewHolder) {
-            ((SchedulerAdapter.TimeSchedulerViewHolder) holder).tvTime.setText(timeList.get(position -1).toString().substring(0, 5));
+        if (holder instanceof TimeSchedulerViewHolder) {
+            ((TimeSchedulerViewHolder) holder).tvTime.setText(timeList.get(position -1).toString().substring(0, 5));
         }
     }
 
