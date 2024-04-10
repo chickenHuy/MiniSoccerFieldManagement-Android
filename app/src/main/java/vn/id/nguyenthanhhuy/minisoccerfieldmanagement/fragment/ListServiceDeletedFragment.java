@@ -37,6 +37,8 @@ public class ListServiceDeletedFragment extends Fragment {
     private boolean isLoading = false;
     private ExecutorService executorService;
 
+    private CustomDialogFragment customDialogFragment;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,6 +78,36 @@ public class ListServiceDeletedFragment extends Fragment {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.menu_option_revert) {
+                            boolean isSuccess = false;
+                            ServiceServiceImpl service = new ServiceServiceImpl(getContext());
+                            try {
+                                service.revert(listAllService.get(position).getId());
+                                isSuccess = true;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (isSuccess) {
+                                customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        listAllService.remove(position);
+                                        listViewServiceAdapter.notifyDataSetChanged();
+                                        customDialogFragment.dismiss();
+                                    }
+                                });
+                                customDialogFragment.show(getParentFragmentManager(), "custom_dialog_notify");
+                            }
+                            else{
+                                customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "error", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        listAllService.remove(position);
+                                        listViewServiceAdapter.notifyDataSetChanged();
+                                        customDialogFragment.dismiss();
+                                    }
+                                });
+                                customDialogFragment.show(getParentFragmentManager(), "custom_dialog_notify");
+                            }
                             return true;
                         }
                         return true;

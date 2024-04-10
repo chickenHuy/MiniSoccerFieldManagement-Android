@@ -10,6 +10,7 @@ public interface IServiceService {
     public boolean update(Service service);
 
     public boolean softDelete(String id);
+    public boolean revert(String id);
 
     public Service findById(String id);
 

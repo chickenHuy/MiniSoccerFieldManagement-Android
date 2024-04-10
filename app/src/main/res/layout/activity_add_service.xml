@@ -19,12 +19,12 @@
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
-            android:drawableStart="@drawable/ic_back_arrow"
-            android:onClick="goBack" />
+            android:drawableStart="@drawable/ic_back_arrow" />
     </FrameLayout>
 
     <ScrollView
@@ -147,6 +147,21 @@
                     android:id="@+id/edit_text_service_quantity"
                     style="@style/width_mp_height_wc"
                     android:hint="@string/service_quantity"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="17sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_service_sold"
+                style="@style/text_input_layout_custom"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edit_text_service_sold"
+                    style="@style/width_mp_height_wc"
+                    android:hint="@string/sold"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textSize="17sp" />

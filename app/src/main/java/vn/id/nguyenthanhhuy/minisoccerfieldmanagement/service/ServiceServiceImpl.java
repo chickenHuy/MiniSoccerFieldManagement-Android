@@ -32,6 +32,10 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
+    public boolean revert(String id) {
+        return serviceDAO.revert(id);
+    }
+    @Override
     public Service findById(String id) {
         return serviceDAO.findById(id);
     }

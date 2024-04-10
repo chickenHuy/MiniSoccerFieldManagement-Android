@@ -66,6 +66,13 @@ public class AddServiceActivity extends AppCompatActivity {
 
     public void setWidget() {
 
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         if (option.equals("add")) {
             binding.textViewActivityTittle.setText(getResources().getString(R.string.add_service));
         } else if (option.equals("edit")) {
@@ -90,16 +97,19 @@ public class AddServiceActivity extends AppCompatActivity {
             binding.textViewActivityTittle.setText(getResources().getString(R.string.view_service_details));
 
             binding.imageButtonAddImage.setVisibility(View.GONE);
-            binding.textViewRequire0.setVisibility(View.GONE);
-            binding.textViewRequire1.setVisibility(View.GONE);
-            binding.textViewRequire2.setVisibility(View.GONE);
-            binding.textViewRequire3.setVisibility(View.GONE);
+            binding.textViewRequire0.setVisibility(View.INVISIBLE);
+            binding.textViewRequire1.setVisibility(View.INVISIBLE);
+            binding.textViewRequire2.setVisibility(View.INVISIBLE);
+            binding.textViewRequire3.setVisibility(View.INVISIBLE);
 
             binding.buttonSave.setVisibility(View.GONE);
+            binding.textInputLayoutServiceSold.setVisibility(View.VISIBLE);
+
             binding.editTextServiceName.setKeyListener(null);
             binding.editTextServiceUnit.setKeyListener(null);
             binding.editTextServicePrice.setKeyListener(null);
             binding.editTextServiceQuantity.setKeyListener(null);
+            binding.editTextServiceSold.setKeyListener(null);
             binding.editTextServiceDescription.setKeyListener(null);
             binding.switchActive.setKeyListener(null);
 
@@ -107,6 +117,7 @@ public class AddServiceActivity extends AppCompatActivity {
             binding.editTextServiceUnit.setText(currentService.getUnit());
             binding.editTextServicePrice.setText(Utils.formatVND(currentService.getPrice()));
             binding.editTextServiceQuantity.setText(String.valueOf(currentService.getQuantity()));
+            binding.editTextServiceSold.setText(String.valueOf(currentService.getSold()));
             binding.editTextServiceDescription.setText(currentService.getDescription());
             if (currentService.getStatus() != null && currentService.getStatus().equals("Active")) {
                 binding.switchActive.setChecked(true);

@@ -102,6 +102,22 @@ public class ServiceDAOImpl implements IServiceDAO {
     }
 
     @Override
+    public boolean revert(String id) {
+        try {
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED, 0);
+
+            long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public Service findById(String id) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         Service service = null;
