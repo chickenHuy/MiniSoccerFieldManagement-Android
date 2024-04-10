@@ -15,6 +15,8 @@ public interface IUserDAO {
 
     public User findById(String id);
 
+    public List<User> findUser(String searchparam);
+
     public List<User> findAll();
 
     public User verifyLoginData(String username, String password);

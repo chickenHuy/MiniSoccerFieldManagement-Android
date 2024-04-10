@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_service_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/linear_layout_service_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/background_white_radius_10dp"
+        android:backgroundTint="@color/itemServiceBackgroundColor"
+        android:elevation="2dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            style="@style/width_wc_height_wc"
+            android:background="@drawable/background_green_radius_10dp"
+            android:backgroundTint="#E6E6E6"
+            android:paddingEnd="1.5dp"
+            android:paddingBottom="1.5dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view_empl_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/background_green_radius_10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:scaleType="fitXY"
+                app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="@string/staff"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/text_view_full_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Full name"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/phone_number"
+                    android:textColor="@color/blackGray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/blackGray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_view_phone_number"
+                    style="@style/width_wc_height_wc"
+                    android:inputType="phone"
+                    android:text="0889192145"
+                    android:textColor="@color/blackGray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_quantity"
+                    style="@style/width_wc_height_wc"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/text_view_quantity"
+                        style="@style/width_wc_height_wc"
+                        android:text="Quantity"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="x "
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

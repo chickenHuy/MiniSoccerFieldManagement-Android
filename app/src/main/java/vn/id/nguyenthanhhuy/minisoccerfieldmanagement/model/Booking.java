@@ -1,9 +1,10 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-public class Booking {
+public class Booking implements Serializable {
     private String id;
     private String customerId;
     private String fieldId;

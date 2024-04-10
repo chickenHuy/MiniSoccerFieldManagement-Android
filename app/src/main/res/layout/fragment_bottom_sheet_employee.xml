@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/width_mp_height_wc">
+
+    <LinearLayout
+        style="@style/width_mp_height_wc"
+        android:background="@drawable/background_radius_top_27dp"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:paddingStart="15dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="15dp">
+
+        <RelativeLayout
+            style="@style/width_mp_height_wc"
+            android:background="@drawable/background_radius_top_27dp"
+            android:backgroundTint="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp">
+
+            <LinearLayout
+                android:id="@+id/image_layout"
+                style="@style/width_wc_height_wc"
+                android:background="@drawable/background_green_radius_10dp"
+                android:backgroundTint="#E6E6E6"
+                android:paddingEnd="1.5dp"
+                android:paddingBottom="1.5dp"
+                android:layout_alignParentEnd="true">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_empl_avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/background_green_radius_10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:scaleType="fitXY"
+                    app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/table_layout"
+                style="@style/width_mp_height_wc"
+                android:layout_toStartOf="@id/image_layout"
+                android:layout_marginTop="10dp"
+                android:layout_alignBottom="@id/image_layout">
+
+                <!-- Your TableRows go here -->
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="23dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/width_wc_height_wc"
+                            android:text="@string/full_name"
+                            android:textColor="@color/blackGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            style="@style/width_wc_height_wc"
+                            android:text=": "
+                            android:textColor="@color/blackGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/text_view_full_name"
+                            style="@style/width_wc_height_wc"
+                            android:inputType="phone"
+                            android:text="Nguyễn Thiện Luân"
+                            android:textColor="@color/primaryColor"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="23dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/width_wc_height_wc"
+                            android:text="@string/phone_number"
+                            android:textColor="@color/blackGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            style="@style/width_wc_height_wc"
+                            android:text=": "
+                            android:textColor="@color/blackGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/text_view_phone_number"
+                            style="@style/width_wc_height_wc"
+                            android:inputType="phone"
+                            android:text="0889192145"
+                            android:textColor="@color/primaryColor"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </TableRow>
+
+            </TableLayout>
+        </RelativeLayout>
+
+        <TableLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="23dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/username"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_user_name"
+                        style="@style/width_wc_height_wc"
+                        android:inputType="phone"
+                        android:text="thienluan"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="23dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/date_of_birth"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_date_of_birth"
+                        style="@style/width_wc_height_wc"
+                        android:inputType="date"
+                        android:text="08/12/2003"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="23dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/gender"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_gender"
+                        style="@style/width_wc_height_wc"
+                        android:inputType="phone"
+                        android:text="@string/men"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="23dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/role"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_role"
+                        style="@style/width_wc_height_wc"
+                        android:inputType="phone"
+                        android:text="@string/staff"
+                        android:textColor="@color/blackGray"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_edit_employee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="@color/primaryColor"
+                android:text="@string/edit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_dismissal_membership"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="@color/primaryColor"
+                android:text="@string/dismissal"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
