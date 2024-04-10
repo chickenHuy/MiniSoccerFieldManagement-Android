@@ -82,7 +82,7 @@ public class ServiceFragment extends Fragment {
         setListView();
         setRecyclerViewCartService();
 
-        loadService(10, 0, "Active", 0, "");
+        loadService(10, 0, "Active", 0, "ORDER BY id DESC");
     }
 
     public void getData() {
@@ -151,7 +151,7 @@ public class ServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-                    loadService(10, listService.size(), "Active", 0, "");
+                    loadService(10, listService.size(), "Active", 0, "ORDER BY id DESC");
                 }
             }
         });

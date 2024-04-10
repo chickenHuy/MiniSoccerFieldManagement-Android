@@ -52,7 +52,7 @@ public class ListServiceDeletedFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        loadService(10, 0, "", 1, ((ServiceManagementActivity) requireActivity()).filter);
+        loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "", 1, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
     public void setWidget() {
@@ -68,19 +68,14 @@ public class ListServiceDeletedFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PopupMenu popup = new PopupMenu(new ContextThemeWrapper(requireContext(), R.style.popup_menu_background_white_radius_10dp), view);
                 popup.getMenuInflater().inflate(R.menu.service_management_menu, popup.getMenu());
-                popup.getMenu().findItem(R.id.menu_option_revert).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_view_detail).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_edit).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_active).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_inactive).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_delete).setVisible(false);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.menu_option_view_detail) {
-                            return true;
-                        }
-                        if (item.getItemId() == R.id.menu_option_active) {
-                            return true;
-                        }
-                        if (item.getItemId() == R.id.menu_option_inactive) {
-                            return true;
-                        }
-                        if (item.getItemId() == R.id.menu_option_delete) {
+                        if (item.getItemId() == R.id.menu_option_revert) {
                             return true;
                         }
                         return true;
@@ -98,7 +93,7 @@ public class ListServiceDeletedFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-                    loadService(10, 0, "", 1, ((ServiceManagementActivity) requireActivity()).filter);
+                    loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "", 1, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });

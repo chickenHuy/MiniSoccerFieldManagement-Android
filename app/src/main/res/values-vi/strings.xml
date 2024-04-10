@@ -108,6 +108,7 @@
     <string name="deleted">Đã xóa</string>
     <string name="add_booking">Add booking</string>
     <string name="customer_name">Customer name</string>
+    <string name="edit">Chỉnh sửa</string>
     <string name="kh_ch_h_ng_m_i">new customer</string>
     <string name="price">Giá</string>
     <string name="filter_default">Mặc định</string>
@@ -117,4 +118,13 @@
     <string name="service_price">Giá</string>
     <string name="service_quantity">Số lượng</string>
     <string name="service_description">Mô tả</string>
+    <string name="add_service">Thêm dịch vụ</string>
+    <string name="update_service">Chỉnh sửa dịch vụ</string>
+    <string name="view_service_details">Xem chi tiết dịch vụ</string>
+    <string name="require">(Bắt buộc)</string>
+    <string name="error_contains_non_number_character">Chứa ký tự không phải số</string>
+    <string name="success">Thành công</string>
+    <string name="failed">Không thành công</string>
+    <string name="warning">Cảnh báo</string>
+    <string name="string_continue">Tiếp tục</string>
 </resources>

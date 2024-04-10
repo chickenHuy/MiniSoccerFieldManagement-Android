@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.AddServiceActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentListAllServiceBinding;
@@ -39,6 +41,9 @@ public class ListAllServiceFragment extends Fragment {
     private ListViewServiceAdapter listViewServiceAdapter;
     private boolean isLoading = false;
     private ExecutorService executorService;
+
+    private CustomDialogFragment customDialogWarningFragment;
+    private CustomDialogFragment customDialogFragment;
 
     @Nullable
     @Override
@@ -57,7 +62,7 @@ public class ListAllServiceFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        loadService(10, 0, "", 0, ((ServiceManagementActivity) requireActivity()).filter);
+        loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
     public void setWidget() {
@@ -74,18 +79,42 @@ public class ListAllServiceFragment extends Fragment {
                 PopupMenu popup = new PopupMenu(new ContextThemeWrapper(requireContext(), R.style.popup_menu_background_white_radius_10dp), view);
                 popup.getMenuInflater().inflate(R.menu.service_management_menu, popup.getMenu());
                 popup.getMenu().findItem(R.id.menu_option_revert).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_active).setVisible(false);
+                popup.getMenu().findItem(R.id.menu_option_inactive).setVisible(false);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.menu_option_view_detail) {
+                            ((ServiceManagementActivity) requireActivity()).viewServiceDetails(listAllService.get(position).getId());
                             return true;
                         }
-                        if (item.getItemId() == R.id.menu_option_active) {
-                            return true;
-                        }
-                        if (item.getItemId() == R.id.menu_option_inactive) {
+                        if (item.getItemId() == R.id.menu_option_edit) {
+                            ((ServiceManagementActivity) requireActivity()).editService(listAllService.get(position).getId());
                             return true;
                         }
                         if (item.getItemId() == R.id.menu_option_delete) {
+                            customDialogWarningFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.warning), "Do you want to delete this service?", "warning", "No", "Yes", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogWarningFragment.dismiss();
+                                }
+                            }, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (((ServiceManagementActivity) requireActivity()).deleteService(listAllService.get(position).getId())) {
+                                        customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                listAllService.remove(position);
+                                                listViewServiceAdapter.notifyDataSetChanged();
+                                                customDialogFragment.dismiss();
+                                                customDialogWarningFragment.dismiss();
+                                            }
+                                        });
+                                        customDialogFragment.show(getParentFragmentManager(), "custom_dialog_notify");
+                                    }
+                                }
+                            });
+                            customDialogWarningFragment.show(getParentFragmentManager(), "custom_dialog_notify");
                             return true;
                         }
                         return true;
@@ -103,7 +132,7 @@ public class ListAllServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-                    loadService(10, listAllService.size(), "", 0, ((ServiceManagementActivity) requireActivity()).filter);
+                    loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, listAllService.size(), "", 0, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });

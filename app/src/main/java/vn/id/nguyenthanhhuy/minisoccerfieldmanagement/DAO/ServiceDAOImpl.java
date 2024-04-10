@@ -3,11 +3,13 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +26,13 @@ public class ServiceDAOImpl implements IServiceDAO {
 
     public ServiceDAOImpl(Context context) {
         this.dbHandler = new DBHandler(context);
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 70 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequiresApi(api = 26)
@@ -132,6 +141,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
                 service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
                 service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
@@ -185,6 +195,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
                 service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
@@ -243,6 +254,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
                 service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
@@ -300,6 +312,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
                 service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
@@ -394,6 +407,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
             service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
             service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+            service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
             service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
             service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
             service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));

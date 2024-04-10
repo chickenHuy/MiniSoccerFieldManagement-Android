@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         text_view_name.setText(MainApplication.curentUser.getName());
         setRecyclerViewListService();
 
-        loadService(10, 0, "Active", 0, "");
+        loadService(10, 0, "Active", 0, "ORDER BY id DESC");
     }
 
     public void setViewPagerImages() {
@@ -242,7 +242,7 @@ public class HomeFragment extends Fragment {
 
                 if (!recyclerView.canScrollHorizontally(1)) {
                     binding.progressBar.setVisibility(View.VISIBLE);
-                    loadService(10, listService.size(), "Active", 0, "");
+                    loadService(10, listService.size(), "Active", 0, "ORDER BY id DESC");
                 }
             }
         });

@@ -60,17 +60,26 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.textViewServiceUnit.setText(service.getUnit());
         holder.textViewServicePrice.setText(Utils.formatVND(service.getPrice()));
 
-        if(isCartService){
+        if (isCartService) {
             holder.textViewQuantity.setText("x" + String.valueOf(service.getOrderQuantity()));
         }
 
-        try {
-            InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            holder.imageViewServiceImage.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (service.getImage() == null) {
+            try {
+                InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                holder.imageViewServiceImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                holder.imageViewServiceImage.setImageBitmap(Utils.convertByteToBitmap(service.getImage()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
 
         if (isCartService) {
             holder.buttonClose.setVisibility(View.VISIBLE);

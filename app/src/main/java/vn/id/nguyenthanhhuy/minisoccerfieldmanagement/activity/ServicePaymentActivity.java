@@ -26,6 +26,7 @@ import java.util.Date;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityServicePaymentBinding;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomDialogFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
@@ -121,43 +122,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
 
     public void onButtonPaymentClick(View view) {
         paymentSuccess = true;
-
-        Dialog dialog = new Dialog(this, R.style.rounded_corners_dialog);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.layout_custom_dialog_payment_notify, null);
-
-        ((AppCompatButton) dialogView.findViewById(R.id.button_home_page)).setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent intent = new Intent(ServicePaymentActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-        ((AppCompatButton) dialogView.findViewById(R.id.button_service_page)).setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("paymentSuccess", paymentSuccess);
-            setResult(ServiceFragment.PAYMENT_SUCCESSFULLY, resultIntent);
-            finish();
-        });
-
-        ImageView imageViewIconNotify = dialogView.findViewById(R.id.image_view_icon_notify);
-        TextView textViewNotifyMessage = dialogView.findViewById(R.id.text_view_notify_message);
-        if (paymentSuccess) {
-            imageViewIconNotify.setImageResource(R.drawable.image_success);
-            textViewNotifyMessage.setText(R.string.payment_successfully);
-        } else {
-            imageViewIconNotify.setImageResource(R.drawable.image_error);
-            textViewNotifyMessage.setText(R.string.payment_error);
-            TextView textViewDetailNotifyMessage = dialogView.findViewById(R.id.text_view_detail_notify_message);
-            textViewDetailNotifyMessage.setVisibility(View.VISIBLE);
-            textViewDetailNotifyMessage.setText("Lí do thanh toán thất bại!!!");
-        }
-
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fall_down);
-        imageViewIconNotify.startAnimation(animation);
-
-        dialog.setContentView(dialogView);
-        dialog.show();
-
+        CustomDialogFragment customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
+        customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
     }
 }

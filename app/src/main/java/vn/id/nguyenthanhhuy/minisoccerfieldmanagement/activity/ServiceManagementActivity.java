@@ -1,5 +1,6 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.PopupMenu;
@@ -28,13 +29,16 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl
 
 public class ServiceManagementActivity extends AppCompatActivity {
     private ActivityServiceManagementBinding binding;
+    public int NUMBER_SERVICE_LOAD = 10;
     public String orderBy = "ORDER BY ";
     public String filed = "id";
-    public String direction = " ASC";
+    public String direction = " DESC";
     public String filter = orderBy + filed + direction;
 
     public static final int ADD_SERVICE = 1;
-    public static final int ADD_SERVICE_SUCCESSFULLY = 1;
+    public static final int ADD_SERVICE_SUCCESSFULLY = 2;
+    public static final int EDIT_SERVICE = 3;
+    public static final int EDIT_SERVICE_SUCCESSFULLY = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +139,7 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
         binding.floatingActionButtonAddService.setOnClickListener(v -> {
             Intent intent = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
-            intent.putExtra("isAdd", true);
+            intent.putExtra("option", "add");
             startActivityForResult(intent, ADD_SERVICE);
         });
     }
@@ -165,6 +169,24 @@ public class ServiceManagementActivity extends AppCompatActivity {
         return listService;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_SERVICE) {
+            if (resultCode == ADD_SERVICE_SUCCESSFULLY) {
+                switchFragment(new ListAllServiceFragment());
+            }
+        }
+        if (requestCode == EDIT_SERVICE) {
+            if (resultCode == EDIT_SERVICE_SUCCESSFULLY) {
+                switchFragment(new ListAllServiceFragment());
+            }
+        }
+        if (resultCode == EDIT_SERVICE_SUCCESSFULLY) {
+            switchFragment(new ListAllServiceFragment());
+        }
+    }
+
     public void switchButton(AppCompatButton buttonActive, AppCompatButton buttonInactive1, AppCompatButton buttonInactive2, AppCompatButton buttonInactive3) {
 
         buttonActive.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
@@ -178,5 +200,29 @@ public class ServiceManagementActivity extends AppCompatActivity {
 
         buttonInactive3.setBackgroundTintList(getResources().getColorStateList(R.color.whiteGray));
         buttonInactive3.setTextColor(getResources().getColor(R.color.black, getTheme()));
+    }
+
+    public void viewServiceDetails(String serviceId) {
+        Intent intent = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
+        intent.putExtra("option", "view");
+        intent.putExtra("serviceId", serviceId);
+        startActivity(intent);
+    }
+
+    public void editService(String serviceId) {
+        Intent intent = new Intent(ServiceManagementActivity.this, AddServiceActivity.class);
+        intent.putExtra("option", "edit");
+        intent.putExtra("serviceId", serviceId);
+        startActivityForResult(intent, EDIT_SERVICE);
+    }
+
+    public boolean deleteService(String serviceId) {
+        try {
+            ServiceServiceImpl serviceService = new ServiceServiceImpl(ServiceManagementActivity.this);
+            serviceService.softDelete(serviceId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
