@@ -100,6 +100,7 @@ public class ListAllServiceFragment extends Fragment {
                             }, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    customDialogWarningFragment.dismiss();
                                     if (((ServiceManagementActivity) requireActivity()).deleteService(listAllService.get(position).getId())) {
                                         customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
                                             @Override

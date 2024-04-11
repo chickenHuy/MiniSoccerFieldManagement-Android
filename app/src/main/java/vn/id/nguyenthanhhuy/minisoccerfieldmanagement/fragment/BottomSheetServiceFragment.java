@@ -92,9 +92,13 @@ public class BottomSheetServiceFragment extends BottomSheetDialogFragment {
             }
         });
         buttonAddition.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
-            quantity++;
-            editTextQuantity.setText(String.valueOf(quantity));
+            if (editTextQuantity.getText().toString().trim().equals("")) {
+                editTextQuantity.setText(String.valueOf("1"));
+            } else {
+                int quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
+                quantity++;
+                editTextQuantity.setText(String.valueOf(quantity));
+            }
         });
         buttonAddToCart.setOnClickListener(v -> {
             if (isEmpty) {

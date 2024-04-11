@@ -32,8 +32,10 @@
         android:paddingBottom="7dp">
 
         <AutoCompleteTextView
+            android:id="@+id/auto_complete_text_view_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:background="@null"
             android:hint="@string/search"
@@ -42,6 +44,7 @@
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_search"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/background_circular_50_percent"

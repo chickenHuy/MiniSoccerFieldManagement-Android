@@ -10,6 +10,7 @@ public interface IServiceService {
     public boolean update(Service service);
 
     public boolean softDelete(String id);
+
     public boolean revert(String id);
 
     public Service findById(String id);
@@ -29,4 +30,10 @@ public interface IServiceService {
     public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted, String orderBy);
 
     public int countServices(String status, int isDeleted);
+
+    public List<String> findServiceName(String keyword);
+
+    public List<Service> findServiceByKeyword(String keyword, int limit, int offset, String status, int isDeleted);
+
+    public int countServicesSearch(String keyword, String status, int isDeleted);
 }

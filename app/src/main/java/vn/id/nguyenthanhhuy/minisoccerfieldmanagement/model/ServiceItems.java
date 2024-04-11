@@ -1,8 +1,9 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ServiceItems {
+public class ServiceItems implements Serializable {
     private String id;
     private String serviceUsageId;
     private String serviceId;

@@ -53,6 +53,10 @@ public class ServiceManagementActivity extends AppCompatActivity {
     }
 
     public void setWidget() {
+        binding.buttonBack.setOnClickListener(v -> {
+            finish();
+        });
+
         switchFragment(new ListAllServiceFragment());
 
         binding.buttonSeeAll.setOnClickListener(v -> {

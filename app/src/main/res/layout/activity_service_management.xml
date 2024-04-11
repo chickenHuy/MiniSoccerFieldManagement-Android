@@ -27,12 +27,12 @@
                 android:textColor="@color/black" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:drawableStart="@drawable/ic_back_arrow"
-                android:onClick="goBack" />
+                android:drawableStart="@drawable/ic_back_arrow" />
         </FrameLayout>
 
         <LinearLayout
@@ -48,6 +48,7 @@
             android:paddingBottom="7dp">
 
             <AutoCompleteTextView
+                android:id="@+id/auto_complete_text_view_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,6 +59,7 @@
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_search"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/background_circular_50_percent"
