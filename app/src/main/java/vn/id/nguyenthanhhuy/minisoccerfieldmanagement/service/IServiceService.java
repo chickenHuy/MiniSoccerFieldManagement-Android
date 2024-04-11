@@ -31,7 +31,7 @@ public interface IServiceService {
 
     public int countServices(String status, int isDeleted);
 
-    public List<String> findServiceName(String keyword);
+    public List<String> findServiceName(String keyword, String status, int isDeleted);
 
     public List<Service> findServiceByKeyword(String keyword, int limit, int offset, String status, int isDeleted);
 

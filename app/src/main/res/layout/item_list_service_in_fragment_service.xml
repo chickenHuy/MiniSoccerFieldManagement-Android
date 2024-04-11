@@ -32,8 +32,8 @@
                 android:layout_height="80dp"
                 android:background="@drawable/background_white_radius_10dp"
                 android:gravity="center"
-                android:scaleType="centerCrop"
                 android:orientation="vertical"
+                android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
         </LinearLayout>
 
@@ -58,7 +58,10 @@
                     android:id="@+id/text_view_service_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:text="Service name"
                     android:textColor="@color/black"
                     android:textSize="17sp"

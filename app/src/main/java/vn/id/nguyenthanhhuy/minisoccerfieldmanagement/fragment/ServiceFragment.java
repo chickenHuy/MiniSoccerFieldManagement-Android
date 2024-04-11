@@ -112,6 +112,13 @@ public class ServiceFragment extends Fragment {
         listService = new ArrayList<>();
         listServiceSearch = new ArrayList<>();
 
+        binding.buttonClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.autoCompleteTextViewSearch.setText("");
+            }
+        });
+
         ((AppCompatButton) binding.buttonClearCartService).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +185,10 @@ public class ServiceFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().length() == 0) {
+                    binding.buttonClean.setVisibility(View.GONE);
                     return;
+                } else {
+                    binding.buttonClean.setVisibility(View.VISIBLE);
                 }
 
                 if (runnable != null) {
@@ -261,18 +271,24 @@ public class ServiceFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == GET_QUANTITY_SUCCESSFULLY && data != null) {
 
-            Service serviceSelected = null;
+            Service serviceSelected = new Service();
             if (isSearching) {
-                serviceSelected = listServiceSearch.get(positionSelected);
+                serviceSelected = listServiceSearch.get(positionSelected).clone();
             } else {
-                serviceSelected = listService.get(positionSelected);
+                serviceSelected = listService.get(positionSelected).clone();
             }
             serviceSelected.setOrderQuantity(data.getIntExtra("QUANTITY", 0));
 
             boolean isExist = false;
             for (Service serviceInCart : listServiceInCart) {
+                Log.i("CHECK", "onActivityResult: " + serviceInCart.getOrderQuantity());
                 if (serviceInCart.getId().equals(serviceSelected.getId())) {
-                    serviceInCart.setOrderQuantity(serviceInCart.getOrderQuantity() + serviceSelected.getOrderQuantity());
+                    int quantity = serviceInCart.getOrderQuantity() + serviceSelected.getOrderQuantity();
+                    if (quantity > serviceInCart.getQuantity()) {
+                        Toast.makeText(getContext(),  getResources().getString(R.string.failed) + ": " + getResources().getString(R.string.in_stock) + " " + serviceInCart.getQuantity(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    serviceInCart.setOrderQuantity(quantity);
                     isExist = true;
                     break;
                 }
@@ -389,7 +405,7 @@ public class ServiceFragment extends Fragment {
         List<String> listServiceName = null;
         try {
             ServiceServiceImpl service = new ServiceServiceImpl(getContext());
-            listServiceName = service.findServiceName(keyword);
+            listServiceName = service.findServiceName(keyword, "Active", 0);
         } catch (Exception e) {
             e.printStackTrace();
         }

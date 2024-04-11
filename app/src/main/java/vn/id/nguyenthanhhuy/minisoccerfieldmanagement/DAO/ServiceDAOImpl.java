@@ -492,12 +492,12 @@ public class ServiceDAOImpl implements IServiceDAO {
     }
 
     @Override
-    public List<String> findServiceName(String keyword) {
+    public List<String> findServiceName(String keyword, String status, int isDeleted) {
         List<String> serviceName = new ArrayList<>();
         SQLiteDatabase db = dbHandler.getReadableDatabase();
 
-        String query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? ";
-        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%"});
+        String query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? AND status = ? AND isDeleted = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", status, String.valueOf(isDeleted)});
 
 
         while (cursor.moveToNext()) {

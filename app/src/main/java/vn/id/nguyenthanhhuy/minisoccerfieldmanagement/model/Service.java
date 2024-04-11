@@ -141,4 +141,10 @@ public class Service implements Serializable {
     public void setOrderQuantity(int orderQuantity) {
         this.orderQuantity = orderQuantity;
     }
+
+    public Service clone() {
+        Service service = new Service(id, name, price, image, description, unit, quantity, sold, status, isDeleted, createdAt, updatedAt);
+        service.setOrderQuantity(orderQuantity);
+        return service;
+    }
 }

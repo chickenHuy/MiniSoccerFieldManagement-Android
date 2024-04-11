@@ -23,6 +23,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityAddSer
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomDialogFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class AddServiceActivity extends AppCompatActivity {
@@ -31,6 +32,8 @@ public class AddServiceActivity extends AppCompatActivity {
     private String option = "";
     private Service currentService = null;
     private Bitmap bitmapServiceImage = null;
+    private CustomDialogFragment customDialogFragment;
+    private boolean hasChange = false;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE_REQUEST = 2;
@@ -69,7 +72,12 @@ public class AddServiceActivity extends AppCompatActivity {
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (hasChange) {
+                    setResult(ServiceManagementActivity.EDIT_SERVICE_SUCCESSFULLY);
+                    finish();
+                } else {
+                    finish();
+                }
             }
         });
 
@@ -158,11 +166,13 @@ public class AddServiceActivity extends AppCompatActivity {
                 if (option.equals("add")) {
                     if (checkFieldInput()) {
                         if (insertService()) {
-                            CustomDialogFragment customDialogFragment = new CustomDialogFragment(AddServiceActivity.this, getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                            hasChange = true;
+                            customDialogFragment = new CustomDialogFragment(AddServiceActivity.this, getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(AddServiceActivity.this, ServiceManagementActivity.class);
-                                    startActivityForResult(intent, ServiceManagementActivity.ADD_SERVICE_SUCCESSFULLY);
+                                    customDialogFragment.dismiss();
+                                    setResult(ServiceManagementActivity.ADD_SERVICE_SUCCESSFULLY);
+                                    finish();
                                 }
                             });
                             customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
@@ -171,11 +181,13 @@ public class AddServiceActivity extends AppCompatActivity {
                 } else if (option.equals("edit")) {
                     if (checkFieldInput()) {
                         if (editService()) {
-                            CustomDialogFragment customDialogFragment = new CustomDialogFragment(AddServiceActivity.this, getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                            hasChange = true;
+                            customDialogFragment = new CustomDialogFragment(AddServiceActivity.this, getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(AddServiceActivity.this, ServiceManagementActivity.class);
-                                    startActivityForResult(intent, ServiceManagementActivity.EDIT_SERVICE_SUCCESSFULLY);
+                                    customDialogFragment.dismiss();
+                                    setResult(ServiceManagementActivity.EDIT_SERVICE_SUCCESSFULLY);
+                                    finish();
                                 }
                             });
                             customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
@@ -217,7 +229,11 @@ public class AddServiceActivity extends AppCompatActivity {
 
     public Service getDataFromForm() {
         Service newService = new Service();
-        newService.setId(currentService.getId());
+        if (option.equals("edit")) {
+            newService.setId(currentService.getId());
+        } else {
+            newService.setId(CurrentTimeID.nextId("SV"));
+        }
         newService.setName(binding.editTextServiceName.getText().toString().trim());
         newService.setUnit(binding.editTextServiceUnit.getText().toString().trim());
         newService.setPrice(new BigDecimal(binding.editTextServicePrice.getText().toString().trim()));

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="7dp"
     android:background="@drawable/background_white_radius_10dp"
-    android:backgroundTint="#EFEFEF"
+    android:backgroundTint="#F3F3F3"
     android:elevation="1.5dp"
     android:orientation="vertical">
 
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/background_green_radius_10dp"
-            android:backgroundTint="#F9F9F9"
+            android:backgroundTint="#FAFAFA"
             app:shapeAppearanceOverlay="@style/item_view_list_service_corner" />
 
         <androidx.appcompat.widget.AppCompatButton

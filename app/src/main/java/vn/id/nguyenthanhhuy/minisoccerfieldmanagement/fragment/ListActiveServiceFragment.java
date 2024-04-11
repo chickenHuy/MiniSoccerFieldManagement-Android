@@ -38,6 +38,7 @@ public class ListActiveServiceFragment extends Fragment {
     private ListViewServiceAdapter listViewServiceAdapter;
     private boolean isLoading = false;
     private ExecutorService executorService;
+    private int countServiceActive = 0;
 
     private CustomDialogFragment customDialogWarningFragment;
     private CustomDialogFragment customDialogFragment;
@@ -67,6 +68,8 @@ public class ListActiveServiceFragment extends Fragment {
         listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
+
+        countServiceActive = new ServiceServiceImpl(requireActivity()).countServices("Active", 0);
     }
 
     public void listViewSetUp() {
@@ -148,7 +151,7 @@ public class ListActiveServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !isLoading) {
-                    loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
+                    loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, listAllService.size(), "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });
@@ -159,12 +162,11 @@ public class ListActiveServiceFragment extends Fragment {
         if (isLoading) {
             return;
         }
-        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
 
-        if (service.countServices(status, isDeleted) == listAllService.size()) {
+        if (countServiceActive <= listAllService.size()) {
             return;
         }
-
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
         isLoading = true;
         executorService = Executors.newSingleThreadExecutor();
         binding.progressBar.setVisibility(View.VISIBLE);

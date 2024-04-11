@@ -41,6 +41,7 @@ public class ListAllServiceFragment extends Fragment {
     private ListViewServiceAdapter listViewServiceAdapter;
     private boolean isLoading = false;
     private ExecutorService executorService;
+    private int countAllServiceNotDeleted = 0;
 
     private CustomDialogFragment customDialogWarningFragment;
     private CustomDialogFragment customDialogFragment;
@@ -70,6 +71,8 @@ public class ListAllServiceFragment extends Fragment {
         listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
+
+        countAllServiceNotDeleted = new ServiceServiceImpl(getContext()).countServices("", 0);
     }
 
     public void listViewSetUp() {
@@ -144,12 +147,12 @@ public class ListAllServiceFragment extends Fragment {
         if (isLoading) {
             return;
         }
-        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
 
-        if (service.countServices(status, isDeleted) == listAllService.size()) {
+        if (countAllServiceNotDeleted == listAllService.size()) {
             return;
         }
 
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
         isLoading = true;
         executorService = Executors.newSingleThreadExecutor();
         binding.progressBar.setVisibility(View.VISIBLE);

@@ -176,15 +176,8 @@ public class ServiceManagementActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_SERVICE) {
-            if (resultCode == ADD_SERVICE_SUCCESSFULLY) {
-                switchFragment(new ListAllServiceFragment());
-            }
-        }
-        if (requestCode == EDIT_SERVICE) {
-            if (resultCode == EDIT_SERVICE_SUCCESSFULLY) {
-                switchFragment(new ListAllServiceFragment());
-            }
+        if (resultCode == ADD_SERVICE_SUCCESSFULLY) {
+            switchFragment(new ListAllServiceFragment());
         }
         if (resultCode == EDIT_SERVICE_SUCCESSFULLY) {
             switchFragment(new ListAllServiceFragment());

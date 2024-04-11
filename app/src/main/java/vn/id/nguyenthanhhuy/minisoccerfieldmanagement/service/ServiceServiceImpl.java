@@ -83,8 +83,8 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
-    public List<String> findServiceName(String keyword) {
-        return serviceDAO.findServiceName(keyword);
+    public List<String> findServiceName(String keyword, String status, int isDeleted) {
+        return serviceDAO.findServiceName(keyword, status, isDeleted);
     }
 
     @Override

@@ -38,6 +38,7 @@ public class ListInactiveServiceFragment extends Fragment {
     private ListViewServiceAdapter listViewServiceAdapter;
     private boolean isLoading = false;
     private ExecutorService executorService;
+    private int countServiceInactive = 0;
 
     private CustomDialogFragment customDialogWarningFragment;
     private CustomDialogFragment customDialogFragment;
@@ -65,6 +66,8 @@ public class ListInactiveServiceFragment extends Fragment {
         listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
+
+        countServiceInactive = new ServiceServiceImpl(requireActivity()).countServices("Inactive", 0);
     }
 
     public void listViewSetUp() {
@@ -157,12 +160,12 @@ public class ListInactiveServiceFragment extends Fragment {
         if (isLoading) {
             return;
         }
-        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
 
-        if (service.countServices(status, isDeleted) == listAllService.size()) {
+        if (countServiceInactive == listAllService.size()) {
             return;
         }
 
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
         isLoading = true;
         executorService = Executors.newSingleThreadExecutor();
         binding.progressBar.setVisibility(View.VISIBLE);
