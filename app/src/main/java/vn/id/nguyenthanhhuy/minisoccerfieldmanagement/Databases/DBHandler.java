@@ -184,6 +184,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TRANSACTION_TABLE);
         insertService(db);
         insertPriceList(db);
+        insertMembership(db);
+        insertCustomer(db);
     }
 
     @Override
@@ -386,5 +388,27 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(INSERT_DATA);
     }
 
+    private void insertCustomer(@NonNull SQLiteDatabase db) {
+        int id = 0;
+        String INSERT_DATA = "INSERT INTO Customer (id, memberShipId, name, phoneNumber, totalSpend, image, isDeleted, createdAt, updatedAt)\n" +
+                "VALUES\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Nguyễn Văn Nam', '0328256450', 0, NULL, 0, datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Lê Văn Hà', '0628236450', 0, NULL, 0, datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Phan Văn Mạnh', '0326236357', 0, NULL, 0, datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Võ Văn Quỳnh', '0987555113', 0, NULL, 0, datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Phan Anh Thư', '0387560223', 0, NULL, 0, datetime('now'), NULL),\n" +
+                "('" + (CurrentTimeID.nextId("C")) + "', '1', 'Nguyễn Văn Thành', '0323456450', 0, NULL, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
+    }
 
+    private void insertMembership(@NonNull SQLiteDatabase db){
+        String INSERT_DATA = "INSERT INTO MemberShip (id, name, discountRate, minimumSpendAmount, isDeleted, createdAt, updatedAt)\n" +
+                "VALUES\n" +
+                "('1', 'Standard', 0, 0, 0, datetime('now'), NULL),\n" +
+                "('2', 'Silver', 2, 1000000, 0, datetime('now'), NULL),\n" +
+                "('3', 'Gold', 4, 5000000, 0, datetime('now'), NULL),\n" +
+                "('4', 'Platinum', 5, 10000000, 0, datetime('now'), NULL),\n" +
+                "('5', 'Diamond', 6, 20000000, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
+    }
 }
