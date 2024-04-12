@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -17,13 +18,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+
 import java.sql.Date;
 import java.util.logging.SimpleFormatter;
 
 public class Utils {
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
         return outputStream.toByteArray();
     }
 
@@ -48,7 +50,7 @@ public class Utils {
         return currencyVN.format(price);
     }
 
-    public  static String formatPrice(BigDecimal price) {
+    public static String formatPrice(BigDecimal price) {
         DecimalFormat df = new DecimalFormat("#,##0.##");
         return df.format(price);
     }
@@ -86,7 +88,7 @@ public class Utils {
         }
     }
 
-    public static  Date convertStringToSqlDate(String dateString) {
+    public static Date convertStringToSqlDate(String dateString) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
             java.util.Date parsedDate = format.parse(dateString);

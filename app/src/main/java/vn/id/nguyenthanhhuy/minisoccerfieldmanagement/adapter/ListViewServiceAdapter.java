@@ -61,9 +61,14 @@ public class ListViewServiceAdapter extends BaseAdapter {
         }
 
         try {
-            InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            ((ImageView) convertView.findViewById(R.id.image_view_service)).setImageBitmap(bitmap);
+            if (serviceList.get(position).getImage() != null) {
+                Bitmap bitmap = Utils.convertByteToBitmap(serviceList.get(position).getImage());
+                ((ImageView) convertView.findViewById(R.id.image_view_service)).setImageBitmap(bitmap);
+            } else {
+                InputStream is = context.getAssets().open("defaultImage/serviceLoadError.png");
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                ((ImageView) convertView.findViewById(R.id.image_view_service)).setImageBitmap(bitmap);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

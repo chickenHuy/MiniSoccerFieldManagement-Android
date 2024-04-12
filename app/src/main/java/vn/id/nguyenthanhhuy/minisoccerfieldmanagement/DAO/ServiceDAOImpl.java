@@ -3,11 +3,14 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +27,13 @@ public class ServiceDAOImpl implements IServiceDAO {
 
     public ServiceDAOImpl(Context context) {
         this.dbHandler = new DBHandler(context);
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 70 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequiresApi(api = 26)
@@ -93,6 +103,22 @@ public class ServiceDAOImpl implements IServiceDAO {
     }
 
     @Override
+    public boolean revert(String id) {
+        try {
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED, 0);
+
+            long result = db.update(SoccerFieldContract.ServiceEntry.TABLE_NAME, values, SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID + " = ?", new String[]{id});
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public Service findById(String id) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         Service service = null;
@@ -132,6 +158,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
                 service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
                 service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
@@ -142,6 +169,7 @@ public class ServiceDAOImpl implements IServiceDAO {
         } finally {
             if (cursor != null) {
                 cursor.close();
+                db.close();
             }
         }
         return service;
@@ -185,6 +213,7 @@ public class ServiceDAOImpl implements IServiceDAO {
                 service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
                 service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
                 service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
                 service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
                 service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
                 service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
@@ -199,6 +228,7 @@ public class ServiceDAOImpl implements IServiceDAO {
         } finally {
             if (cursor != null) {
                 cursor.close();
+                db.close();
             }
         }
         return services;
@@ -206,116 +236,122 @@ public class ServiceDAOImpl implements IServiceDAO {
 
     @Override
     public List<Service> findByStatus(String status) {
-        SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<Service> services = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-            String[] projection = {
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT
-            };
-            String selection = SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + "= ?" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
-            String[] selectionArgument = {status, "0"};
-
-            cursor = db.query(
-                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgument,
-                    null,
-                    null,
-                    null
-            );
-
-            if (cursor.moveToNext()) {
-                Service service = new Service();
-                service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
-                service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
-                service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
-                service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
-                service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
-                service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
-                service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
-                service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
-                service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
-                service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
-
-                services.add(service);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return services;
+//        SQLiteDatabase db = dbHandler.getReadableDatabase();
+//        List<Service> services = new ArrayList<>();
+//        Cursor cursor = null;
+//        try {
+//            String[] projection = {
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT
+//            };
+//            String selection = SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + "= ?" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
+//            String[] selectionArgument = {status, "0"};
+//
+//            cursor = db.query(
+//                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
+//                    projection,
+//                    selection,
+//                    selectionArgument,
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//            if (cursor.moveToNext()) {
+//                Service service = new Service();
+//                service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
+//                service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
+//                service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
+//                service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+//                service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+//                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
+//                service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+//                service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+//                service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
+//                service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
+//                service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
+//
+//                services.add(service);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//        db.close();
+//            }
+//        }
+//        return services;
+        return null;
     }
 
     @Override
     public List<Service> findByInfo(String name, String description) {
-        SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<Service> services = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-            String[] projection = {
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT,
-                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT
-            };
-            String selection = SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME + " LIKE %?%" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION + " LIKE %?%" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
-            String[] selectionArgument = {name, description, "0"};
-
-            cursor = db.query(
-                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgument,
-                    null,
-                    null,
-                    null
-            );
-
-            if (cursor.moveToNext()) {
-                Service service = new Service();
-                service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
-                service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
-                service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
-                service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
-                service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
-                service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
-                service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
-                service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
-                service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
-                service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
-
-                services.add(service);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return services;
+//        SQLiteDatabase db = dbHandler.getReadableDatabase();
+//        List<Service> services = new ArrayList<>();
+//        Cursor cursor = null;
+//        try {
+//            String[] projection = {
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT,
+//                    SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT
+//            };
+//            String selection = SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME + " LIKE %?%" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION + " LIKE %?%" + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ?";
+//            String[] selectionArgument = {name, description, "0"};
+//
+//            cursor = db.query(
+//                    SoccerFieldContract.ServiceEntry.TABLE_NAME,
+//                    projection,
+//                    selection,
+//                    selectionArgument,
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//            if (cursor.moveToNext()) {
+//                Service service = new Service();
+//                service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
+//                service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
+//                service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
+//                service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+//                service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+//                service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
+//                service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+//                service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+//                service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
+//                service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
+//                service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
+//
+//                services.add(service);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//        db.close();
+//            }
+//        }
+//        return services;
+        return null;
     }
 
     @Override
@@ -394,6 +430,7 @@ public class ServiceDAOImpl implements IServiceDAO {
             service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
             service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
             service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+            service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
             service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
             service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
             service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
@@ -402,6 +439,7 @@ public class ServiceDAOImpl implements IServiceDAO {
         }
 
         cursor.close();
+        db.close();
         return services;
     }
 
@@ -425,6 +463,88 @@ public class ServiceDAOImpl implements IServiceDAO {
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
+        db.close();
         return count;
+    }
+
+    @Override
+    public int countServicesSearch(String keyword, String status, int isDeleted) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        String query = null;
+
+        if (isDeleted == -1) {
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME;
+            cursor = db.rawQuery(query, null);
+        } else if (status.equals("")) {
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME + " LIKE ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ? ";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", String.valueOf(isDeleted)});
+        } else {
+            query = "SELECT COUNT(*) FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME + " LIKE ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_IS_DELETED + " = ? AND " + SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS + " = ? ";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", String.valueOf(isDeleted), status});
+        }
+
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    @Override
+    public List<String> findServiceName(String keyword, String status, int isDeleted) {
+        List<String> serviceName = new ArrayList<>();
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+
+        String query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? AND status = ? AND isDeleted = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", status, String.valueOf(isDeleted)});
+
+
+        while (cursor.moveToNext()) {
+            serviceName.add(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
+        }
+
+        cursor.close();
+        db.close();
+        return serviceName;
+    }
+
+    @Override
+    public List<Service> findServiceByKeyword(String keyword, int limit, int offset, String status, int isDeleted) {
+        List<Service> services = new ArrayList<>();
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+
+        String query = null;
+        Cursor cursor = null;
+
+        if (status.equals("")) {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME +
+                    " WHERE name LIKE ? AND is_deleted = ? " + " LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
+        } else {
+            query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME +
+                    " WHERE name LIKE ? AND status = ? AND isdeleted = ? " + " LIMIT ? OFFSET ?";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", status, String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
+        }
+
+        while (cursor.moveToNext()) {
+            Service service = new Service();
+            service.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_ID)));
+            service.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
+            service.setPrice(new BigDecimal(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_PRICE))));
+            service.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_IMAGE)));
+            service.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_DESCRIPTION)));
+            service.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UNIT)));
+            service.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_QUANTITY)));
+            service.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_STATUS)));
+            service.setSold(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_SOLD)));
+            service.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_CREATED_AT))));
+            service.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_UPDATED_AT))));
+
+            services.add(service);
+        }
+        cursor.close();
+        db.close();
+        return services;
     }
 }

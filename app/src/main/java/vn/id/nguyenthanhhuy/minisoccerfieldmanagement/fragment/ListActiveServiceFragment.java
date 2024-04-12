@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,10 @@ public class ListActiveServiceFragment extends Fragment {
     private ListViewServiceAdapter listViewServiceAdapter;
     private boolean isLoading = false;
     private ExecutorService executorService;
+    private int countServiceActive = 0;
+
+    private CustomDialogFragment customDialogWarningFragment;
+    private CustomDialogFragment customDialogFragment;
 
     @Nullable
     @Override
@@ -54,7 +60,7 @@ public class ListActiveServiceFragment extends Fragment {
 
         setWidget();
         listViewSetUp();
-        loadService(10, 0, "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
+        loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
     public void setWidget() {
@@ -62,6 +68,8 @@ public class ListActiveServiceFragment extends Fragment {
         listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
+
+        countServiceActive = new ServiceServiceImpl(requireActivity()).countServices("Active", 0);
     }
 
     public void listViewSetUp() {
@@ -75,12 +83,56 @@ public class ListActiveServiceFragment extends Fragment {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.menu_option_view_detail) {
+                            ((ServiceManagementActivity) requireActivity()).viewServiceDetails(listAllService.get(position).getId());
+                            return true;
+                        }
+                        if (item.getItemId() == R.id.menu_option_edit) {
+                            ((ServiceManagementActivity) requireActivity()).editService(listAllService.get(position).getId());
                             return true;
                         }
                         if (item.getItemId() == R.id.menu_option_inactive) {
+                            boolean isSuccess = false;
+                            if (listAllService.get(position).getStatus().equals("Inactive")) {
+                                isSuccess = true;
+                            } else {
+                                if (new ServiceServiceImpl(requireActivity()).updateStatus(listAllService.get(position).getId(), "Inactive")) {
+                                    listAllService.remove(position);
+                                    listViewServiceAdapter.notifyDataSetChanged();
+                                    isSuccess = true;
+                                }
+                            }
+                            if (isSuccess) {
+                                Toast.makeText(requireActivity(), getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(requireActivity(), getResources().getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
                             return true;
                         }
                         if (item.getItemId() == R.id.menu_option_delete) {
+                            customDialogWarningFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.warning), "Do you want to delete this service?", "warning", "No", "Yes", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogWarningFragment.dismiss();
+                                }
+                            }, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogWarningFragment.dismiss();
+                                    if (((ServiceManagementActivity) requireActivity()).deleteService(listAllService.get(position).getId())) {
+                                        customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "success", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                listAllService.remove(position);
+                                                listViewServiceAdapter.notifyDataSetChanged();
+                                                customDialogFragment.dismiss();
+                                                customDialogWarningFragment.dismiss();
+                                            }
+                                        });
+                                        customDialogFragment.show(getParentFragmentManager(), "custom_dialog_notify");
+                                    }
+                                }
+                            });
+                            customDialogWarningFragment.show(getParentFragmentManager(), "custom_dialog_notify");
                             return true;
                         }
                         return true;
@@ -99,7 +151,7 @@ public class ListActiveServiceFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !isLoading) {
-                    loadService(10, 0, "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
+                    loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, listAllService.size(), "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
                 }
             }
         });
@@ -110,12 +162,11 @@ public class ListActiveServiceFragment extends Fragment {
         if (isLoading) {
             return;
         }
-        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
 
-        if (service.countServices(status, isDeleted) == listAllService.size()) {
+        if (countServiceActive <= listAllService.size()) {
             return;
         }
-
+        ServiceServiceImpl service = new ServiceServiceImpl(getContext());
         isLoading = true;
         executorService = Executors.newSingleThreadExecutor();
         binding.progressBar.setVisibility(View.VISIBLE);

@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             MainApplication.isChangeLanguage = false;
             floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
         }
-
     }
 
     public void setupBottomNavigationViewMenu() {

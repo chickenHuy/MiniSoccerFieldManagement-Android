@@ -21,7 +21,7 @@
 
         <LinearLayout
             style="@style/width_wc_height_wc"
-            android:background="@drawable/background_green_radius_10dp"
+            android:background="@drawable/background_white_radius_10dp"
             android:backgroundTint="#E6E6E6"
             android:paddingEnd="1.5dp"
             android:paddingBottom="1.5dp">
@@ -30,10 +30,10 @@
                 android:id="@+id/image_view_service"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/background_green_radius_10dp"
+                android:background="@drawable/background_white_radius_10dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
         </LinearLayout>
 
@@ -58,7 +58,10 @@
                     android:id="@+id/text_view_service_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:text="Service name"
                     android:textColor="@color/black"
                     android:textSize="17sp"

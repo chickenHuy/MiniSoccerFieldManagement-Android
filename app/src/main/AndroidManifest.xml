@@ -24,6 +24,9 @@
             android:name=".activity.ServiceManagementActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AddServiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ServicePaymentActivity"
             android:exported="false" />
         <activity

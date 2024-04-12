@@ -11,6 +11,8 @@ public interface IServiceDAO {
 
     public boolean softDelete(String id);
 
+    public boolean revert(String id);
+
     public Service findById(String id);
 
     public List<Service> findAll();
@@ -28,4 +30,10 @@ public interface IServiceDAO {
     public List<Service> getServicesWithLimitAndOffset(int limit, int offset, String status, int isDeleted, String orderBy);
 
     public int countServices(String status, int isDeleted);
+
+    public List<String> findServiceName(String keyword, String status, int isDeleted);
+
+    public List<Service> findServiceByKeyword(String keyword, int limit, int offset, String status, int isDeleted);
+
+    public int countServicesSearch(String keyword, String status, int isDeleted);
 }

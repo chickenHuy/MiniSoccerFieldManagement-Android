@@ -3,7 +3,8 @@
     style="@style/width_wc_height_wc"
     android:background="@color/white"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="30dp">
 
     <ImageView
         android:id="@+id/image_view_icon_notify"
@@ -29,11 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="5dp"
-        android:text="Error detail message"
-        android:visibility="gone"
         android:textAlignment="center"
         android:textColor="@color/red"
         android:textSize="16sp" />
@@ -45,7 +44,7 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_home_page"
+            android:id="@+id/button_action_1"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
@@ -61,7 +60,7 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_service_page"
+            android:id="@+id/button_action_2"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"

@@ -1,6 +1,7 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service;
 
 import android.content.Context;
+
 import androidx.annotation.RequiresApi;
 
 import java.util.List;
@@ -29,6 +30,11 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     public boolean softDelete(String id) {
         return serviceDAO.softDelete(id);
+    }
+
+    @Override
+    public boolean revert(String id) {
+        return serviceDAO.revert(id);
     }
 
     @Override
@@ -74,5 +80,20 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     public int countServices(String status, int isDeleted) {
         return serviceDAO.countServices(status, isDeleted);
+    }
+
+    @Override
+    public List<String> findServiceName(String keyword, String status, int isDeleted) {
+        return serviceDAO.findServiceName(keyword, status, isDeleted);
+    }
+
+    @Override
+    public List<Service> findServiceByKeyword(String keyword, int limit, int offset, String status, int isDeleted) {
+        return serviceDAO.findServiceByKeyword(keyword, limit, offset, status, isDeleted);
+    }
+
+    @Override
+    public int countServicesSearch(String keyword, String status, int isDeleted) {
+        return serviceDAO.countServicesSearch(keyword, status, isDeleted);
     }
 }
