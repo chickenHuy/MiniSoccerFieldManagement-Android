@@ -1,5 +1,8 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
+
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,12 +45,17 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment {
     private static final String ARG_booking = "booking";
+    SimpleDateFormat sdfDate;
+    SimpleDateFormat sdfTime;
+    ICustomerService customerService;
+    IBookingService bookingService;
     private BookingAdapter.OnBookingReloadListener onBookingReloadListener;
     public void onBookingReloadListener(BookingAdapter.OnBookingReloadListener listener) {
         this.onBookingReloadListener = listener;
     }
 
     FragmentBottomSheetBookingDetailsBinding binding;
+    private static final int REQUEST_CODE_EDIT_UPDATE_BOOKING = 2;
     private Booking booking;
 
     public BottomSheetBookingDetailsFragment() {
@@ -62,17 +70,18 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
         }
     }
 
+    private void setSchedule()
+    {
+        binding.tvBookingDay.setText(sdfDate.format(booking.getCreatedAt()));
+        binding.tvStartTime.setText(sdfTime.format(booking.getTimeStart()));
+        binding.tvEndTime.setText(sdfTime.format(booking.getTimeEnd()));
+        binding.tvPrice.setText(Utils.formatPrice(booking.getPrice()) + " VND");
+    }
     private void setData() {
         if (booking != null) {
             binding.tvId.setText(booking.getId());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            binding.tvBookingDay.setText(sdf.format(booking.getCreatedAt()));
-            sdf = new SimpleDateFormat("HH:mm");
-            binding.tvStartTime.setText(sdf.format(booking.getTimeStart()));
-            binding.tvEndTime.setText(sdf.format(booking.getTimeEnd()));
-            binding.tvPrice.setText(Utils.formatPrice(booking.getPrice()) + " VND");
+            setSchedule();
             binding.tvStatus.setText(booking.getStatus());
-            ICustomerService customerService = new CustomerServiceImpl(getContext());
 
             Customer customer = customerService.findById(booking.getCustomerId());
             if (customer != null) {
@@ -107,6 +116,10 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding =  FragmentBottomSheetBookingDetailsBinding.inflate(inflater, container, false);
+        bookingService = new BookingServiceImpl(getContext());
+        customerService = new CustomerServiceImpl(getContext());
+        sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+        sdfTime = new SimpleDateFormat("HH:mm");
         setData();
         setEvents();
         return  binding.getRoot();
@@ -121,7 +134,7 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
                 args.putSerializable("booking", booking);
                 Intent intent  = new Intent(getContext(), EditOrAddBookingActivity.class);
                 intent.putExtra("args", args);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_EDIT_UPDATE_BOOKING);
             }
         });
 
@@ -137,7 +150,6 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
                 builder.setPositiveButton("Yes", (dialog, which) -> {
                     //Xóa booking
                     booking.setStatus("Canceled");
-                    IBookingService bookingService = new BookingServiceImpl(getContext());
                     bookingService.updateStatus(booking.getId(), "Canceled");
                     bookingService.softDelete(booking.getId());
                     //Load lại trang BookingFragment
@@ -157,4 +169,19 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
             }
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT_UPDATE_BOOKING && resultCode == RESULT_OK) {
+            String date = data.getStringExtra("date");
+            booking = bookingService.findById(booking.getId());
+            setData();
+
+            if (onBookingReloadListener != null) {
+                onBookingReloadListener.onBookingReload(date);
+            }
+        }
+    }
+
+
 }

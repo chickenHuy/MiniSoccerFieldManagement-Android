@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -86,12 +87,9 @@ public class SettingPriceListActivity extends AppCompatActivity {
         recyclerViewPriceList.setAdapter(adapterPriceList);
         rdgTypeField = findViewById(R.id.rdoGroupTypeField);
         dateSelected = "Monday";
-
-
-
-
-
-
+    }
+    public void goBack(View view) {
+        finish();
     }
 
 }

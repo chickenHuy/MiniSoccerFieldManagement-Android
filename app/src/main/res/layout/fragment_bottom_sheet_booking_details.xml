@@ -20,30 +20,25 @@
             android:gravity="center"
             >
             <TextView
-                style="@style/width_wc_height_wc"
-                android:textColor="@color/primaryColor"
-                android:text="@string/from"
-                android:layout_margin="5dp"
-                android:textSize="12sp" />
-            <TextView
                 android:id="@+id/tvStartTime"
                 style="@style/width_wc_height_wc"
                 android:text="15:30"
                 android:textStyle="bold"
-                android:textColor="@color/blackGray"
+                android:textColor="@color/primaryColor"
                 android:textSize="18sp" />
             <TextView
                 style="@style/width_wc_height_wc"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black_overlay"
                 android:layout_margin="5dp"
-                android:text="@string/to"
-                android:textSize="12sp" />
+                android:text=" - "
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvEndTime"
                 style="@style/width_wc_height_wc"
                 android:text="17:30"
-                android:textColor="@color/blackGray"
+                android:textColor="@color/primaryColor"
                 android:textStyle="bold"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -54,16 +49,22 @@
             android:gravity="left">
             <TextView
                 style="@style/width_wc_height_wc"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/black_overlay"
                 android:layout_gravity="center"
                 android:text="@string/price"
+                android:textSize="12sp" />
+            <TextView
+                style="@style/width_wc_height_wc"
+                android:textColor="@color/primaryColor"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:textSize="12sp" />
             <TextView
                 android:id="@+id/tvPrice"
                 style="@style/width_wc_height_wc"
                 android:layout_gravity="center"
                 android:text="2,000,000 VNĐ"
-                android:textColor="@color/blackGray"
+                android:textColor="@color/primaryColor"
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
@@ -113,7 +114,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text=": "
+                    android:layout_marginStart="5dp"
                     android:textColor="@color/primaryColor"
                     android:textSize="12sp" />
 
@@ -129,7 +130,8 @@
 
         <RelativeLayout
             style="@style/width_mp_height_wc"
-            android:background="@drawable/background_toggle_widget"
+            android:background="@drawable/background_white_radius_10dp"
+            android:layout_margin="5dp"
             android:elevation="5dp"
             >
 
@@ -245,7 +247,6 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/background_circular_50_percent"
                 android:backgroundTint="@color/primaryColor"
-                android:drawableStart="@drawable/ic_launcher_save_foreground"
                 android:text="Edit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -262,7 +263,6 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/background_circular_50_percent"
                 android:backgroundTint="@color/blackGray"
-                android:drawableStart="@drawable/ic_launcher_delete_foreground"
                 android:text="@string/delete"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

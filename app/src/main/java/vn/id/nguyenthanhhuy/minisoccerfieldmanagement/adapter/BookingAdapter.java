@@ -40,6 +40,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 
 public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
     private BookingFragment.onAdapterChangedListener onAdapterChangedListener;
     public void onAdapterChangedListener(BookingFragment.onAdapterChangedListener listener) {
         this.onAdapterChangedListener = listener;
@@ -51,7 +52,6 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // Your data list here
     private Context context;
-    private IBookingService bookingService;
     private ICustomerService customerService;
     private IFieldService fieldService;
     private List<Booking> bookingList;
@@ -65,7 +65,6 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public BookingAdapter(List<Booking> dataList, List<Field> fieldList, Context context) {
         this.bookingList = dataList;
         this.fieldList = fieldList;
-        bookingService = new BookingServiceImpl(context);
         timeList = TimeGenerator.generateTimes();
         fieldService = new FieldServiceImpl(context);
         this.context = context;
@@ -179,16 +178,28 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             col++;
         }
         List<Field> tmp = new ArrayList<Field>();
+        if (col == fieldList.size()) return new ArrayList<>();
         if (fieldList.get(col).getType().equals(StaticString.TYPE_5_A_SIDE))
         {
 
             tmp = fieldService.findParent(fieldList.get(col).getId());
         }
         else
-        {
-            tmp.add(fieldService.findById(fieldList.get(col).getCombineField1()));
-            tmp.add(fieldService.findById(fieldList.get(col).getCombineField2()));
-            tmp.add(fieldService.findById(fieldList.get(col).getCombineField3()));
+        {   Field field_tmp = fieldService.findById(fieldList.get(col).getCombineField1());
+            if (field_tmp != null)
+            {
+                tmp.add(field_tmp);
+            }
+            field_tmp = fieldService.findById(fieldList.get(col).getCombineField2());
+            if (field_tmp != null)
+            {
+                tmp.add(field_tmp);
+            }
+            field_tmp = fieldService.findById(fieldList.get(col).getCombineField3());
+            if (field_tmp != null)
+            {
+                tmp.add(field_tmp);
+            }
         }
         List<Integer> colBlocked = new ArrayList<>();
         for (Field field : tmp)

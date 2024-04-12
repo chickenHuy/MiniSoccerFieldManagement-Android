@@ -105,6 +105,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         recyclerView = findViewById(R.id.recyclerView);
         ivCalendarNext = findViewById(R.id.iv_calendar_next);
         ivCalendarPrevious = findViewById(R.id.iv_calendar_previous);
+        this.day = Utils.getDayOfWeekFromTimestamp(new Timestamp(new Date().getTime()));
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
@@ -133,7 +134,6 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                 try {
                     this.day = Utils.getDayOfWeekFromTimestamp(booking.getTimeStart());
                     dateSelected = new java.sql.Date(booking.getTimeStart().getTime());
-                    Toast.makeText(this, dateSelected.toString(), Toast.LENGTH_SHORT).show();
                     tvSchedule.setText(Utils.getDateFromTimestamp(booking.getTimeStart()));
 
                     edtStartTime.setText(Utils.getTimeFromTimestamp(booking.getTimeStart()));
@@ -239,13 +239,12 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                         customer.setName(edtCustomerName.getText().toString());
                         customer.setPhoneNumber(edtPhoneNumber.getText().toString());
                         customer.setId(CurrentTimeID.nextId("C"));
-                        customer.setMemberShipId("1");
                         customer.setTotalSpend(BigDecimal.ZERO);
-                        customerService.add(customer);
                         booking.setCustomerId(customer.getId());
                         IMembershipService membershipService = new MembershipServiceImpl(EditOrAddBookingActivity.this);
                         Membership membership = membershipService.findBySpendAmount(new BigDecimal(9999));
-                        Toast.makeText(EditOrAddBookingActivity.this, membership.getId() , Toast.LENGTH_SHORT).show();
+                        customer.setMemberShipId(membership.getId());
+                        customerService.add(customer);
                     }
                     booking.setNote("");
                     fieldSelected = (Field) spinnerField.getSelectedItem();
@@ -290,14 +289,13 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                     BigDecimal price = priceListService.findPriceByTimeAndType(Utils.convertStringToTime(edtStartTime.getText().toString()),Utils.convertStringToTime(edtEndTime.getText().toString()), day, fieldSelected.getType());
 
                     booking.setPrice(price);
-                    Toast.makeText(EditOrAddBookingActivity.this, price.toString(), Toast.LENGTH_SHORT).show();
                     booking.setStatus(StaticString.ACTIVE);
                     booking.setUserId("1");
                     booking.setId(CurrentTimeID.nextId("B"));
                     //Show thông báo test
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditOrAddBookingActivity.this);
                     builder.setTitle("SAVE");
-                    builder.setMessage(booking.toString());
+                    builder.setMessage("Do you want to save this booking?");
                     builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -307,6 +305,14 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                                 if(bookingService.update(booking))
                                 {
                                     Toast.makeText(EditOrAddBookingActivity.this, "Booking Updated", Toast.LENGTH_SHORT).show();
+                                    Timestamp timestamp = booking.getTimeStart();
+                                    java.sql.Date date = new java.sql.Date(timestamp.getTime());
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+                                    Intent intent = new Intent();
+                                    intent.putExtra("date", dateFormat.format(date));
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+
                                 }
                                 else {
                                     Toast.makeText(EditOrAddBookingActivity.this, "Booking failed", Toast.LENGTH_SHORT).show();
@@ -315,7 +321,15 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                             }
                             else if(bookingService.add(booking))
                             {
+                                Timestamp timestamp = booking.getTimeStart();
+                                java.sql.Date date = new java.sql.Date(timestamp.getTime());
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+                                Intent intent = new Intent();
+                                intent.putExtra("date", dateFormat.format(date));
+                                setResult(RESULT_OK, intent);
+                                finish();
                                 Toast.makeText(EditOrAddBookingActivity.this, "Booking added", Toast.LENGTH_SHORT).show();
+
                             }
                             else {
                                 Toast.makeText(EditOrAddBookingActivity.this, "Booking failed", Toast.LENGTH_SHORT).show();
@@ -514,4 +528,8 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
             recyclerView.scrollToPosition(todayPosition);
         }
     }
+    public void goBack(View view) {
+        finish();
+    }
+
 }

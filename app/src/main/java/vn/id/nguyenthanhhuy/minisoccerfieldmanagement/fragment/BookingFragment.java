@@ -1,5 +1,7 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -44,6 +46,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 
 public class BookingFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
+    private static final int REQUEST_CODE_EDIT_ADD_BOOKING = 1;
     private FragmentBookingBinding binding;
     private  int adapterPosition = -1;
     private RecyclerView recyclerView;
@@ -127,8 +130,8 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         binding.recyclerTimeScheduler.setAdapter(schedulerAdapter);
         binding.recyclerTimeScheduler.setLayoutManager(layoutManager2);
 
-        binding.recyclerTimeScheduler.setOnTouchListener((v, event) -> true);
-        binding.recyclerTimeSlot.setOnTouchListener((v, event) -> true);
+        //binding.recyclerTimeScheduler.setOnTouchListener((v, event) -> true);
+        //binding.recyclerTimeSlot.setOnTouchListener((v, event) -> true);
 
         setEvents();
     }
@@ -137,10 +140,8 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         binding.addBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Thực hiện chuyển sang activity EditOrAddBookingActivity
-                // và truyền dữ liệu qua intent
-                Intent intent = new Intent(getContext(), EditOrAddBookingActivity.class);
-                startActivity(intent);
+
+                openEditOrAddBookingActivity();
             }
         });
 
@@ -219,5 +220,19 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             recyclerView.scrollToPosition(todayPosition);
         }
     }
+    private void openEditOrAddBookingActivity() {
+        Intent intent = new Intent(getContext(), EditOrAddBookingActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_EDIT_ADD_BOOKING);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT_ADD_BOOKING && resultCode == RESULT_OK) {
+            String date = data.getStringExtra("date");
+            loadScheduler(date);
+        }
+    }
+
 
 }

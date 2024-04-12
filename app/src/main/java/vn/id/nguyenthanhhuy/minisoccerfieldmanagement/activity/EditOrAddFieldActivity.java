@@ -403,6 +403,9 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
             imgField.setImageBitmap(bitmapFieldImage);
         }
     }
+    public void goBack(View view) {
+        finish();
+    }
 
 
 }

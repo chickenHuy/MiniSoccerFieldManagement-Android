@@ -112,5 +112,7 @@ public class FieldManagementActivity extends AppCompatActivity {
     }
 
 
-
+    public void goBack(View view) {
+        finish();
+    }
 }
