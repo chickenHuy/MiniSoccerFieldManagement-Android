@@ -145,4 +145,5 @@
     <string name="status">Status:</string>
     <string name="phone">Phone</string>
     <string name="customer_2">Customer</string>
+    <string name="service_in_hoa">SERVICE</string>
 </resources>

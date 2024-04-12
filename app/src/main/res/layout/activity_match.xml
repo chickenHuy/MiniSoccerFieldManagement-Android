@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="22dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@color/white"
+    tools:context=".activity.MatchActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_back_arrow"
+                android:onClick="goBack" />
+            <TextView
+                style="@style/header_text_custom"
+                android:id="@+id/tvIdMatch"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                android:layout_marginEnd="20dp"
+                android:text="Nhớ đổi về empty"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingStart="10dp"
+                android:background="@android:color/transparent"
+                android:drawableTint="@color/black"
+                android:drawableStart="@drawable/baseline_access_time_24"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:id="@+id/idTimeRemaining"
+                android:textColor="@color/primaryColor"
+                android:text="02h:30m"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llInfo"
+            style="@style/width_mp_height_wc"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:elevation="7dp"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llInfoMatch"
+            style="@style/width_mp_height_wc"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:elevation="7dp"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginEnd="10dp"
+            android:elevation="0dp"
+            >
+            <TextView
+                style="@style/header_text_custom"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/service_in_hoa"
+                android:textColor="@color/primaryColor"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addService"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/baseline_add_24" />
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            style="@style/width_mp_height_wc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            />
+
+
+
+</LinearLayout>
