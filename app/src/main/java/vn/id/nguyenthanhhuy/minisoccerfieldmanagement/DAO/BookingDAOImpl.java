@@ -74,6 +74,32 @@ public class BookingDAOImpl implements IBookingDAO{
     }
 
     @Override
+    public Boolean update(Booking booking) {
+        try {
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID, booking.getCustomerId());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID, booking.getUserId());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID, booking.getFieldId());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS, booking.getStatus());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE, booking.getNote());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START, booking.getTimeStart().toString());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END, booking.getTimeEnd().toString());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE, booking.getPrice().doubleValue());
+            values.put(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT, String.valueOf(new Timestamp(System.currentTimeMillis())));
+
+            int result = db.update(SoccerFieldContract.BookingEntry.TABLE_NAME, values, SoccerFieldContract.FieldEntry.COLUMN_NAME_ID + " = ? ", new String[] {booking.getId()});
+            db.close();
+
+            return result > 0 ;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public Boolean softDelete(String id) {
         try {
             SQLiteDatabase db = dbHandler.getWritableDatabase();

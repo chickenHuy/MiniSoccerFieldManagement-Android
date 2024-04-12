@@ -66,7 +66,7 @@ public class FieldDAOImpl implements IFieldDAO{
             int result = db.update(SoccerFieldContract.FieldEntry.TABLE_NAME, values, SoccerFieldContract.FieldEntry.COLUMN_NAME_ID + " = ? ", new String[] {field.getId()});
             db.close();
 
-            return result != -1;
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

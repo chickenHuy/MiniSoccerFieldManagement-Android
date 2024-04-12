@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -94,6 +95,44 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+
+    public static String getTimeFromTimestamp(Timestamp timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(timestamp);
+    }
+
+    public static String getDateFromTimestamp(Timestamp timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(timestamp);
+    }
+
+
+
+    public static String getDayOfWeekFromTimestamp(Timestamp timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp.getTime());
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch (dayOfWeek) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            default:
+                return "Invalid day";
         }
     }
 

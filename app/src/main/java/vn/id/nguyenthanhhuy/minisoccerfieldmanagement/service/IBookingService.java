@@ -8,10 +8,11 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 
 public interface IBookingService {
-    Boolean isBookedOfParentField(Field child, Timestamp date, Time start, Time end);
-    Boolean isBookedOfChildField(Field Parent, Timestamp date, Time start, Time end);
+    Boolean isBookedOfParentField(String idUpdated ,Field child, Timestamp date, Time start, Time end);
+    Boolean isBookedOfChildField(String idUpdated, Field Parent, Timestamp date, Time start, Time end);
     Boolean add (Booking booking);
     Boolean updateStatus(String id, String status);
+    Boolean update(Booking booking);
     Boolean softDelete(String id);
     Booking findById(String id);
     List<Booking> findByCustomer(String customerId);

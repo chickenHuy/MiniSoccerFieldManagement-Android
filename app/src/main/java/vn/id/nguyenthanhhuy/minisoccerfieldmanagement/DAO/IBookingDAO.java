@@ -7,6 +7,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 public interface IBookingDAO {
     Boolean add (Booking booking);
     Boolean updateStatus(String id, String status);
+    Boolean update(Booking booking);
     Boolean softDelete(String id);
     Booking findById(String id);
     List<Booking> findByCustomer(String customerId);

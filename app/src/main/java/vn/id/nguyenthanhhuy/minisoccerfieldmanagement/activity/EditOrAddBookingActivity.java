@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.app.Application;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -37,6 +38,7 @@ import java.util.Locale;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
@@ -68,6 +70,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private ImageView ivCalendarNext;
     private ImageView ivCalendarPrevious;
     private ICustomerService customerService;
+    private TextView tvIdBooking;
     private IBookingService bookingService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
@@ -76,10 +79,11 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private ArrayList<Date> dates = new ArrayList<>();
     private CalendarAdapter adapter;
     private ArrayList<CalendarDateModel> calendarList2 = new ArrayList<>();
+    private  IPriceListService priceListService;
 
     private String day;
     private List<Field> fields;
-    private Button btnSave, btnDelete;
+    private Button btnSave;
     private TextView tvPrice;
     private EditText edtStartTime, edtEndTime, edtPhoneNumber, edtCustomerName;
     private Spinner spinnerField;
@@ -93,7 +97,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_or_add_booking);
-        day = "Monday";
+        priceListService = new PriceListServiceImpl(EditOrAddBookingActivity.this);
         dateSelected = new java.sql.Date(new Date().getTime());
         sdfScheule = new SimpleDateFormat("dd/MM/yyyy");
         fieldSelected = new Field();
@@ -108,11 +112,58 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         setSpinnerField();
         setWidgets();
         setEvents();
+        getBundle();
+    }
+
+    private void getBundle() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle bundle = intent.getParcelableExtra("args");
+            if (bundle == null) {
+                return;
+            }
+            Booking booking = bundle.getSerializable("booking") != null ? (Booking) bundle.getSerializable("booking") : null;
+            if (booking != null) {
+                Customer customer = customerService.findById(booking.getCustomerId());
+                edtPhoneNumber.setText(customer.getPhoneNumber());
+                edtCustomerName.setText(customer.getName());
+                edtPhoneNumber.setEnabled(false);
+                edtCustomerName.setEnabled(false);
+
+                try {
+                    this.day = Utils.getDayOfWeekFromTimestamp(booking.getTimeStart());
+                    dateSelected = new java.sql.Date(booking.getTimeStart().getTime());
+                    Toast.makeText(this, dateSelected.toString(), Toast.LENGTH_SHORT).show();
+                    tvSchedule.setText(Utils.getDateFromTimestamp(booking.getTimeStart()));
+
+                    edtStartTime.setText(Utils.getTimeFromTimestamp(booking.getTimeStart()));
+                    edtEndTime.setText(Utils.getTimeFromTimestamp(booking.getTimeEnd()));
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                fieldSelected = fieldService.findById(booking.getFieldId());
+
+                int position = -1;
+                for (int i = 0; i < fields.size(); i++) {
+                    if (fields.get(i).getId().equals(fieldSelected.getId())) {
+                        position = i;
+                        break;
+                    }
+                }
+                if (position != -1) {
+                    spinnerField.setSelection(position);
+                }
+
+                tvIdBooking.setText("#"+ booking.getId());
+                tvPrice.setText(Utils.formatPrice(booking.getPrice()));
+                btnSave.setText("Update");
+            }
+        }
     }
 
     private void setWidgets() {
         btnSave = findViewById(R.id.btnSave);
-        btnDelete = findViewById(R.id.btnDelete);
         tvPrice = findViewById(R.id.tvPrice);
         tvSchedule = findViewById(R.id.tvSchedule);
         tvSchedule.setText(sdfScheule.format(dateSelected));
@@ -120,6 +171,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         edtCustomerName = findViewById(R.id.edtNameCustomer);
         bookingService = new BookingServiceImpl(this);
         customerService = new CustomerServiceImpl(this);
+        tvIdBooking = findViewById(R.id.tvIdBooking);
     }
 
     private void setEvents() {
@@ -196,7 +248,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                         Toast.makeText(EditOrAddBookingActivity.this, membership.getId() , Toast.LENGTH_SHORT).show();
                     }
                     booking.setNote("");
-                    Field fieldSelected = (Field) spinnerField.getSelectedItem();
+                    fieldSelected = (Field) spinnerField.getSelectedItem();
                     booking.setFieldId(fieldSelected.getId());
                     String startTimeStr = edtStartTime.getText().toString();
 
@@ -223,22 +275,22 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                     if (booking.getTimeStart().equals(booking.getTimeEnd()) || booking.getTimeStart().after(booking.getTimeEnd())) {
                         throw new Exception("Start time must be before end time");
                     }
-
+                    String idUpdated = tvIdBooking.getText().toString().replace("#", "");
                     if(fieldSelected.getType().equals(StaticString.TYPE_5_A_SIDE)) {
-                        if(bookingService.isBookedOfParentField(fieldSelected, t, Utils.convertStringToTime(edtStartTime.getText().toString()), Utils.convertStringToTime(edtEndTime.getText().toString()))) {
+                        if(bookingService.isBookedOfParentField(idUpdated, fieldSelected, t, Utils.convertStringToTime(edtStartTime.getText().toString()), Utils.convertStringToTime(edtEndTime.getText().toString()))) {
                             throw new Exception("This field is already booked");
                         }
                     }
                     if(fieldSelected.getType().equals(StaticString.TYPE_7_A_SIDE)) {
-                        if(bookingService.isBookedOfChildField(fieldSelected, t, Utils.convertStringToTime(edtStartTime.getText().toString()), Utils.convertStringToTime(edtEndTime.getText().toString()))) {
+                        if(bookingService.isBookedOfChildField(idUpdated, fieldSelected, t, Utils.convertStringToTime(edtStartTime.getText().toString()), Utils.convertStringToTime(edtEndTime.getText().toString()))) {
                             throw new Exception("This field is already booked");
                         }
                     }
 
-                    IPriceListService priceListService = new PriceListServiceImpl(EditOrAddBookingActivity.this);
                     BigDecimal price = priceListService.findPriceByTimeAndType(Utils.convertStringToTime(edtStartTime.getText().toString()),Utils.convertStringToTime(edtEndTime.getText().toString()), day, fieldSelected.getType());
 
                     booking.setPrice(price);
+                    Toast.makeText(EditOrAddBookingActivity.this, price.toString(), Toast.LENGTH_SHORT).show();
                     booking.setStatus(StaticString.ACTIVE);
                     booking.setUserId("1");
                     booking.setId(CurrentTimeID.nextId("B"));
@@ -249,7 +301,19 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                     builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(bookingService.add(booking))
+                            Booking booking1 = bookingService.findById(idUpdated);
+                            if (booking1 != null) {
+                                booking.setId(idUpdated);
+                                if(bookingService.update(booking))
+                                {
+                                    Toast.makeText(EditOrAddBookingActivity.this, "Booking Updated", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(EditOrAddBookingActivity.this, "Booking failed", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                            else if(bookingService.add(booking))
                             {
                                 Toast.makeText(EditOrAddBookingActivity.this, "Booking added", Toast.LENGTH_SHORT).show();
                             }
@@ -274,6 +338,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
 
                 }
                 catch (Exception e) {
+                    e.printStackTrace();
                     Toast.makeText(EditOrAddBookingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -282,7 +347,6 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private void getPrice()
     {
         if (!edtStartTime.getText().toString().isEmpty() && !edtEndTime.getText().toString().isEmpty() && day!= null && fieldSelected != null) {
-            IPriceListService priceListService = new PriceListServiceImpl(EditOrAddBookingActivity.this);
             BigDecimal price = priceListService.findPriceByTimeAndType(Utils.convertStringToTime(edtStartTime.getText().toString()), Utils.convertStringToTime(edtEndTime.getText().toString()), day, fieldSelected.getType());
             tvPrice.setText(Utils.formatPrice(new BigDecimal(price.toString())));
         }
