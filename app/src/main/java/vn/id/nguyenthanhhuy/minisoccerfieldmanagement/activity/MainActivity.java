@@ -6,20 +6,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yariksoffice.lingver.Lingver;
 
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.HomeFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.WalletFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomerFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             MainApplication.isChangeLanguage = false;
             floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
         }
+
     }
 
     public void setupBottomNavigationViewMenu() {
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.menu_option_wallet) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
-                switchFragment(new WalletFragment(), args);
+                switchFragment(new CustomerFragment(), args);
                 return true;
             }
             if (item.getItemId() == R.id.menu_option_show_user_profile) {

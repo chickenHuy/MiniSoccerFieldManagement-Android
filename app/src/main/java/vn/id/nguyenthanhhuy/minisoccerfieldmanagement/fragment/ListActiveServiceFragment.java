@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -58,14 +59,22 @@ public class ListActiveServiceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((ServiceManagementActivity) requireActivity()).switchButtonSelected(2);
 
+        ((ServiceManagementActivity) requireActivity()).currentFragmentIndex = 2;
         setWidget();
         listViewSetUp();
         loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "Active", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
+    public ListActiveServiceFragment() {
+        listAllService = new ArrayList<Service>();
+    }
+
+    public ListActiveServiceFragment(String keyword, Context context) {
+        listAllService = new ServiceServiceImpl(context).findServiceByKeyword(keyword, ServiceManagementActivity.NUMBER_SERVICE_LOAD, 0, "Active", 0);
+    }
+
 
     public void setWidget() {
         listViewListService = binding.listViewAllService;
-        listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
 

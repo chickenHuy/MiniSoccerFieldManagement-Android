@@ -8,7 +8,13 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.yariksoffice.lingver.Lingver;
@@ -29,11 +35,15 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl
 
 public class ServiceManagementActivity extends AppCompatActivity {
     private ActivityServiceManagementBinding binding;
-    public int NUMBER_SERVICE_LOAD = 10;
+    public static int NUMBER_SERVICE_LOAD = 10;
     public String orderBy = "ORDER BY ";
     public String filed = "id";
     public String direction = " DESC";
     public String filter = orderBy + filed + direction;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    public int currentFragmentIndex = 1;
+
 
     public static final int ADD_SERVICE = 1;
     public static final int ADD_SERVICE_SUCCESSFULLY = 2;
@@ -55,6 +65,11 @@ public class ServiceManagementActivity extends AppCompatActivity {
     public void setWidget() {
         binding.buttonBack.setOnClickListener(v -> {
             finish();
+        });
+        binding.autoCompleteTextViewSearch.setThreshold(1);
+        binding.autoCompleteTextViewSearch.setDropDownBackgroundResource(R.drawable.background_white_radius_10dp);
+        binding.buttonClear.setOnClickListener(v -> {
+            binding.autoCompleteTextViewSearch.setText("");
         });
 
         switchFragment(new ListAllServiceFragment());
@@ -146,7 +161,82 @@ public class ServiceManagementActivity extends AppCompatActivity {
             intent.putExtra("option", "add");
             startActivityForResult(intent, ADD_SERVICE);
         });
+
+        binding.autoCompleteTextViewSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() == 0) {
+                    binding.buttonClear.setVisibility(View.GONE);
+                    return;
+                } else {
+                    binding.buttonClear.setVisibility(View.VISIBLE);
+                }
+
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                List<String> results = findNameServiceByKeyword(s.toString());
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ServiceManagementActivity.this, R.layout.layout_custom_auto_complete_dropdown, results);
+                binding.autoCompleteTextViewSearch.setAdapter(adapter);
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (s.toString().length() > 0) {
+                            binding.autoCompleteTextViewSearch.showDropDown();
+                        }
+                    }
+                };
+                handler.postDelayed(runnable, 500);
+            }
+        });
+
+        binding.buttonSearch.setOnClickListener(v -> {
+            if (currentFragmentIndex == 1) {
+                switchFragment(new ListAllServiceFragment(binding.autoCompleteTextViewSearch.getText().toString(), ServiceManagementActivity.this));
+            } else {
+                if (currentFragmentIndex == 2) {
+                    switchFragment(new ListActiveServiceFragment(binding.autoCompleteTextViewSearch.getText().toString(), ServiceManagementActivity.this));
+                } else {
+                    if (currentFragmentIndex == 3) {
+                        switchFragment(new ListInactiveServiceFragment(binding.autoCompleteTextViewSearch.getText().toString(), ServiceManagementActivity.this));
+                    } else {
+                        switchFragment(new ListServiceDeletedFragment(binding.autoCompleteTextViewSearch.getText().toString(), ServiceManagementActivity.this));
+                    }
+                }
+            }
+        });
     }
+
+    public List<String> findNameServiceByKeyword(String keyword) {
+        List<String> listServiceName = null;
+        try {
+            ServiceServiceImpl service = new ServiceServiceImpl(ServiceManagementActivity.this);
+            if (currentFragmentIndex == 1) {
+                listServiceName = service.findServiceName(keyword, "", 0);
+            } else if (currentFragmentIndex == 2) {
+                listServiceName = service.findServiceName(keyword, "Active", 0);
+            } else if (currentFragmentIndex == 3) {
+                listServiceName = service.findServiceName(keyword, "Inactive", 0);
+            } else {
+                listServiceName = service.findServiceName(keyword, "", 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listServiceName;
+    }
+
 
     public void switchFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.linear_layout_list_service, fragment).commit();

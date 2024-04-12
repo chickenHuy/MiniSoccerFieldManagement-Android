@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -56,11 +57,20 @@ public class ListAllServiceFragment extends Fragment {
         return binding.getRoot();
     }
 
+    public ListAllServiceFragment() {
+        listAllService = new ArrayList<Service>();
+    }
+
+    public ListAllServiceFragment(String keyword, Context context) {
+        listAllService = new ServiceServiceImpl(context).findServiceByKeyword(keyword, ServiceManagementActivity.NUMBER_SERVICE_LOAD, 0, "", 0);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((ServiceManagementActivity) requireActivity()).switchButtonSelected(1);
 
+        ((ServiceManagementActivity) requireActivity()).currentFragmentIndex = 1;
         setWidget();
         listViewSetUp();
         loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "", 0, ((ServiceManagementActivity) requireActivity()).filter);
@@ -68,7 +78,6 @@ public class ListAllServiceFragment extends Fragment {
 
     public void setWidget() {
         listViewListService = binding.listViewAllService;
-        listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
 
@@ -148,7 +157,7 @@ public class ListAllServiceFragment extends Fragment {
             return;
         }
 
-        if (countAllServiceNotDeleted == listAllService.size()) {
+        if (countAllServiceNotDeleted <= listAllService.size()) {
             return;
         }
 

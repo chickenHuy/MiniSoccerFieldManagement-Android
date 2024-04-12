@@ -6,7 +6,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -53,14 +55,23 @@ public class ListServiceDeletedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((ServiceManagementActivity) requireActivity()).switchButtonSelected(4);
 
+        ((ServiceManagementActivity) requireActivity()).currentFragmentIndex = 4;
         setWidget();
         listViewSetUp();
         loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "", 1, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
+    public ListServiceDeletedFragment() {
+        listAllService = new ArrayList<Service>();
+    }
+
+    public ListServiceDeletedFragment(String keyword, Context context) {
+        listAllService = new ServiceServiceImpl(context).findServiceByKeyword(keyword, ServiceManagementActivity.NUMBER_SERVICE_LOAD, 0, "", 1);
+    }
+
+
     public void setWidget() {
         listViewListService = binding.listViewAllService;
-        listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
 
@@ -99,8 +110,7 @@ public class ListServiceDeletedFragment extends Fragment {
                                     }
                                 });
                                 customDialogFragment.show(getParentFragmentManager(), "custom_dialog_notify");
-                            }
-                            else{
+                            } else {
                                 customDialogFragment = new CustomDialogFragment(requireActivity(), getResources().getString(R.string.success), "", "error", "", getResources().getString(R.string.string_continue), null, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -140,7 +150,8 @@ public class ListServiceDeletedFragment extends Fragment {
             return;
         }
 
-        if (countServiceDeleted == listAllService.size()) {
+        Log.i("countServiceDeleted", countServiceDeleted + "");
+        if (countServiceDeleted <= listAllService.size()) {
             return;
         }
 
