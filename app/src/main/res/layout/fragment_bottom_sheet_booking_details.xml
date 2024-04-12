@@ -130,6 +130,7 @@
 
         <RelativeLayout
             style="@style/width_mp_height_wc"
+            android:id="@+id/customer_layout"
             android:background="@drawable/background_white_radius_10dp"
             android:layout_margin="5dp"
             android:elevation="5dp"
@@ -185,7 +186,7 @@
                             android:id="@+id/tvCustomerName"
                             style="@style/width_wc_height_wc"
                             android:inputType="phone"
-                            android:text="Nguyễn Thiện Luân"
+                            android:text="@string/customer_has_been_deleted"
                             android:textColor="@color/blackGray"
                             android:textStyle="bold"
                             android:textSize="16sp" />
@@ -212,7 +213,7 @@
                             android:id="@+id/tvPhoneNumber"
                             style="@style/width_wc_height_wc"
                             android:inputType="phone"
-                            android:text="0889192145"
+                            android:text="xxxxxxxxxx"
                             android:textColor="@color/blackGray"
                             android:textStyle="bold"
                             android:textSize="16sp" />

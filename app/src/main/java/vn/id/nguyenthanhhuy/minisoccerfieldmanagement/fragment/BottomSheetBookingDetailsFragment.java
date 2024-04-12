@@ -168,6 +168,14 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
                 builder.show();
             }
         });
+
+        binding.customerLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                return false;
+            }
+        });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

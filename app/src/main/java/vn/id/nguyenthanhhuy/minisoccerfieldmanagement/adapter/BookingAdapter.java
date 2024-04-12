@@ -134,8 +134,10 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (!hide[position])
             {
                 Customer customer = customerService.findById(data[position].getCustomerId());
-                ((BookedViewHolder) holder).tvPhone.setText(customer.getPhoneNumber());
-                ((BookedViewHolder) holder).tvCustomer.setText(customer.getName());
+                if (customer != null) {
+                    ((BookedViewHolder) holder).tvPhone.setText(customer.getPhoneNumber());
+                    ((BookedViewHolder) holder).tvCustomer.setText(customer.getName());
+                }
             }
         }
 

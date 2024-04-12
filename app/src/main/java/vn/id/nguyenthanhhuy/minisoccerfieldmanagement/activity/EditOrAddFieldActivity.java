@@ -23,6 +23,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -62,8 +65,20 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_or_add_field);
         Utils.setStatusBarColor(this);
         setWigets();
+        setDefaultImage();
         setEvents();
         setData();
+    }
+
+    private void setDefaultImage() {
+        try {
+            InputStream is = this.getAssets().open("viewPagerImages/background_field_1.png");
+            bitmapFieldImage = BitmapFactory.decodeStream(is);
+            imgField.setImageBitmap(bitmapFieldImage);
+        }
+        catch (IOException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setData() {

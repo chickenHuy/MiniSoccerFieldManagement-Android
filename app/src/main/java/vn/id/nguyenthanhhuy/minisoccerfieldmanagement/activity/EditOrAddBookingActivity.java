@@ -126,10 +126,13 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
             Booking booking = bundle.getSerializable("booking") != null ? (Booking) bundle.getSerializable("booking") : null;
             if (booking != null) {
                 Customer customer = customerService.findById(booking.getCustomerId());
-                edtPhoneNumber.setText(customer.getPhoneNumber());
-                edtCustomerName.setText(customer.getName());
-                edtPhoneNumber.setEnabled(false);
-                edtCustomerName.setEnabled(false);
+                if (customer != null) {
+                    edtPhoneNumber.setText(customer.getPhoneNumber());
+                    edtCustomerName.setText(customer.getName());
+
+                    edtPhoneNumber.setEnabled(false);
+                    edtCustomerName.setEnabled(false);
+                }
 
                 try {
                     this.day = Utils.getDayOfWeekFromTimestamp(booking.getTimeStart());
