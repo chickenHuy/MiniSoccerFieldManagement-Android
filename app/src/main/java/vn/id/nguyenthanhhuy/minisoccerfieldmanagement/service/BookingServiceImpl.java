@@ -25,7 +25,7 @@ public class BookingServiceImpl implements IBookingService{
 
 
     @Override
-    public Boolean isBookedOfParentField(Field child, Timestamp date, Time start, Time end) {
+    public Boolean isBookedOfParentField(String idUpdated, Field child, Timestamp date, Time start, Time end) {
         IFieldService fieldService = new FieldServiceImpl(context);
 
         List<Field> parentFields = fieldService.findParent(child.getId());
@@ -50,6 +50,9 @@ public class BookingServiceImpl implements IBookingService{
         LocalTime endLocalTime = LocalTime.of(hour, minute);
         Calendar cal = Calendar.getInstance();
         for (Booking booking : bookings) {
+            if (booking.getId().equals(idUpdated)) {
+                continue;
+            }
             cal.setTimeInMillis(booking.getTimeStart().getTime());
 
             hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -88,7 +91,7 @@ public class BookingServiceImpl implements IBookingService{
     }
 
     @Override
-    public Boolean isBookedOfChildField(Field Parent, Timestamp date, Time start, Time end) {
+    public Boolean isBookedOfChildField(String idUpdated, Field Parent, Timestamp date, Time start, Time end) {
         IFieldService fieldService = new FieldServiceImpl(context);
         List<Field> childFields = new ArrayList<>();
         Field child1 = fieldService.findById(Parent.getCombineField1());
@@ -125,6 +128,9 @@ public class BookingServiceImpl implements IBookingService{
         LocalTime endLocalTime = LocalTime.of(hour, minute);
         Calendar cal = Calendar.getInstance();
         for (Booking booking : bookings) {
+            if (booking.getId().equals(idUpdated)) {
+                continue;
+            }
             cal.setTimeInMillis(booking.getTimeStart().getTime());
 
             hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -171,6 +177,11 @@ public class BookingServiceImpl implements IBookingService{
     @Override
     public Boolean updateStatus(String id, String status) {
         return bookingDAO.updateStatus(id, status);
+    }
+
+    @Override
+    public Boolean update(Booking booking) {
+        return bookingDAO.update(booking);
     }
 
     @Override

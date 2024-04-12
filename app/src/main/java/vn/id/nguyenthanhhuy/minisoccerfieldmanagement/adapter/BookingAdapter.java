@@ -72,7 +72,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         blocked = new Boolean[(timeList.size()+1)*fieldList.size()];
         data = new Booking[(timeList.size()+1)*fieldList.size()];
         hide = new Boolean[(timeList.size()+1)*fieldList.size()];
-        for (int i = 0; i < timeList.size(); i++)
+        for (int i = 0; i <= timeList.size(); i++)
         {
             for (int j = 0; j < fieldList.size(); j++)
             {
@@ -160,7 +160,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         calendarEnd.setTimeInMillis(booking.getTimeEnd().getTime());
 
         int hours = calendarStart.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendarEnd.get(Calendar.MINUTE);
+        int minutes = calendarStart.get(Calendar.MINUTE);
         LocalTime timeStart = LocalTime.of(hours, minutes);
 
 
@@ -272,27 +272,33 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Booking booking = data[getPosition()];
+                    try
+                    {
+                        Booking booking = data[getPosition()];
 
-                    // Create a Bundle and put the Booking into it
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("booking", (Serializable) booking);
+                        // Create a Bundle and put the Booking into it
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("booking", (Serializable) booking);
 
-                    // Create the BottomSheetBookingDetailsFragment and set the arguments
-                    BottomSheetBookingDetailsFragment bottomSheetBookingDetailsFragment = new BottomSheetBookingDetailsFragment();
-                    bottomSheetBookingDetailsFragment.setArguments(bundle);
-                    bottomSheetBookingDetailsFragment.onBookingReloadListener(new OnBookingReloadListener() {
-                        @Override
-                        public void onBookingReload(String date) {
-                            if (onAdapterChangedListener != null)
-                            {
-                                onAdapterChangedListener.onAdapterChanged(date);
+                        // Create the BottomSheetBookingDetailsFragment and set the arguments
+                        BottomSheetBookingDetailsFragment bottomSheetBookingDetailsFragment = new BottomSheetBookingDetailsFragment();
+                        bottomSheetBookingDetailsFragment.setArguments(bundle);
+                        bottomSheetBookingDetailsFragment.onBookingReloadListener(new OnBookingReloadListener() {
+                            @Override
+                            public void onBookingReload(String date) {
+                                if (onAdapterChangedListener != null)
+                                {
+                                    onAdapterChangedListener.onAdapterChanged(date);
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    // Show the BottomSheetBookingDetailsFragment
-                    bottomSheetBookingDetailsFragment.show(((MainActivity) context).getSupportFragmentManager(), bottomSheetBookingDetailsFragment.getTag());
+                        // Show the BottomSheetBookingDetailsFragment
+                        bottomSheetBookingDetailsFragment.show(((MainActivity) context).getSupportFragmentManager(), bottomSheetBookingDetailsFragment.getTag());
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
