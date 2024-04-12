@@ -495,10 +495,15 @@ public class ServiceDAOImpl implements IServiceDAO {
     public List<String> findServiceName(String keyword, String status, int isDeleted) {
         List<String> serviceName = new ArrayList<>();
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-
-        String query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? AND status = ? AND isDeleted = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", status, String.valueOf(isDeleted)});
-
+        String query = null;
+        Cursor cursor = null;
+        if (status.equals("")) {
+            query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? AND isDeleted = ?";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", String.valueOf(isDeleted)});
+        } else {
+            query = "SELECT name FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME + " WHERE name LIKE ? AND status = ? AND isDeleted = ?";
+            cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", status, String.valueOf(isDeleted)});
+        }
 
         while (cursor.moveToNext()) {
             serviceName.add(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceEntry.COLUMN_NAME_NAME)));
@@ -519,7 +524,7 @@ public class ServiceDAOImpl implements IServiceDAO {
 
         if (status.equals("")) {
             query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME +
-                    " WHERE name LIKE ? AND is_deleted = ? " + " LIMIT ? OFFSET ?";
+                    " WHERE name LIKE ? AND isDeleted = ? " + " LIMIT ? OFFSET ?";
             cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", String.valueOf(isDeleted), String.valueOf(limit), String.valueOf(offset)});
         } else {
             query = "SELECT * FROM " + SoccerFieldContract.ServiceEntry.TABLE_NAME +

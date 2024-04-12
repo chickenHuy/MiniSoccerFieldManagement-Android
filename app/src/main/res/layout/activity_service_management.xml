@@ -59,6 +59,20 @@
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_clear"
+                android:layout_width="35dp"
+                android:visibility="gone"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/background_circular_50_percent"
+                android:backgroundTint="@android:color/transparent"
+                android:drawableTop="@drawable/ic_close"
+                android:drawableTint="@color/gray"
+                android:paddingStart="1dp"
+                android:paddingTop="6dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_search"
                 android:layout_width="35dp"
                 android:layout_height="35dp"

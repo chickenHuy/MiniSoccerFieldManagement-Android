@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -56,14 +57,22 @@ public class ListInactiveServiceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((ServiceManagementActivity) requireActivity()).switchButtonSelected(3);
 
+        ((ServiceManagementActivity) requireActivity()).currentFragmentIndex = 3;
         setWidget();
         listViewSetUp();
         loadService(((ServiceManagementActivity) requireActivity()).NUMBER_SERVICE_LOAD, 0, "Inactive", 0, ((ServiceManagementActivity) requireActivity()).filter);
     }
 
+    public ListInactiveServiceFragment() {
+        listAllService = new ArrayList<Service>();
+    }
+
+    public ListInactiveServiceFragment(String keyword, Context context) {
+        listAllService = new ServiceServiceImpl(context).findServiceByKeyword(keyword, ServiceManagementActivity.NUMBER_SERVICE_LOAD, 0, "Inactive", 0);
+    }
+
     public void setWidget() {
         listViewListService = binding.listViewAllService;
-        listAllService = new ArrayList<Service>();
         listViewServiceAdapter = new ListViewServiceAdapter(requireContext(), listAllService, true);
         listViewListService.setAdapter(listViewServiceAdapter);
 
@@ -161,7 +170,7 @@ public class ListInactiveServiceFragment extends Fragment {
             return;
         }
 
-        if (countServiceInactive == listAllService.size()) {
+        if (countServiceInactive <= listAllService.size()) {
             return;
         }
 
