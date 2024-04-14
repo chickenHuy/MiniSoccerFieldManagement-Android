@@ -2,6 +2,8 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditOrAddCustomerActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EmployeeManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewCustomerAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewEmployeeAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentCustomerBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
 
 public class CustomerFragment extends Fragment {
+    private List<Customer> customerList;
     private FragmentCustomerBinding binding;
     private ListViewCustomerAdapter listViewCustomerAdapter;
     private ListView listViewCustomer;
@@ -59,6 +65,36 @@ public class CustomerFragment extends Fragment {
                     setListView();
                 });
                 bottomSheet.show(getParentFragmentManager(), "CustomerBottomSheetDialogFragment");
+            }
+        });
+
+        binding.textViewSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String searchText = s.toString();
+                List<Customer> customerFromDb = customerService.findCustomer(searchText);
+                if (customerFromDb == null) {
+                    customerList = new ArrayList<>();
+                } else {
+                    customerList = customerFromDb;
+                }
+                if (listViewCustomerAdapter == null) {
+                    listViewCustomerAdapter = new ListViewCustomerAdapter(requireContext(), customerList);
+                    binding.listViewCustomer.setAdapter(listViewCustomerAdapter);
+                } else {
+                    listViewCustomerAdapter.setData(customerList);
+                    listViewCustomerAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

@@ -74,6 +74,7 @@
                 android:id="@+id/edtPhoneNumber"
                 style="@style/width_mp_height_wc"
                 android:hint="Phone number"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textSize="17sp" />
         </com.google.android.material.textfield.TextInputLayout>

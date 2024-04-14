@@ -15,4 +15,5 @@ public interface ICustomerService {
     List<Customer> findAll();
     List<Customer> findByMemberShip(String membershipId);
     public int findDiscountByCustomer(String customerId);
+    public List<Customer> findCustomer(String searchparam);
 }
