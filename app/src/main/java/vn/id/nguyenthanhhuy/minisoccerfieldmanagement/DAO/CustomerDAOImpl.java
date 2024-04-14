@@ -14,6 +14,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class CustomerDAOImpl implements ICustomerDAO{
@@ -294,6 +295,59 @@ public class CustomerDAOImpl implements ICustomerDAO{
         finally {
             if (cursor != null)
             {
+                cursor.close();
+            }
+        }
+        return customers;
+    }
+    @Override
+    public List<Customer> findCustomer(String searchParam){
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<Customer> customers = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String[] projection = {
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_MEMBERSHIP_ID,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_NAME,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_PHONE_NUMBER,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_TOTAL_SPEND,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_IMAGE,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT
+            };
+            String selection = SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED + " = ? AND (" + SoccerFieldContract.CustomerEntry.COLUMN_NAME_PHONE_NUMBER + " LIKE ? OR " + SoccerFieldContract.CustomerEntry.COLUMN_NAME_NAME + " LIKE ?)";
+            String[] selectionArgument = {"0", "%" + searchParam + "%", "%" + searchParam + "%"};
+
+            cursor = db.query(
+                    SoccerFieldContract.CustomerEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgument,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                    Customer customer = new Customer(
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_MEMBERSHIP_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_PHONE_NUMBER)),
+                        BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_TOTAL_SPEND))),
+                        cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IMAGE)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_IS_DELETED)) == 1,
+                        Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_CREATED_AT))),
+                        Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_UPDATED_AT))
+                        ));
+                customers.add(customer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
