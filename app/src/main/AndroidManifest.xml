@@ -18,6 +18,9 @@
             android:name=".activity.DataStatistics"
             android:exported="false" />
         <activity
+            android:name=".activity.InvoiceManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MatchActivity"
             android:exported="false" />
         <activity
