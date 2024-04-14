@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.Contract;
+
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -410,5 +413,24 @@ public class DBHandler extends SQLiteOpenHelper {
                 "('4', 'Platinum', 5, 10000000, 0, datetime('now'), NULL),\n" +
                 "('5', 'Diamond', 6, 20000000, 0, datetime('now'), NULL);\n";
         db.execSQL(INSERT_DATA);
+    }
+
+    private  void  insertField(@NonNull SQLiteDatabase db)
+    {
+        String INSERT_DATA = "INSERT INTO Field (id, name, status, type, createdAt) " +
+        "VALUES (" + (CurrentTimeID.nextId("F")) + ", '5 Tmp', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 A', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 B', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 C', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 D', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 E', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 F', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 G', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 H', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 I', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 J', 'Active', '5 a side', datetime('now'))," +
+        "(" + (CurrentTimeID.nextId("F")) + ", '5 K', 'Active', '5 a side', datetime('now')),";
+        db.execSQL(INSERT_DATA);
+
     }
 }

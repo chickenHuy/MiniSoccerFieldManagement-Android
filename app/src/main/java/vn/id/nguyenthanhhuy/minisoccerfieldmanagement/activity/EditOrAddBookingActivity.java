@@ -293,7 +293,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
 
                     booking.setPrice(price);
                     booking.setStatus(StaticString.ACTIVE);
-                    booking.setUserId("1");
+                    booking.setUserId("2");
                     booking.setId(CurrentTimeID.nextId("B"));
                     //Show thông báo test
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditOrAddBookingActivity.this);
