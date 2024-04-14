@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewMatchAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewMatchAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
@@ -55,8 +59,10 @@ public class HomeFragment extends Fragment {
     private ArrayList<Button> listButton;
     private ListView listViewMatch;
     private List<Service> listService;
+    private List<String> listMatch;
 
     private RecyclerView recyclerViewListService;
+    private RecyclerView recyclerViewListMatch;
 
     private TextView text_view_name;
 
@@ -127,6 +133,68 @@ public class HomeFragment extends Fragment {
     }
 
     public void setListButton() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+
+                if (swipeDir == ItemTouchHelper.LEFT) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Hủy trận đấu")
+                            .setMessage("Bạn có chắc chắn muốn hủy trận đấu này không?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Remove item from your data set here.
+                                    listMatch.remove(position);
+
+                                    // Notify the adapter that an item is removed.
+                                    RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListMatch.getAdapter();
+                                    adapter.notifyItemRemoved(position);
+
+                                    // Notify the adapter that the data set has changed.
+                                    adapter.notifyItemRangeChanged(position, listMatch.size());
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User cancelled the dialog
+                                    // Here you can run whatever you want to if the user dismisses the dialog
+                                    recyclerViewListMatch.getAdapter().notifyItemChanged(position);
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else if (swipeDir == ItemTouchHelper.RIGHT) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Checkin trận đấu")
+                            .setMessage("Bạn có chắc chắn muốn checkin trận đấu này không?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with checkin operation
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User cancelled the dialog
+                                    // Here you can run whatever you want to if the user dismisses the dialog
+                                    recyclerViewListMatch.getAdapter().notifyItemChanged(position);
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .show();
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerViewListMatch);
+
         buttonUpcoming = binding.buttonUpcoming;
         buttonLive = binding.buttonLive;
         buttonToday = binding.buttonToday;
@@ -142,50 +210,54 @@ public class HomeFragment extends Fragment {
         buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
         buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
         buttonUpcoming.setTextColor(getResources().getColor(R.color.white));
-        List<String> listMatch = new ArrayList<>();
+        listMatch = new ArrayList<>();
         listMatch.add("MatchRecord 1");
         listMatch.add("MatchRecord 2");
         listMatch.add("MatchRecord 3");
 
-        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-        listViewMatch.setAdapter(listViewMatchAdapter);
+//        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+//        listViewMatch.setAdapter(listViewMatchAdapter);
+        RecyclerViewMatchAdapter recyclerViewMatchAdapter = new RecyclerViewMatchAdapter(getContext(), listMatch);
+        recyclerViewListMatch.setAdapter(recyclerViewMatchAdapter);
+        recyclerViewListMatch.setLayoutManager(new LinearLayoutManager(getContext()));
 
         for (Button button : listButton) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    listMatch.clear();
                     if (v.getId() == R.id.button_upcoming) {
-                        List<String> listMatch = new ArrayList<>();
+//                        listMatch = new ArrayList<>();
                         listMatch.add("MatchRecord 1");
                         listMatch.add("MatchRecord 2");
                         listMatch.add("MatchRecord 3");
 
-                        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-                        listViewMatch.setAdapter(listViewMatchAdapter);
+//                        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+//                        listViewMatch.setAdapter(listViewMatchAdapter);
                     } else {
                         if (v.getId() == R.id.button_live) {
-                            List<String> listMatch = new ArrayList<>();
+//                            listMatch = new ArrayList<>();
                             listMatch.add("MatchRecord 1");
                             listMatch.add("MatchRecord 2");
                             listMatch.add("MatchRecord 3");
                             listMatch.add("MatchRecord 4");
 
-                            ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-                            listViewMatch.setAdapter(listViewMatchAdapter);
+//                            ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+//                            listViewMatch.setAdapter(listViewMatchAdapter);
                         } else {
                             if (v.getId() == R.id.button_today) {
-                                List<String> listMatch = new ArrayList<>();
+//                                listMatch = new ArrayList<>();
                                 listMatch.add("MatchRecord 1");
                                 listMatch.add("MatchRecord 2");
                                 listMatch.add("MatchRecord 3");
                                 listMatch.add("MatchRecord 4");
                                 listMatch.add("MatchRecord 5");
 
-                                ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-                                listViewMatch.setAdapter(listViewMatchAdapter);
+//                                ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+//                                listViewMatch.setAdapter(listViewMatchAdapter);
                             } else {
                                 if (v.getId() == R.id.button_tomorrow) {
-                                    List<String> listMatch = new ArrayList<>();
+//                                    listMatch = new ArrayList<>();
                                     listMatch.add("MatchRecord 1");
                                     listMatch.add("MatchRecord 2");
                                     listMatch.add("MatchRecord 3");
@@ -193,8 +265,8 @@ public class HomeFragment extends Fragment {
                                     listMatch.add("MatchRecord 5");
                                     listMatch.add("MatchRecord 6");
 
-                                    ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-                                    listViewMatch.setAdapter(listViewMatchAdapter);
+//                                    ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
+//                                    listViewMatch.setAdapter(listViewMatchAdapter);
                                 }
                             }
                         }
@@ -211,13 +283,14 @@ public class HomeFragment extends Fragment {
                             otherButton.setTextColor(getResources().getColor(R.color.blackGray));
                         }
                     }
+                    recyclerViewMatchAdapter.notifyDataSetChanged();
                 }
             });
         }
     }
 
     public void setWidgets() {
-        listViewMatch = binding.listViewMatch;
+        recyclerViewListMatch = binding.recyclerViewMatch;
         ((AppCompatButton) binding.buttonSeeAllService).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.Contract;
-
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.PasswordUtils;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "mini_soccer_field_mgmt.db";
@@ -189,6 +188,8 @@ public class DBHandler extends SQLiteOpenHelper {
         insertPriceList(db);
         insertMembership(db);
         insertCustomer(db);
+        insertUser(db);
+        insertField(db);
     }
 
     @Override
@@ -417,20 +418,28 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private  void  insertField(@NonNull SQLiteDatabase db)
     {
-        String INSERT_DATA = "INSERT INTO Field (id, name, status, type, createdAt) " +
-        "VALUES (" + (CurrentTimeID.nextId("F")) + ", '5 Tmp', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 A', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 B', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 C', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 D', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 E', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 F', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 G', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 H', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 I', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 J', 'Active', '5 a side', datetime('now'))," +
-        "(" + (CurrentTimeID.nextId("F")) + ", '5 K', 'Active', '5 a side', datetime('now')),";
+        String INSERT_DATA = "INSERT INTO Field (id, name, status, type, createdAt) \n" +
+        "VALUES \n"+
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 Tmp', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 A', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 B', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 C', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 D', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 E', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 F', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 G', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 H', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 I', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 J', 'active', '5 a side', datetime('now')),\n" +
+        "('" + (CurrentTimeID.nextId("F")) + "', '5 K', 'active', '5 a side', datetime('now'));\n";
         db.execSQL(INSERT_DATA);
 
+    }
+
+    private void insertUser(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO User (id, userName, password, name, phoneNumber, gender, dateOfBirth, role, isDeleted, createdAt)\n" +
+                "VALUES\n" +
+                "('user1', 'admin', '" + PasswordUtils.hashPassword("admin") + "', 'Admin', '0123456789', 'Male', '1999-01-01', 'Manager', 0, datetime('now'));\n";
+        db.execSQL(INSERT_DATA);
     }
 }

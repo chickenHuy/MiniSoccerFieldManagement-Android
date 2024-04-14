@@ -45,7 +45,7 @@
             android:name=".activity.FieldManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -55,9 +55,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.Base" />
+            android:name=".activity.MainActivity"
+            android:exported="false"/>
+<!--            android:theme="@style/AppTheme.Base" />-->
         <activity
             android:name=".activity.ChangePasswordActivity"
             android:exported="false" />

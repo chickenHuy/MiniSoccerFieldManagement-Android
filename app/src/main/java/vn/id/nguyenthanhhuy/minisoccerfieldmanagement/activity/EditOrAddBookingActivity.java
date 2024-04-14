@@ -245,7 +245,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                         customer.setTotalSpend(BigDecimal.ZERO);
                         booking.setCustomerId(customer.getId());
                         IMembershipService membershipService = new MembershipServiceImpl(EditOrAddBookingActivity.this);
-                        Membership membership = membershipService.findBySpendAmount(new BigDecimal(9999));
+                        Membership membership = membershipService.findBySpendAmount(new BigDecimal(0));
                         customer.setMemberShipId(membership.getId());
                         customerService.add(customer);
                     }
@@ -293,7 +293,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
 
                     booking.setPrice(price);
                     booking.setStatus(StaticString.ACTIVE);
-                    booking.setUserId("2");
+                    booking.setUserId(MainApplication.curentUser.getId());
                     booking.setId(CurrentTimeID.nextId("B"));
                     //Show thông báo test
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditOrAddBookingActivity.this);

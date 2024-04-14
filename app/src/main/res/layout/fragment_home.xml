@@ -86,18 +86,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/list_view_match"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_match"
             style="@style/width_mp_height_wc"
+            android:layout_height="235dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:divider="@color/white"
-            android:scrollbarSize="0dp" />
+            android:scrollbarSize="0dp"
+            android:scrollbars="vertical"/>
     </LinearLayout>
 
     <LinearLayout

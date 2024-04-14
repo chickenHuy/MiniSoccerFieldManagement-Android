@@ -121,6 +121,9 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
         binding.recyclerTimeSlot.setAdapter(bookingAdapter);
         int numberOfColumns = fieldList.size();
+        if(numberOfColumns== 0){
+            numberOfColumns = 1;
+        }
         layoutManager = new GridLayoutManager(getContext(),numberOfColumns);
         binding.recyclerTimeSlot.setLayoutManager(layoutManager);
 
