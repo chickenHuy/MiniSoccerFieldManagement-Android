@@ -233,6 +233,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black_overlay"/>
         <LinearLayout
+            android:id="@+id/llAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

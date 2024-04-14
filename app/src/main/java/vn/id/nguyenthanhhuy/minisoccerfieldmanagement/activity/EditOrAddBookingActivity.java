@@ -394,7 +394,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private void setSpinnerField() {
         spinnerField = findViewById(R.id.spinnerField);
         fieldService = new FieldServiceImpl(this);
-        fields = fieldService.findAll();
+        fields = fieldService.findAllActiveField();
 
         ArrayAdapter<Field> adapter = new ArrayAdapter<Field>(this, android.R.layout.simple_spinner_item, fields) {
             @Override

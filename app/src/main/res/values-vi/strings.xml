@@ -145,4 +145,5 @@
     <string name="edit_customer">Cập nhật khách hàng</string>
     <string name="customer_has_been_deleted">Đã bị khóa TK</string>
     <string name="price_per_30_minutes">Price per 30 minutes</string>
+    <string name="analysis">Analysis</string>
 </resources>
