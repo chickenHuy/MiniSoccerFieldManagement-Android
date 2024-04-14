@@ -265,6 +265,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return items;
     }
+
     @Override
     public int getItemCount() {
         return (fieldList.size()) * (timeList.size()+1);
@@ -289,16 +290,6 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return false;
             }
             col = selectedItems.keyAt(i) % fieldList.size();
-        }
-
-        int row = -1;
-        for (int i = 0; i < selectedItems.size(); i++)
-        {
-            if (row != -1 && row != selectedItems.keyAt(i) / fieldList.size() - 1)
-            {
-                return false;
-            }
-            row = selectedItems.keyAt(i) / fieldList.size();
         }
         return true;
     }
