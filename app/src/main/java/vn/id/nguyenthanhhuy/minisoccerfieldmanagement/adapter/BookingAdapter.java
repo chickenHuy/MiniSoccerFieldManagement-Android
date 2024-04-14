@@ -3,10 +3,14 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 import static vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R.color.black_overlay;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -15,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -40,7 +46,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 
 public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private BookingFragment.onAdapterChangedListener onAdapterChangedListener;
     public void onAdapterChangedListener(BookingFragment.onAdapterChangedListener listener) {
         this.onAdapterChangedListener = listener;
@@ -252,6 +258,13 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return col;
     }
+    public List<Integer> getSelectedItems() {
+        List<Integer> items = new ArrayList<>(selectedItems.size());
+        for (int i = 0; i < selectedItems.size(); i++) {
+            items.add(selectedItems.keyAt(i));
+        }
+        return items;
+    }
     @Override
     public int getItemCount() {
         return (fieldList.size()) * (timeList.size()+1);
@@ -266,11 +279,57 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public boolean isValidSelected()
+    {
+        int col = -1;
+        for (int i = 0; i < selectedItems.size(); i++)
+        {
+            if (col != -1 && col != selectedItems.keyAt(i) % fieldList.size())
+            {
+                return false;
+            }
+            col = selectedItems.keyAt(i) % fieldList.size();
+        }
 
+        int row = -1;
+        for (int i = 0; i < selectedItems.size(); i++)
+        {
+            if (row != -1 && row != selectedItems.keyAt(i) / fieldList.size() - 1)
+            {
+                return false;
+            }
+            row = selectedItems.keyAt(i) / fieldList.size();
+        }
+        return true;
+    }
     class TimeSlotViewHolder extends RecyclerView.ViewHolder {
 
         TimeSlotViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (selectedItems.get(position, false)) {
+                        selectedItems.delete(position);
+                        itemView.setSelected(false);
+                        itemView.setBackground(context.getResources().getDrawable(R.drawable.background_timeslot_normal));
+                    } else {
+                        selectedItems.put(position, true);
+                        itemView.setSelected(true);
+                        if (isValidSelected()) {
+                            itemView.setBackground(context.getResources().getDrawable(R.drawable.background_item_selected));
+                        }
+                        else
+                        {
+                            selectedItems.delete(position);
+                            itemView.setSelected(false);
+                            Toast.makeText(context, "You can't select this time", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+            });
 
         }
 
