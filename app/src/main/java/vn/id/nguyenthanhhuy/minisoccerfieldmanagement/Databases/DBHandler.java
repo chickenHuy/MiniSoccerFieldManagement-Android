@@ -186,6 +186,7 @@ public class DBHandler extends SQLiteOpenHelper {
         insertPriceList(db);
         insertMembership(db);
         insertCustomer(db);
+        insertUser(db);
     }
 
     @Override
@@ -409,6 +410,13 @@ public class DBHandler extends SQLiteOpenHelper {
                 "('3', 'Gold', 4, 5000000, 0, datetime('now'), NULL),\n" +
                 "('4', 'Platinum', 5, 10000000, 0, datetime('now'), NULL),\n" +
                 "('5', 'Diamond', 6, 20000000, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertUser(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO User (id, userName, password, name, phoneNumber, gender, dateOfBirth, role, isDeleted, createdAt)\n" +
+                "VALUES\n" +
+                "('user1', 'admin', 'admin', 'Admin', '0123456789', 'Male', '1999-01-01', 'Manager', 0, datetime('now'));\n";
         db.execSQL(INSERT_DATA);
     }
 }
