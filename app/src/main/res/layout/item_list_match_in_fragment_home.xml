@@ -64,6 +64,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/text_view_field_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -72,13 +73,35 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
                 android:layout_marginStart="10dp"
-                android:text="Thanh Huy Huy"
-                android:textColor="#7A7A7A"
-                android:textSize="14sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_view_cus_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thanh Huy Huy"
+                    android:textColor="#7A7A7A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "
+                    android:textColor="#7A7A7A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_view_cus_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chicken"
+                    android:textColor="#3F3F3F"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <LinearLayout
                 style="@style/width_mp_height_wc"
@@ -88,6 +111,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
+                    android:id="@+id/text_view_day_of_week"
                     android:text="Tuesday"
                     android:textColor="#001C33"
                     android:textSize="17sp"
@@ -102,6 +126,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
+                    android:id="@+id/text_view_time"
                     android:text="13:00 PM"
                     android:textColor="#001C33"
                     android:textSize="17sp"

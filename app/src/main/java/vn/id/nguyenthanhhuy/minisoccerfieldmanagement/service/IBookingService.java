@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 
 public interface IBookingService {
@@ -19,6 +20,9 @@ public interface IBookingService {
     List<Booking> findByUser(String userId);
     List<Booking> findByField(String fieldId);
     List<Booking> findByStatus(String status);
+    List<Booking> findUpcomingBookings(String status);
+    List<Booking> findLiveBookings();
     List<Booking> findByDate(Timestamp date);
     List<Booking> findByDateAndField(Timestamp date, String fieldId);
+    BookingDetail getBookingDetail(String status, String bookingId);
 }

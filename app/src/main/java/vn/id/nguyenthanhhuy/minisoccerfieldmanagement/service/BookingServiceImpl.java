@@ -13,6 +13,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.BookingDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IBookingDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 
 public class BookingServiceImpl implements IBookingService{
@@ -214,6 +215,16 @@ public class BookingServiceImpl implements IBookingService{
         return bookingDAO.findByStatus(status);
     }
 
+    @Override
+    public List<Booking> findUpcomingBookings(String status) {
+        return bookingDAO.findUpcomingBookings(status);
+    }
+
+    @Override
+    public List<Booking> findLiveBookings() {
+        return bookingDAO.findLiveBookings();
+    }
+
 
     @Override
     public List<Booking> findByDate(Timestamp date) {
@@ -223,5 +234,10 @@ public class BookingServiceImpl implements IBookingService{
     @Override
     public List<Booking> findByDateAndField(Timestamp date, String fieldId) {
         return bookingDAO.findByDateAndField(date, fieldId);
+    }
+
+    @Override
+    public BookingDetail getBookingDetail(String status, String bookingId) {
+        return bookingDAO.getBookingDetail(status, bookingId);
     }
 }
