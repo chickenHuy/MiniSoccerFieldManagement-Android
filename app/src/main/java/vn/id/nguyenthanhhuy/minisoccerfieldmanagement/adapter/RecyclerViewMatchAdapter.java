@@ -1,6 +1,8 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Console;
@@ -32,10 +35,17 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
     private List<Booking> bookingList;
     private BookingDetail bookingDetail;
     private BookingServiceImpl bookingService;
+    private boolean isClickable;
+    private boolean showWarning;
+    private boolean isSweap;
+    private int selectedButtonId;
 
-    public RecyclerViewMatchAdapter(Context context, List<Booking> bookingList) {
+    public RecyclerViewMatchAdapter(Context context, List<Booking> bookingList, boolean showWarning, boolean isSweap, int selectedButtonId) {
         this.context = context;
         this.bookingList = bookingList;
+        this.showWarning = showWarning;
+        this.isSweap = isSweap;
+        this.selectedButtonId = selectedButtonId;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,8 +85,6 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
                 bookingDetail = bookingService.getBookingDetail(booking.getStatus(), booking.getId());
 
                 if (bookingDetail != null) {
-                    System.out.println("bookingDetail: " + bookingDetail.getDate()+ " " + bookingDetail.getTime());
-
                     LocalDateTime dateTime = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && bookingDetail.getDate() != null) {
                         dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(bookingDetail.getDate().getTime()), ZoneId.systemDefault());
@@ -110,6 +118,36 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
                     holder.textViewMatchCustomerPhone.setText(bookingDetail.getCustomerPhone() != null ? bookingDetail.getCustomerPhone() : "");
                     holder.textViewMatchDayOfWeek.setText(bookingDetail.getDayOfWeek() != null ? bookingDetail.getDayOfWeek() : "");
                     holder.textViewMatchTime.setText(formattedTime);
+
+                    if(showWarning) {
+                        // Kiểm tra xem thời gian bắt đầu của trận đấu có cách thời gian hiện tại 15 phút hay không
+                        long currentTime = System.currentTimeMillis();
+                        long timeStart = booking.getTimeStart().getTime();
+                        long timeDifference = Math.abs(timeStart - currentTime);
+
+                        if (timeDifference <= 15 * 60 * 1000) { // 15 phút * 60 giây/phút * 1000 ms/giây
+                            // Nếu thời gian bắt đầu của trận đấu cách thời gian hiện tại 15 phút hoặc ít hơn, thì thay đổi màu nền của item
+                            int redWarningColor = ContextCompat.getColor(context, R.color.red_warning);
+                            holder.itemView.findViewById(R.id.text_view_warning).setVisibility(View.VISIBLE); // hiện warning
+                        } else {
+                            // Nếu không, đặt màu nền về mặc định
+                            holder.itemView.findViewById(R.id.text_view_warning).setVisibility(View.GONE); // ẩn wanrning
+                        }
+                    }
+
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (selectedButtonId == R.id.button_upcoming) {
+                                // Hiển thị BottomSheetMenu với thông tin về booking
+                                // ...
+                            }else {
+                                // Chuyển đến Activity khác với thông tin chi tiết hơn về booking
+                                // ...
+                            }
+                        }
+                    });
+
                 }
             }
         }

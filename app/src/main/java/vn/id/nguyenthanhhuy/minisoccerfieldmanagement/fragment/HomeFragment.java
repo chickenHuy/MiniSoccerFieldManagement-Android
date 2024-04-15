@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +26,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -46,6 +50,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 
 public class HomeFragment extends Fragment {
+    private boolean isSwipeable;
     private FragmentHomeBinding binding;
     private ViewPager viewPagerImage;
     private String[] imagePathArray;
@@ -147,6 +152,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                if(!isSwipeable) {
+//                    recyclerViewListBooking.getAdapter().notifyItemChanged(viewHolder.getAdapterPosition());
+                    return;
+                }
                 int position = viewHolder.getAdapterPosition();
 
                 if (swipeDir == ItemTouchHelper.LEFT) {
@@ -183,6 +192,13 @@ public class HomeFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with checkin operation
                                     bookingService.updateStatus(bookingList.get(position).getId(), "completed");
+                                    bookingList.remove(position);
+                                    // Notify the adapter that an item is removed.
+                                    RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListBooking.getAdapter();
+                                    adapter.notifyItemRemoved(position);
+
+                                    // Notify the adapter that the data set has changed.
+                                    adapter.notifyItemRangeChanged(position, bookingList.size());
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -195,6 +211,14 @@ public class HomeFragment extends Fragment {
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .show();
                 }
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                if (!isSwipeable) {
+                    dX = 0; // Ignore swipe when isSwipeable is false
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
 
@@ -216,13 +240,17 @@ public class HomeFragment extends Fragment {
         buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
         buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
         buttonUpcoming.setTextColor(getResources().getColor(R.color.white));
+
         bookingList = new ArrayList<>();
+        boolean showWarning = true;
+        isSwipeable = true;
+        int selectedButtonId = R.id.button_upcoming;
         List<Booking> upcomingBookingList = bookingService.findUpcomingBookings("active");
         bookingList.addAll(upcomingBookingList);
 
 //        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
 //        listViewMatch.setAdapter(listViewMatchAdapter);
-        RecyclerViewMatchAdapter recyclerViewMatchAdapter = new RecyclerViewMatchAdapter(getContext(), bookingList);
+        RecyclerViewMatchAdapter recyclerViewMatchAdapter = new RecyclerViewMatchAdapter(getContext(), bookingList, showWarning, isSwipeable, selectedButtonId);
         recyclerViewListBooking.setAdapter(recyclerViewMatchAdapter);
         recyclerViewListBooking.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -230,21 +258,25 @@ public class HomeFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    bookingList.clear();
+                    List<Booking> selectedBookingList = new ArrayList<>();
+                        boolean showWarning = false;
                     if (v.getId() == R.id.button_upcoming) {
-                        List<Booking> upcomingBookingList = bookingService.findUpcomingBookings("active");
-                        bookingList.addAll(upcomingBookingList);
+                        selectedBookingList = bookingService.findUpcomingBookings("active");
+                        showWarning = true;
+                        isSwipeable = true;
 //                        listMatch = new ArrayList<>();
 //                        bookingList.add("MatchRecord 1");
 //                        bookingList.add("MatchRecord 2");
 //                        bookingList.add("MatchRecord 3");
-
-//                        ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-//                        listViewMatch.setAdapter(listViewMatchAdapter);
+                        // Đặt danh sách này làm dữ liệu cho RecyclerView
+//                        RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListBooking.getAdapter();
+//                        adapter.setBookingList(upcomingBookingList);
+//                        adapter.notifyDataSetChanged();
                     } else {
                         if (v.getId() == R.id.button_live) {
-                            List<Booking> liveBookingList = bookingService.findLiveBookings();
-                            bookingList.addAll(liveBookingList);
+                            selectedBookingList = bookingService.findLiveBookings();
+                            showWarning = false;
+                            isSwipeable = false;
 //                            listMatch = new ArrayList<>();
 //                            bookingList.add("MatchRecord 1");
 //                            bookingList.add("MatchRecord 2");
@@ -255,6 +287,11 @@ public class HomeFragment extends Fragment {
 //                            listViewMatch.setAdapter(listViewMatchAdapter);
                         } else {
                             if (v.getId() == R.id.button_today) {
+                                // Lấy các trận đấu vào ngày hôm nay
+                                Timestamp currentDateTime = new Timestamp(System.currentTimeMillis());
+                                selectedBookingList = bookingService.findByDate(currentDateTime);
+                                showWarning = false;
+                                isSwipeable = false;
 //                                listMatch = new ArrayList<>();
 //                                bookingList.add("MatchRecord 1");
 //                                bookingList.add("MatchRecord 2");
@@ -266,6 +303,14 @@ public class HomeFragment extends Fragment {
 //                                listViewMatch.setAdapter(listViewMatchAdapter);
                             } else {
                                 if (v.getId() == R.id.button_tomorrow) {
+                                    // Lấy các trận đấu vào ngày mai
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTime(new Date());
+                                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+                                    Timestamp nextDayDateTime = new Timestamp(calendar.getTimeInMillis());
+                                    selectedBookingList = bookingService.findByDate(nextDayDateTime);
+                                    showWarning = false;
+                                    isSwipeable = false;
 //                                    listMatch = new ArrayList<>();
 //                                    bookingList.add("MatchRecord 1");
 //                                    bookingList.add("MatchRecord 2");
@@ -280,6 +325,15 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     }
+                    bookingList.clear();
+                    bookingList.addAll(selectedBookingList);
+                    // Tạo một đối tượng RecyclerViewMatchAdapter mới và đặt nó làm adapter cho recyclerViewListBooking
+                    RecyclerViewMatchAdapter recyclerViewMatchAdapter = new RecyclerViewMatchAdapter(getContext(), bookingList, showWarning, isSwipeable, v.getId());
+                    recyclerViewListBooking.setAdapter(recyclerViewMatchAdapter);
+                    recyclerViewListBooking.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    // Gọi notifyDataSetChanged() trên adapter
+                    recyclerViewMatchAdapter.notifyDataSetChanged();
 
                     button.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
                     button.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
@@ -292,7 +346,6 @@ public class HomeFragment extends Fragment {
                             otherButton.setTextColor(getResources().getColor(R.color.blackGray));
                         }
                     }
-                    recyclerViewMatchAdapter.notifyDataSetChanged();
                 }
             });
         }

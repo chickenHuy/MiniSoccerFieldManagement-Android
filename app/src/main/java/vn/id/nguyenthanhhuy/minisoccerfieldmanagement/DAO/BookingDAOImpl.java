@@ -531,9 +531,10 @@ public class BookingDAOImpl implements IBookingDAO{
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
             String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND "
+                    + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + ", '-1 hour') <= ? AND "
                     + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END + " >= ? AND "
                     + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
-            String[] selectionArgs = { "completed", currentTime.toString(), "0" };
+            String[] selectionArgs = { "completed", currentTime.toString(), currentTime.toString(), "0" };
 
             cursor = db.query(
                     SoccerFieldContract.BookingEntry.TABLE_NAME,
@@ -572,6 +573,8 @@ public class BookingDAOImpl implements IBookingDAO{
 
         return bookings;
     }
+
+
 
     @Override
     public List<Booking> findByDate(Timestamp date) {
