@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import java.util.Calendar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -82,7 +82,26 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
             binding.tvId.setText(booking.getId());
             setSchedule();
             binding.tvStatus.setText(booking.getStatus());
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
 
+            // Set time fields to zero
+            cal1.setTime(booking.getTimeStart());
+            cal1.set(Calendar.HOUR_OF_DAY, 0);
+            cal1.set(Calendar.MINUTE, 0);
+            cal1.set(Calendar.SECOND, 0);
+            cal1.set(Calendar.MILLISECOND, 0);
+
+            cal2.setTime(new Date(System.currentTimeMillis()));
+            cal2.set(Calendar.HOUR_OF_DAY, 0);
+            cal2.set(Calendar.MINUTE, 0);
+            cal2.set(Calendar.SECOND, 0);
+            cal2.set(Calendar.MILLISECOND, 0);
+
+            // Compare only the dates
+            if (cal1.getTime().before(cal2.getTime())) {
+                binding.llAction.setVisibility(View.GONE);
+            }
             Customer customer = customerService.findById(booking.getCustomerId());
             if (customer != null) {
                 binding.tvPhoneNumber.setText(customer.getPhoneNumber());

@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -137,5 +138,15 @@ public class Utils {
                 return "Invalid day";
         }
     }
+
+    public static  Boolean areConsecutiveRows(int sumCol, List<Integer> list){
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i) / sumCol != list.get(i + 1) / sumCol - 1){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

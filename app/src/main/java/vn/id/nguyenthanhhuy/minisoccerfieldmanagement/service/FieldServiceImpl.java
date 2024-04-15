@@ -74,4 +74,9 @@ public class FieldServiceImpl implements IFieldService{
         }
         return result;
     }
+
+    @Override
+    public List<Field> findAllActiveField() {
+        return fieldDAO.findAllActiveField();
+    }
 }

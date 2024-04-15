@@ -76,4 +76,8 @@ public class CustomerServiceImpl implements ICustomerService{
             return membershipDAO.findById(customer.getMemberShipId()).getDiscountRate();
         }
     }
+    @Override
+    public List<Customer> findCustomer(String searchparam){
+        return customerDAO.findCustomer(searchparam);
+    }
 }

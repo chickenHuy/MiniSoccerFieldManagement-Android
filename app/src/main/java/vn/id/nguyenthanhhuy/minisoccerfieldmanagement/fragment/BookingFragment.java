@@ -68,6 +68,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
     private List<Booking> bookingList;
     private List<Field> fieldList;
 
+    private Timestamp dateTimeBooking;
     private SchedulerAdapter schedulerAdapter;
 
     private IFieldService fieldService;
@@ -84,6 +85,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
                              @Nullable Bundle savedInstanceState) {
 
         binding = FragmentBookingBinding.inflate(inflater, container, false);
+        dateTimeBooking = new Timestamp(System.currentTimeMillis());
         tvDateMonth = binding.textDateMonth;
         recyclerView = binding.recyclerView;
         ivCalendarNext = binding.ivCalendarNext;
@@ -144,7 +146,45 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             @Override
             public void onClick(View v) {
 
-                openEditOrAddBookingActivity();
+                try {
+                    List<Integer> positions = bookingAdapter.getSelectedItems();
+                    if (positions.size() == 0) {
+                        throw new Exception("Please select time slots");
+                    }
+
+                    Field fieldSelected = fieldList.get(positions.get(0) % fieldList.size());
+                    List<LocalTime> timeList = TimeGenerator.generateTimes();
+                    LocalTime timeStart = timeList.get(positions.get(0) / fieldList.size() - 1);
+                    LocalTime timeEnd = timeList.get(positions.get(positions.size() - 1) / fieldList.size() - 1).plusMinutes((long)30);
+
+                    if(!Utils.areConsecutiveRows(fieldList.size(), positions)){
+                        throw  new Exception("Please select consecutive time slots");
+                    }
+
+                    Calendar cal = Calendar.getInstance();
+                    String[] timeParts = timeStart.toString().split(":");
+                    int hours = Integer.parseInt(timeParts[0]);
+                    int minutes = Integer.parseInt(timeParts[1]);
+
+                    cal.setTime(dateTimeBooking);
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+                    cal.add(Calendar.HOUR_OF_DAY, hours);
+                    cal.add(Calendar.MINUTE, minutes);
+
+                    Calendar currentCal = Calendar.getInstance();
+
+                    if (cal.before(currentCal)) {
+                        throw  new Exception("Selected time is in the past");
+                    }
+                    openEditOrAddBookingActivity(dateTimeBooking.getTime(), timeStart.toString(), timeEnd.toString(), fieldSelected.getId());
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -160,6 +200,7 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
     @Override
     public void onItemClick(String text, String date, String day) {
         loadScheduler(text);
+        dateTimeBooking = new Timestamp(Utils.convertStringToSqlDate(text).getTime());
     }
 
     private void setUpClickListener() {
@@ -223,8 +264,14 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
             recyclerView.scrollToPosition(todayPosition);
         }
     }
-    private void openEditOrAddBookingActivity() {
+    private void openEditOrAddBookingActivity(Long date, String startTime, String endTime, String fieldId) {
         Intent intent = new Intent(getContext(), EditOrAddBookingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("startTime", startTime);
+        bundle.putString("endTime", endTime);
+        bundle.putLong("date", date);
+        bundle.putString("fieldId", fieldId);
+        intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_CODE_EDIT_ADD_BOOKING);
     }
 

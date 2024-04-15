@@ -121,7 +121,30 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         if (intent != null) {
             Bundle bundle = intent.getParcelableExtra("args");
             if (bundle == null) {
-                return;
+                bundle = intent.getExtras();
+                Long date = bundle.getLong("date");
+                dateSelected = new java.sql.Date(date);
+                tvSchedule.setText(Utils.getDateFromTimestamp(new Timestamp(date)));
+                String startTime = bundle.getString("startTime");
+                edtStartTime.setText(startTime);
+
+                String endTime = bundle.getString("endTime");
+                edtEndTime.setText(endTime);
+
+                String fieldId = bundle.getString("fieldId");
+                fieldSelected = fieldService.findById(fieldId);
+                if (fieldSelected != null) {
+                    int position = -1;
+                    for (int i = 0; i < fields.size(); i++) {
+                        if (fields.get(i).getId().equals(fieldSelected.getId())) {
+                            position = i;
+                            break;
+                        }
+                    }
+                    if (position != -1) {
+                        spinnerField.setSelection(position);
+                    }
+                }
             }
             Booking booking = bundle.getSerializable("booking") != null ? (Booking) bundle.getSerializable("booking") : null;
             if (booking != null) {
@@ -371,7 +394,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private void setSpinnerField() {
         spinnerField = findViewById(R.id.spinnerField);
         fieldService = new FieldServiceImpl(this);
-        fields = fieldService.findAll();
+        fields = fieldService.findAllActiveField();
 
         ArrayAdapter<Field> adapter = new ArrayAdapter<Field>(this, android.R.layout.simple_spinner_item, fields) {
             @Override

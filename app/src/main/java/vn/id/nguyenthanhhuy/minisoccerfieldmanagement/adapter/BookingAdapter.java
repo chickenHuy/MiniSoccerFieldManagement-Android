@@ -55,6 +55,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_TIME_SCHEDULER = 1;
     private static final int TYPE_BOOKED = 2;
     private static final int TYPE_BLOCKED = 3;
+    private static final int TYPE_INACTIVE = 4;
 
     // Your data list here
     private Context context;
@@ -99,6 +100,9 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return TYPE_BOOKED;
         if (blocked[position] != null && blocked[position])
             return TYPE_BLOCKED;
+        if (fieldList.get(position % fieldList.size()).getStatus().equals(StaticString.INACTIVE)) {
+            return  TYPE_INACTIVE;
+        }
         return TYPE_TIME_SCHEDULER;
     }
 
@@ -122,6 +126,11 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_blocked, parent, false);
             return new BlockedViewHolder(view);
         }
+        else if (viewType == TYPE_INACTIVE)
+        {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inactive_time_slot, parent, false);
+            return new InactiveViewHolder(view);
+        }
         else
         {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time_slot, parent, false);
@@ -137,6 +146,11 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
         if (holder instanceof BookedViewHolder) {
+            if (fieldList.get(position % fieldList.size()).getStatus().equals(StaticString.INACTIVE))
+            {
+                // chuyển background thành màu đỏ
+                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.red));
+            }
             if (!hide[position])
             {
                 Customer customer = customerService.findById(data[position].getCustomerId());
@@ -146,6 +160,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         }
+
 
     }
 
@@ -265,6 +280,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return items;
     }
+
     @Override
     public int getItemCount() {
         return (fieldList.size()) * (timeList.size()+1);
@@ -289,16 +305,6 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return false;
             }
             col = selectedItems.keyAt(i) % fieldList.size();
-        }
-
-        int row = -1;
-        for (int i = 0; i < selectedItems.size(); i++)
-        {
-            if (row != -1 && row != selectedItems.keyAt(i) / fieldList.size() - 1)
-            {
-                return false;
-            }
-            row = selectedItems.keyAt(i) / fieldList.size();
         }
         return true;
     }
@@ -380,8 +386,14 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class BlockedViewHolder extends RecyclerView.ViewHolder {
-
         BlockedViewHolder(View itemView) {
+            super(itemView);
+        }
+
+    }
+
+    class InactiveViewHolder extends RecyclerView.ViewHolder {
+        InactiveViewHolder(View itemView) {
             super(itemView);
         }
 

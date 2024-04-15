@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/width_mp_height_wc"
     android:layout_gravity="center"
     android:background="@drawable/background_green_radius_40dp"
@@ -36,8 +37,8 @@
                 android:src="@drawable/ic_username" />
 
             <EditText
-                style="@style/edit_text_custom"
                 android:id="@+id/edtUsername"
+                style="@style/edit_text_custom"
                 android:hint="@string/username" />
         </LinearLayout>
 
@@ -57,11 +58,30 @@
                 android:scaleY="1.1"
                 android:src="@drawable/ic_password" />
 
-            <EditText
-                style="@style/edit_text_custom"
-                android:id="@+id/edtPassword"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
+            <FrameLayout style="@style/width_mp_height_wc">
+
+                <EditText
+                    android:id="@+id/edtPassword"
+                    style="@style/edit_text_custom"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:paddingEnd="45dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_show_password"
+                    android:layout_width="48dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_eye_open"
+                    android:translationY="-1dp"
+                    android:paddingStart="12dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
         </LinearLayout>
 
 
@@ -76,6 +96,7 @@
             android:textSize="13sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -87,8 +108,7 @@
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/btnLogin"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>

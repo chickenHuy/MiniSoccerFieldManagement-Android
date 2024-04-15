@@ -15,4 +15,5 @@ public interface IFieldService {
     List<Field> findByStatus (String status);
 
     List<Field> findParent(String id);
+    List<Field> findAllActiveField();
 }

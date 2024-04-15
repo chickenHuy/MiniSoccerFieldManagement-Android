@@ -394,4 +394,66 @@ public class FieldDAOImpl implements IFieldDAO{
         }
         return listField;
     }
+
+    @Override
+    public List<Field> findAllActiveField() {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<Field> listField = new ArrayList<>();
+        Cursor cursor = null;
+
+        try{
+            String[] projection = {
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_FIELD_NAME,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_STATUS,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_TYPE_FIELD,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_IMAGE,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD1,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD2,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD3   ,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.FieldEntry.COLUMN_NAME_UPDATED_AT
+            };
+
+            String selection = SoccerFieldContract.FieldEntry.COLUMN_NAME_IS_DELETED + " = ? AND status = 'active'";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    SoccerFieldContract.FieldEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                Field field = new Field();
+                field.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_ID)));
+                field.setName(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_FIELD_NAME)));
+                field.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_STATUS)));
+                field.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_TYPE_FIELD)));
+                field.setImage(cursor.getBlob(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_IMAGE)));
+                field.setCombineField1(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD1)));
+                field.setCombineField2(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD2)));
+                field.setCombineField3(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_COMBINE_FIELD3)));
+                field.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_IS_DELETED)) == 1);
+                field.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_CREATED_AT))));
+                field.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.FieldEntry.COLUMN_NAME_UPDATED_AT))));
+
+                listField.add(field);
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return listField;
+    }
 }

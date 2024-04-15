@@ -36,9 +36,11 @@ import java.io.InputStream;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ChangePasswordActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.DataStatistics;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EmployeeManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.InvoiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingPriceListActivity;
@@ -215,6 +217,22 @@ public class ShowUserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EmployeeManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.buttonInvoiceManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InvoiceManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.buttonDataStatistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DataStatistics.class);
                 startActivity(intent);
             }
         });
