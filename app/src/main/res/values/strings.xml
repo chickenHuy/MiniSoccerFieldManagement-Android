@@ -151,4 +151,6 @@
     <string name="customer_has_been_deleted">Customer was baned</string>
     <string name="price_per_30_minutes">Price per 30 minutes</string>
     <string name="analysis">Analysis</string>
+    <string name="invoice_detail">Invoice detail</string>
+    <string name="service_usage">Service usage</string>
 </resources>
