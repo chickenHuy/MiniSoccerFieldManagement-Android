@@ -1,9 +1,12 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edtUsername, edtPassword;
     Button btnLogin;
+    AppCompatButton buttonShowPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        buttonShowPassword = findViewById(R.id.button_show_password);
 
         setStatusBarColor();
         Lingver.getInstance().setLocale(LoginActivity.this, MainApplication.language);
@@ -58,19 +64,30 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+
+        buttonShowPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtPassword.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+                    edtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                edtPassword.setSelection(edtPassword.getText().length());
+            }
+        });
     }
 
     public void setStatusBarColor() {
         getWindow().setStatusBarColor(getResources().getColor(R.color.primaryColor, getTheme()));
     }
 
-    public void login(){
+    public void login() {
         // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
         if (edtUsername.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
             Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_SHORT).show();
             return; // Kết thúc hàm
-        }
-        else{
+        } else {
             // Gọi hàm verifyLoginData trong UserServiceImpl để kiểm tra thông tin đăng nhập
             UserServiceImpl userService = new UserServiceImpl(LoginActivity.this);
             User user = userService.verifyLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
@@ -78,8 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             // Nếu thông tin đăng nhập không chính xác
             if (user == null) {
                 Toast.makeText(LoginActivity.this, "Username or password is incorrect", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 // Nếu thông tin đăng nhập chính xác, chuyển sang màn hình Dashboard
                 MainApplication.curentUser = user;
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
