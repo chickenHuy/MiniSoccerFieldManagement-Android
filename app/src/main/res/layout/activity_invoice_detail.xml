@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/width_mp_height_mp"
+    android:background="@color/white"
+    tools:context=".activity.ServicePaymentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/text_view_activity_tittle"
+                style="@style/header_text_custom"
+                android:layout_gravity="center"
+                android:text="@string/invoice_detail"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_back_arrow" />
+        </FrameLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:backgroundTint="@color/itemServiceBackgroundColor"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/width_mp_height_wc"
+                android:text="@string/customer_information"
+                android:textColor="@color/primaryColor"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_customer_information"
+                style="@style/width_mp_height_wc"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/full_name"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="Thanh Huy"
+                        android:id="@+id/name_customer"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/phone_number"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:id="@+id/phone_customer"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="0869017464"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="@string/membership_name"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text=": "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        style="@style/width_wc_height_wc"
+                        android:text="Diamond"
+                        android:id="@+id/membership"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:backgroundTint="@color/itemServiceBackgroundColor"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/width_mp_height_wc"
+                android:text="@string/service_usage"
+                android:textColor="@color/primaryColor"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:backgroundTint="@color/itemServiceBackgroundColor"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/payment_code"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_payment_code"
+                    style="@style/width_wc_height_wc"
+                    android:layout_width="274dp"
+                    android:layout_weight="1"
+                    android:text="CHICKENHUY"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/payment_time"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_payment_time"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="dd-MM-yyyy HH:mm"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/total_field_price"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_total_field_price"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="100,000,000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/total_service_price"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_total_service_price"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="100,000,000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/additional_fee"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_additional_fee"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="100,000,000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/discount"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text_view_discount"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="100,000,000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="@string/total_amount"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=": "
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/text_view_total_amount"
+                    style="@style/width_wc_height_wc"
+                    android:layout_weight="1"
+                    android:text="100,000,000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

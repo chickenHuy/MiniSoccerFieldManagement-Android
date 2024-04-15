@@ -16,20 +16,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
 
-    <TextView
-        style="@style/header_text_custom"
-        android:layout_gravity="center"
-        android:text="@string/invoice_management"
-        android:textColor="@color/black" />
+        <TextView
+            style="@style/header_text_custom"
+            android:layout_gravity="center"
+            android:text="@string/invoice_management"
+            android:textColor="@color/black" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:paddingLeft="10dp"
-        android:layout_gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:drawableStart="@drawable/ic_back_arrow" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back_arrow" />
     </FrameLayout>
 
     <LinearLayout

@@ -146,4 +146,6 @@
     <string name="customer_has_been_deleted">Đã bị khóa TK</string>
     <string name="price_per_30_minutes">Price per 30 minutes</string>
     <string name="analysis">Analysis</string>
+    <string name="invoice_detail">Chi tiết hóa đơn</string>
+    <string name="service_usage">Dịch vụ sử dụng</string>
 </resources>

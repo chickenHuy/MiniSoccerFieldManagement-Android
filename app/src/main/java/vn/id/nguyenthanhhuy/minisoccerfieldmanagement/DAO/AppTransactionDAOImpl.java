@@ -148,6 +148,62 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
     }
 
     @Override
+    public List<AppTransaction> findAll() {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<AppTransaction> listAppTransactions = new ArrayList<>();
+        Cursor cursor = null;
+
+        try{
+            String[] projection = {
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_USER_ID,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_SERVICE_USAGE_ID,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_TYPE,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_TOTAL_AMOUNT,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_ADDITIONAL_FEE,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_DISCOUNT_AMOUNT,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT
+            };
+
+            String selection = SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED + " = 0 ;";
+            cursor = db.query(
+                    SoccerFieldContract.AppTransactionEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            while (cursor.moveToNext()) {
+                AppTransaction appTransaction = new AppTransaction();
+                appTransaction.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_ID)));
+                appTransaction.setUserID(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_USER_ID)));
+                appTransaction.setServiceUsageId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_SERVICE_USAGE_ID)));
+                appTransaction.setType(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_TYPE)));
+                appTransaction.setTotalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_TOTAL_AMOUNT))));
+                appTransaction.setAdditionalFee(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_ADDITIONAL_FEE))));
+                appTransaction.setDiscountAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_DISCOUNT_AMOUNT))));
+                appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
+                appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
+                appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
+                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                listAppTransactions.add(appTransaction);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return listAppTransactions;
+    }
+
+    @Override
     public List<AppTransaction> findByUser(String userId) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         List<AppTransaction> listAppTransactions = new ArrayList<>();

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MiniSoccerFieldManagement"
         tools:targetApi="31">
         <activity
+            android:name=".activity.InvoiceDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.DataStatistics"
             android:exported="false" />
         <activity
