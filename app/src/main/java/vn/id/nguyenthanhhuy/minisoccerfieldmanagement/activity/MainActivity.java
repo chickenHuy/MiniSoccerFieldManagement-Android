@@ -6,11 +6,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yariksoffice.lingver.Lingver;
 
+import java.util.List;
+
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
@@ -47,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             MainApplication.isChangeLanguage = false;
             floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
         }
-
     }
 
     public void setupBottomNavigationViewMenu() {
@@ -92,7 +98,25 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment, newFragment);
+
+        List<Fragment> allFragments = fragmentManager.getFragments();
+        for (Fragment fragment : allFragments) {
+            if (fragment.getId() == R.id.container_fragment_home || fragment.getId() == R.id.container_fragment) {
+                fragmentTransaction.remove(fragment);
+            }
+        }
+
+        if (newFragment instanceof HomeFragment) {
+            ((LinearLayout) findViewById(R.id.container_fragment_home)).setVisibility(View.VISIBLE);
+            ((ScrollView) findViewById(R.id.scroll_view)).setVisibility(View.GONE);
+
+            fragmentTransaction.replace(R.id.container_fragment_home, newFragment);
+        } else {
+            ((LinearLayout) findViewById(R.id.container_fragment_home)).setVisibility(View.GONE);
+            ((ScrollView) findViewById(R.id.scroll_view)).setVisibility(View.VISIBLE);
+
+            fragmentTransaction.replace(R.id.container_fragment, newFragment);
+        }
 
         fragmentTransaction.commit();
     }

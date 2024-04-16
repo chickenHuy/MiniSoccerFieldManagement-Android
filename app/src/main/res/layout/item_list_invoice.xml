@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/background_white_radius_10dp"
-    android:backgroundTint="@color/itemServiceBackgroundColor"
+    android:background="@color/white"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -13,14 +12,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/background_white_radius_10dp"
+        android:background="@drawable/background_border_2dp_radius_10dp"
         android:backgroundTint="#F9F9FB"
         android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="207dp"
+            android:layout_width="226dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -31,6 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:textColor="#001C33"
+                android:lines="1"
+                android:paddingStart="10dp"
                 android:text="Nguyen Van A"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -40,12 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:paddingStart="10dp"
+                android:textColor="#3F3F3F"
                 android:text="#0123456789"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="183dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -57,6 +62,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
                 android:text="900.000 VND"
+                android:textColor="@color/primaryColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -66,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="April, 25, 2024"
+                android:textColor="#3F3F3F"
                 android:textSize="14sp" />
         </LinearLayout>
 

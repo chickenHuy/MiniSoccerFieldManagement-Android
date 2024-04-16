@@ -6,13 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BookingDAOImpl implements IBookingDAO{
@@ -434,6 +439,144 @@ public class BookingDAOImpl implements IBookingDAO{
     }
 
     @Override
+    public List<Booking> findUpcomingBookings(String status) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<Booking> bookings = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String[] projection = {
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT
+            };
+
+            // Get the current time, 15 minutes before, and 1 hour later
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            Timestamp fifteenMinutesBefore = new Timestamp(System.currentTimeMillis() - 15 * 60 * 1000);
+            Timestamp oneHourLater = new Timestamp(System.currentTimeMillis() + 3600 * 1000);
+
+            String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND "
+                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " BETWEEN ? AND ? AND "
+                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            String[] selectionArgs = { status, fifteenMinutesBefore.toString(), oneHourLater.toString(), "0" };
+
+            cursor = db.query(
+                    SoccerFieldContract.BookingEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                Booking booking = new Booking();
+                booking.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_ID)));
+                booking.setCustomerId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID)));
+                booking.setUserId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID)));
+                booking.setFieldId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID)));
+                booking.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS)));
+                booking.setNote(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE)));
+                booking.setTimeStart(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START))));
+                booking.setTimeEnd(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END))));
+                booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
+                booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
+                booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
+                bookings.add(booking);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return bookings;
+    }
+
+    @Override
+    public List<Booking> findLiveBookings() {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        List<Booking> bookings = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String[] projection = {
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT,
+                    SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT
+            };
+
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+            String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND "
+                    + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + ", '-1 hour') <= ? AND "
+                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END + " >= ? AND "
+                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            String[] selectionArgs = { "completed", currentTime.toString(), currentTime.toString(), "0" };
+
+            cursor = db.query(
+                    SoccerFieldContract.BookingEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            while (cursor.moveToNext()) {
+                Booking booking = new Booking();
+                booking.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_ID)));
+                booking.setCustomerId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID)));
+                booking.setUserId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID)));
+                booking.setFieldId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID)));
+                booking.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS)));
+                booking.setNote(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE)));
+                booking.setTimeStart(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START))));
+                booking.setTimeEnd(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END))));
+                booking.setPrice(BigDecimal.valueOf(cursor.getDouble(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE))));
+                booking.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED)) == 1);
+                booking.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT))));
+                String updateAt = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT));
+                booking.setUpdatedAt(Utils.toTimestamp(updateAt));
+                bookings.add(booking);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return bookings;
+    }
+
+
+
+    @Override
     public List<Booking> findByDate(Timestamp date) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         List<Booking> bookings = new ArrayList<>();
@@ -555,5 +698,37 @@ public class BookingDAOImpl implements IBookingDAO{
         }
 
         return bookings;
+    }
+    @Override
+    public BookingDetail getBookingDetail(String status, String bookingId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        BookingDetail bookingDetail = new BookingDetail();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT b.id, c.name AS customerName, c.phoneNumber AS customerPhone, f.name AS fieldName, b.timeStart AS timeStart " +
+                    "FROM Booking b " +
+                    "INNER JOIN Customer c ON b.customerId = c.id " +
+                    "INNER JOIN Field f ON b.fieldId = f.id " +
+                    "WHERE b.status = ? AND b.isDeleted = 0 AND b.id = ?";
+            String[] selectionArgs = { status, bookingId};
+
+            cursor = db.rawQuery(query, selectionArgs);
+
+            if (cursor.moveToFirst()) {
+                bookingDetail.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow("customerName")));
+                bookingDetail.setCustomerPhone(cursor.getString(cursor.getColumnIndexOrThrow("customerPhone")));
+                bookingDetail.setFieldName(cursor.getString(cursor.getColumnIndexOrThrow("fieldName")));
+                bookingDetail.setDate(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeStart"))));
+                bookingDetail.setTime(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeStart"))));
+                bookingDetail.setDayOfWeek(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(new Date(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeStart"))).getTime())));            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return bookingDetail;
     }
 }

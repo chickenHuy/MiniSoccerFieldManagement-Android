@@ -97,6 +97,7 @@
     <string name="setting_price_list">Setting Price List</string>
     <string name="start_time">Start time: </string>
     <string name="end_time">End time: </string>
+    <string name="warning_booking">Time on!!!</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
@@ -150,4 +151,6 @@
     <string name="customer_has_been_deleted">Customer was baned</string>
     <string name="price_per_30_minutes">Price per 30 minutes</string>
     <string name="analysis">Analysis</string>
+    <string name="invoice_detail">Invoice detail</string>
+    <string name="service_usage">Service usage</string>
 </resources>

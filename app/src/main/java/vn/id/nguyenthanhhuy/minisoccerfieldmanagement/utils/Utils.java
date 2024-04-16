@@ -148,5 +148,9 @@ public class Utils {
         return true;
     }
 
+    public static String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM, dd, yyyy", Locale.US);
+        return dateFormat.format(date);
+    }
 
 }
