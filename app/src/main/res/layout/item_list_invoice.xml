@@ -31,6 +31,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
+                android:textColor="#001C33"
                 android:lines="1"
                 android:paddingStart="10dp"
                 android:text="Nguyen Van A"
@@ -43,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:paddingStart="10dp"
+                android:textColor="#3F3F3F"
                 android:text="#0123456789"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -70,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="April, 25, 2024"
+                android:textColor="#3F3F3F"
                 android:textSize="14sp" />
         </LinearLayout>
 

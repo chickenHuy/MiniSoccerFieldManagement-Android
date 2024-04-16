@@ -66,4 +66,8 @@ public class AppTransactionServiceImpl implements IAppTransactionService{
     public List<AppTransaction> findByFieldId(String fieldId) {
         return appTransactionDAO.findByFieldId(fieldId);
     }
+    @Override
+    public String getUserNameByUserID(String userID){
+        return appTransactionDAO.getUserNameByUserID(userID);
+    }
 }

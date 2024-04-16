@@ -13,6 +13,7 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class AppTransactionDAOImpl implements IAppTransactionDAO{
     DBHandler dbHandler;
@@ -135,7 +136,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,12 +169,14 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                     SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT
             };
 
-            String selection = SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED + " = 0 ;";
+            String selection = SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            String[] selectionArgument = {"0"};
+
             cursor = db.query(
                     SoccerFieldContract.AppTransactionEntry.TABLE_NAME,
                     projection,
                     selection,
-                    null,
+                    selectionArgument,
                     null,
                     null,
                     null
@@ -190,7 +193,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -249,7 +252,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -308,7 +311,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -367,7 +370,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -388,5 +391,40 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
     @Override
     public List<AppTransaction> findByFieldId(String fieldId) {
         return null;
+    }
+
+    @Override
+    public String getUserNameByUserID(String userID){
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String userName = "";
+        Cursor cursor = null;
+
+        try {
+            String[] projection = {SoccerFieldContract.UserEntry.COLUMN_NAME_NAME};
+            String selection = SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?";
+            String[] selectionArgs = {userID};
+
+            cursor = db.query(
+                    SoccerFieldContract.UserEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                userName = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_NAME));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return userName;
     }
 }

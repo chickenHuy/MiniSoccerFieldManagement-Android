@@ -12,11 +12,13 @@ import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.AppTransactionServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ListViewInvoiceAdapter extends BaseAdapter {
     private Context context;
     private List<AppTransaction> appTransactionList;
+    private AppTransactionServiceImpl appTransactionService;
 
     public ListViewInvoiceAdapter(Context context, List<AppTransaction> appTransactionList) {
         this.context = context;
@@ -48,13 +50,15 @@ public class ListViewInvoiceAdapter extends BaseAdapter {
         }
 
         AppTransaction appTransaction = appTransactionList.get(position);
+        appTransactionService = new AppTransactionServiceImpl(context);
+        String userName = appTransactionService.getUserNameByUserID(appTransaction.getUserID());
 
-        TextView tvNameCus = convertView.findViewById(R.id.customer_name);
+        TextView tvName = convertView.findViewById(R.id.customer_name);
         TextView tvIDInvoice = convertView.findViewById(R.id.invoiceId);
         TextView tvFinalPrice = convertView.findViewById(R.id.final_price);
         TextView tvDate = convertView.findViewById(R.id.dateOfInvoice);
 
-        tvNameCus.setText(appTransaction.getUserID());
+        tvName.setText(userName);
         tvIDInvoice.setText(appTransaction.getId());
         tvFinalPrice.setText(Utils.formatVND(appTransaction.getFinalAmount()));
         Date date = new Date(appTransaction.getCreatedAt().getTime());
