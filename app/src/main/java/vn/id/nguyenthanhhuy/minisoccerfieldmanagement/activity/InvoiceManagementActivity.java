@@ -53,44 +53,13 @@ public class InvoiceManagementActivity extends AppCompatActivity {
             finish();
         });
 
-        AppTransaction transaction = new AppTransaction();
-
-        // Thiết lập các thuộc tính cho đối tượng
-        transaction.setId("1");
-        transaction.setUserID("Trương Nguyễn Bảo Nguyên");
-        transaction.setServiceUsageId("serviceUsage123");
-        transaction.setType("Type A");
-        transaction.setTotalAmount(new BigDecimal("100.00"));
-        transaction.setAdditionalFee(new BigDecimal("10.00"));
-        transaction.setDiscountAmount(new BigDecimal("5.00"));
-        transaction.setFinalAmount(new BigDecimal("105000"));
-        transaction.setDeleted(false);
-        transaction.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        transaction.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-
-        AppTransaction transaction2 = new AppTransaction();
-
-        // Thiết lập các thuộc tính cho đối tượng
-        transaction2.setId("1");
-        transaction2.setUserID("Lê Quang Lâm");
-        transaction2.setServiceUsageId("serviceUsage123");
-        transaction2.setType("Type A");
-        transaction2.setTotalAmount(new BigDecimal("100.00"));
-        transaction2.setAdditionalFee(new BigDecimal("10.00"));
-        transaction2.setDiscountAmount(new BigDecimal("5.00"));
-        transaction2.setFinalAmount(new BigDecimal("105000"));
-        transaction2.setDeleted(false);
-        transaction2.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        transaction2.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-
         List<AppTransaction> appTransactionsFromDB = appTransactionService.findAll();
         if (appTransactionsFromDB == null) {
             appTransactionList = new ArrayList<>();
         } else {
             appTransactionList = appTransactionsFromDB;
         }
-        appTransactionList.add(transaction);
-        appTransactionList.add(transaction2);
+
         listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionList);
         binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
 

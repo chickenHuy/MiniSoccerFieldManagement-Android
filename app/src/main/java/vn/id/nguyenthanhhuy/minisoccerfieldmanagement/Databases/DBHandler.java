@@ -190,6 +190,7 @@ public class DBHandler extends SQLiteOpenHelper {
         insertCustomer(db);
         insertUser(db);
         insertField(db);
+        //testAppTransaction(db);
     }
 
     @Override
@@ -441,5 +442,47 @@ public class DBHandler extends SQLiteOpenHelper {
                 "VALUES\n" +
                 "('user1', 'admin', '" + PasswordUtils.hashPassword("admin") + "', 'Admin', '0123456789', 'Male', '1999-01-01', 'Manager', 0, datetime('now'));\n";
         db.execSQL(INSERT_DATA);
+    }
+
+    private void insertFieldTest(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO Field (id, name, status, type, createdAt) \n" +
+                "VALUES \n"+
+                "('F1713084375810', '5 J', 'active', '5 a side', datetime('now'));\n";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertCustomerTest (@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO Customer (id, memberShipId, name, phoneNumber, totalSpend, image, isDeleted, createdAt, updatedAt)\n" +
+                "VALUES\n" +
+                "('1', '1', 'Nguyễn Văn Thành', '0323431450', 0, NULL, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
+    }
+    private void insertBooking(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO \"Booking\" VALUES ('B1713166634222','1','F1713084375810','user1','active','','2024-04-16 07:00:00.0','2024-04-16 09:00:00.0',400000.0,0,'2024-04-15 14:37:15.926',NULL);";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertMatchRecord(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO \"MatchRecord\" VALUES ('M3097859438', 'B1713166634222', 'CHECKIN', 'CHECKOUT', 0, datetime('now'), NULL);";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertServiceUsage(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO \"ServiceUsage\" VALUES ('SU3097859438', 'M3097859438', '1', NULL, 0, datetime('now'), NULL);";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertAppTransaction(@NonNull SQLiteDatabase db){
+        String INSERT_DATA = "INSERT INTO \"AppTransaction\" VALUES ('AT3097859438', 'user1', 'SU3097859438', 'TYPE', 600000, 0, 0, 600000, 0, datetime('now'), NULL);";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void testAppTransaction(@NonNull SQLiteDatabase db){
+        insertFieldTest(db);
+        insertCustomerTest(db);
+        insertBooking(db);
+        insertMatchRecord(db);
+        insertServiceUsage(db);
+        insertAppTransaction(db);
     }
 }

@@ -16,4 +16,5 @@ public interface IAppTransactionService {
     List<AppTransaction> findByDate (Timestamp date);
     List<AppTransaction> findByCustomer (String customerId);
     List<AppTransaction> findByFieldId (String fieldId);
+    String getUserNameByUserID(String userID);
 }
