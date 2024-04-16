@@ -93,14 +93,13 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
-        java.sql.Date date1 = new java.sql.Date(System.currentTimeMillis());
         return binding.getRoot();
     }
 
     private void loadScheduler(String date) {
         Timestamp dateTimestamp = new Timestamp(Utils.convertStringToSqlDate(date).getTime());
         bookingList = bookingService.findByDate(dateTimestamp);
-        bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
+        bookingAdapter  = new BookingAdapter(bookingList, fieldList, getContext());
         bookingAdapter.onAdapterChangedListener(new BookingFragment.onAdapterChangedListener() {
             @Override
             public void onAdapterChanged(String date) {
@@ -121,6 +120,12 @@ public class BookingFragment extends Fragment implements CalendarAdapter.OnItemC
 
 
         bookingAdapter = new BookingAdapter(bookingList, fieldList, getContext());
+        bookingAdapter.onAdapterChangedListener(new BookingFragment.onAdapterChangedListener() {
+            @Override
+            public void onAdapterChanged(String date) {
+                loadScheduler(date);
+            }
+        });
         binding.recyclerTimeSlot.setAdapter(bookingAdapter);
         int numberOfColumns = fieldList.size();
         if(numberOfColumns== 0){
