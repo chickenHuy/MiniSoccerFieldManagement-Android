@@ -63,6 +63,11 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    public User verifyLoginWithHashedPassword(String username, String hashedPassword) {
+        return userDAO.verifyLoginData(username, hashedPassword);
+    }
+
+    @Override
     public boolean changeRole(String id, String role) {
         return userDAO.changeRole(id, role);
     }

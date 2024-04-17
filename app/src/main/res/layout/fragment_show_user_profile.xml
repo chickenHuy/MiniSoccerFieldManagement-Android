@@ -192,6 +192,38 @@
                     android:thumbTint="@color/switch_thumb" />
             </LinearLayout>
 
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:src="@drawable/ic_fingerprint" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/login_with_fingerprint"
+                    android:textColor="@color/black" />
+
+                <android.widget.Switch
+                    android:id="@+id/switch_fingerprint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="false"
+                    android:thumbTint="@color/switch_thumb" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -341,9 +373,9 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_empl_management"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_empl_management"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"
                     android:drawableTint="@color/blackGray"
@@ -442,8 +474,8 @@
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="40dp"
                     android:id="@+id/buttonInvoiceManagement"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_chevron_right"
@@ -451,6 +483,7 @@
                     android:paddingEnd="13dp" />
 
             </LinearLayout>
+
             <LinearLayout
                 style="@style/width_mp_height_wc"
                 android:layout_marginStart="10dp"

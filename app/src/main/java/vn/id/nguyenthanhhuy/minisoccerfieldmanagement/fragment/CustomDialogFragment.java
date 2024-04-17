@@ -64,12 +64,20 @@ public class CustomDialogFragment extends DialogFragment {
         if (actionMessage1.equals("")) {
             binding.buttonAction1.setText(getResources().getString((R.string.home_page)));
         } else {
-            binding.buttonAction1.setText(actionMessage1);
+            if (actionMessage1.equals("-1")) {
+                binding.buttonAction1.setVisibility(View.GONE);
+            } else {
+                binding.buttonAction1.setText(actionMessage1);
+            }
         }
         if (actionMessage2.equals("")) {
             binding.buttonAction2.setText(getResources().getString((R.string.service_page)));
         } else {
-            binding.buttonAction2.setText(actionMessage2);
+            if (actionMessage2.equals("-1")) {
+                binding.buttonAction2.setVisibility(View.GONE);
+            } else {
+                binding.buttonAction2.setText(actionMessage2);
+            }
         }
 
         if (buttonAction1OnclickListener == null) {
