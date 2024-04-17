@@ -62,10 +62,12 @@ public class BottomSheetCustomerFragment extends BottomSheetDialogFragment {
     }
 
     private void setWidgets() {
+        String membershipName = customerService.getMembershipNameByID(customer_selected.getMemberShipId());
+
         binding.customerName.setText(customer_selected.getName());
         binding.customerId.setText(customer_selected.getId());
         binding.customerPhone.setText(customer_selected.getPhoneNumber());
-        binding.customerMembership.setText(customer_selected.getMemberShipId());
+        binding.customerMembership.setText(membershipName);
         binding.customerTotalSpend.setText(customer_selected.getTotalSpend().toPlainString());
 
         if (customer_selected.getImage() != null) {

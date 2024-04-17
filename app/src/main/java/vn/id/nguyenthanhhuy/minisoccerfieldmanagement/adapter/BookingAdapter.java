@@ -58,16 +58,16 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_INACTIVE = 4;
 
     // Your data list here
-    private Context context;
-    private ICustomerService customerService;
-    private IFieldService fieldService;
-    private List<Booking> bookingList;
-    private List<Field> fieldList;
-    private List<LocalTime> timeList;
-    private List<Integer> positionBooked;
-    private Booking[] data;
-    private Boolean[] hide;
-    private Boolean[] blocked;
+    private final Context context;
+    private final ICustomerService customerService;
+    private final IFieldService fieldService;
+    private final List<Booking> bookingList;
+    private final List<Field> fieldList;
+    private final List<LocalTime> timeList;
+    private final List<Integer> positionBooked;
+    private final Booking[] data;
+    private final Boolean[] hide;
+    private final Boolean[] blocked;
 
     public BookingAdapter(List<Booking> dataList, List<Field> fieldList, Context context) {
         this.bookingList = dataList;
