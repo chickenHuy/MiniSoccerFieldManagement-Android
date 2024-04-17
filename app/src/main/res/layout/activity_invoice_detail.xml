@@ -67,13 +67,14 @@
                         style="@style/width_wc_height_wc"
                         android:text="@string/full_name"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text=": "
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
@@ -93,18 +94,19 @@
                         style="@style/width_wc_height_wc"
                         android:text="@string/phone_number"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text=": "
-                        android:id="@+id/phone_customer"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text="0869017464"
+                        android:id="@+id/phone_customer"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -119,7 +121,8 @@
                         style="@style/width_wc_height_wc"
                         android:text="@string/membership_name"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
@@ -132,7 +135,7 @@
                         android:text="Diamond"
                         android:id="@+id/membership"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -155,6 +158,77 @@
                 android:textColor="@color/primaryColor"
                 android:textSize="19sp"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="Field: "
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/field_name"
+                    style="@style/width_wc_height_wc"
+                    android:layout_width="wrap_content"
+                    android:text="Field Name"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="Time start"
+                    android:id="@+id/time_start"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text=" - "
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:layout_width="wrap_content"
+                    android:text="Time end"
+                    android:id="@+id/time_end"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    style="@style/width_wc_height_wc"
+                    android:text="Price"
+                    android:textAlignment="textEnd"
+                    android:id="@+id/price_field"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/listview_service_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -236,7 +310,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="@string/total_field_price"
+                    android:text="Total amount"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -247,7 +321,7 @@
                     android:textSize="17sp" />
 
                 <TextView
-                    android:id="@+id/text_view_total_field_price"
+                    android:id="@+id/text_view_total_amount"
                     style="@style/width_wc_height_wc"
                     android:layout_weight="1"
                     android:text="100,000,000"
@@ -264,35 +338,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="@string/total_service_price"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-
-                <TextView
-                    style="@style/width_wc_height_wc"
-                    android:text=": "
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/text_view_total_service_price"
-                    style="@style/width_wc_height_wc"
-                    android:layout_weight="1"
-                    android:text="100,000,000"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/width_mp_height_wc"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/width_wc_height_wc"
-                    android:text="@string/additional_fee"
+                    android:text="Additional Fee "
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -320,7 +366,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="@string/discount"
+                    android:text="Discount Amount"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -331,7 +377,7 @@
                     android:textSize="17sp" />
 
                 <TextView
-                    android:id="@+id/text_view_discount"
+                    android:id="@+id/text_view_discount_amount"
                     style="@style/width_wc_height_wc"
                     android:layout_weight="1"
                     android:text="100,000,000"
@@ -360,7 +406,7 @@
                     android:textSize="19sp" />
 
                 <TextView
-                    android:id="@+id/text_view_total_amount"
+                    android:id="@+id/text_view_final_amount"
                     style="@style/width_wc_height_wc"
                     android:layout_weight="1"
                     android:text="100,000,000"

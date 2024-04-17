@@ -237,4 +237,33 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
         }
         return listServiceItems;
     }
+
+    @Override
+    public Service getServiceInfo(String serviceId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        Service service = new Service();
+
+        try {
+            String query = "SELECT Service.name, Service.price " +
+                    "FROM ServiceItems " +
+                    "INNER JOIN Service ON ServiceItems.serviceId = Service.id " +
+                    "WHERE ServiceItems.serviceId = ?";
+            cursor = db.rawQuery(query, new String[]{serviceId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                BigDecimal price = new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow("price")));
+                service.setName(name);
+                service.setPrice(price);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return service;
+    }
 }
