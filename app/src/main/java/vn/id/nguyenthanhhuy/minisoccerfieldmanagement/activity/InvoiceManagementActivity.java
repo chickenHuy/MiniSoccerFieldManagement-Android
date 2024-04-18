@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -36,7 +38,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class InvoiceManagementActivity extends AppCompatActivity {
     private List<AppTransaction> appTransactionList;
-    List<AppTransaction> appTransactionsFromDB;
+    private List<AppTransaction> appTransactionsFromDB;
     private ActivityInvoiceManagementBinding binding;
     private ListViewInvoiceAdapter listViewInvoiceAdapter;
     private AppTransactionServiceImpl appTransactionService;
@@ -78,15 +80,52 @@ public class InvoiceManagementActivity extends AppCompatActivity {
             }
         });
 
+        binding.buttonClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.textViewSearch.setText("");
+            }
+        });
+
         binding.buttonByday.setOnClickListener(v -> {
+            binding.textViewSearch.setText("");
             showDatePickerDialog();
         });
 
         binding.buttonSeeAll.setOnClickListener(v -> {
+            binding.textViewSearch.setText("");
             listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionsFromDB);
             binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
             updateButtonColors(binding.buttonByday, false);
             updateButtonColors(binding.buttonSeeAll, true);
+        });
+
+        binding.textViewSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() == 0) {
+                    binding.buttonClean.setVisibility(View.GONE);
+                    return;
+                }else {
+                    binding.buttonClean.setVisibility(View.VISIBLE);
+                }
+                String searchText = s.toString();
+                List<AppTransaction> listSearch = appTransactionService.findByUser(searchText);
+                if (listSearch != null) {
+                    listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), listSearch);
+                    binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
+                }
+            }
         });
     }
 
