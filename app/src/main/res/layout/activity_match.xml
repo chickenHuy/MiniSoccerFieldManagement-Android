@@ -93,8 +93,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_marginEnd="10dp"
-            android:elevation="0dp"
-            >
+            android:elevation="0dp">
             <TextView
                 style="@style/header_text_custom"
                 android:layout_weight="2"
@@ -117,9 +116,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            />
-
-
+            android:layout_marginEnd="10dp" />
 
 </LinearLayout>

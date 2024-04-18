@@ -92,6 +92,7 @@
     <string name="error_password_empty">Mật khẩu không được để trống</string>
     <string name="error_password_incorrect">Mật khẩu hiện tại không đúng</string>
     <string name="call_customer">Gọi khách hàng</string>
+    <string name="rental_fee">Phí đặt sân</string>
     <string name="choose_option">Tuỳ chọn tải ảnh lên</string>
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>
@@ -154,4 +155,5 @@
     <string name="fingerprint">Vân tay</string>
     <string name="fingerprint_message">Vui lòng đặt vân tay của bạn lên cảm biến để tiếp tục</string>
     <string name="cancel">Hủy</string>
+    <string name="additional_services">Phí dịch vụ thêm</string>
 </resources>
