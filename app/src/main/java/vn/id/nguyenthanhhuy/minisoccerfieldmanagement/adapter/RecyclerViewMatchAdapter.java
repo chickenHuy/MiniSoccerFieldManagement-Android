@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Console;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewMatchAdapter.ViewHolder> {
     private Context context;
@@ -125,7 +127,8 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
                     holder.textViewMatchField.setText(bookingDetail.getFieldName() != null ? bookingDetail.getFieldName() : "");
                     holder.textViewMatchCustomerName.setText(bookingDetail.getCustomerName() != null ? bookingDetail.getCustomerName() : "");
                     holder.textViewMatchCustomerPhone.setText(bookingDetail.getCustomerPhone() != null ? bookingDetail.getCustomerPhone() : "");
-                    holder.textViewMatchDayOfWeek.setText(bookingDetail.getDayOfWeek() != null ? bookingDetail.getDayOfWeek() : "");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+                    holder.textViewMatchDayOfWeek.setText(dateFormat.format(booking.getTimeStart()));
                     holder.textViewMatchTime.setText(formattedTime);
 
                     if(showWarning) {

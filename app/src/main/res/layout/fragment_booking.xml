@@ -253,7 +253,7 @@
                 app:drawableStartCompat="@drawable/baseline_access_time_24"
                 android:paddingStart="10dp"
                 android:textAlignment="center"
-                android:text="SCHEDULE"
+                android:text="@string/schedule"
                 android:textSize="18sp"
                 android:textColor="@color/primaryColor" />
 

@@ -18,4 +18,8 @@
     <color name="black_overlay">#66000000</color>
 
     <color name="transparent">#00000000</color>
+
+    <color name="aquamarine">#9fffcb</color>
+    <color name="persianGreen">#25a18e</color>
+    <color name="lightGreen">#7ae582</color>
 </resources>

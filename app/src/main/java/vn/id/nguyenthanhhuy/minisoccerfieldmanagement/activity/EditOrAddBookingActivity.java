@@ -98,14 +98,14 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_or_add_booking);
         priceListService = new PriceListServiceImpl(EditOrAddBookingActivity.this);
-        dateSelected = new java.sql.Date(new Date().getTime());
+        dateSelected = new java.sql.Date(System.currentTimeMillis());
         sdfScheule = new SimpleDateFormat("dd/MM/yyyy");
         fieldSelected = new Field();
         tvDateMonth = findViewById(R.id.text_date_month);
         recyclerView = findViewById(R.id.recyclerView);
         ivCalendarNext = findViewById(R.id.iv_calendar_next);
         ivCalendarPrevious = findViewById(R.id.iv_calendar_previous);
-        this.day = Utils.getDayOfWeekFromTimestamp(new Timestamp(new Date().getTime()));
+        this.day = Utils.getDayOfWeekFromTimestamp(new Timestamp(System.currentTimeMillis()));
         setUpAdapter();
         setUpClickListener();
         setUpCalendar();
@@ -333,9 +333,8 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                                     Toast.makeText(EditOrAddBookingActivity.this, "Booking Updated", Toast.LENGTH_SHORT).show();
                                     Timestamp timestamp = booking.getTimeStart();
                                     java.sql.Date date = new java.sql.Date(timestamp.getTime());
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
                                     Intent intent = new Intent();
-                                    intent.putExtra("date", dateFormat.format(date));
+                                    intent.putExtra("date", Utils.convertDay(String.valueOf(date)));
                                     setResult(RESULT_OK, intent);
                                     finish();
 
@@ -487,10 +486,16 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
 
     @Override
     public void onItemClick(String text, String date, String day) {
-        this.dateSelected = Utils.convertStringToSqlDate(text);
-        this.day = Utils.convertDay(day);
-        tvSchedule.setText(sdfScheule.format(dateSelected));
-        getPrice();
+        try {
+            this.dateSelected = Utils.convertStringToSqlDate(text);
+            this.day = Utils.convertDay(day);
+            Toast.makeText(this, day, Toast.LENGTH_SHORT).show();
+            tvSchedule.setText(sdfScheule.format(dateSelected));
+            getPrice();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUpClickListener() {

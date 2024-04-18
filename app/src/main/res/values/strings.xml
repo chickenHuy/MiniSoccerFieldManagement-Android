@@ -160,4 +160,10 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_message">Please place your fingerprint on the sensor to continue</string>
     <string name="cancel">Cancel</string>
+    <string name="total_revenue">TOTAL REVENUE</string>
+    <string name="revenue_today">REVENUE TODAY</string>
+    <string name="income">Income</string>
+    <string name="top_services">Top services</string>
+    <string name="booking">Booking</string>
+    <string name="schedule">SCHEDULE</string>
 </resources>
