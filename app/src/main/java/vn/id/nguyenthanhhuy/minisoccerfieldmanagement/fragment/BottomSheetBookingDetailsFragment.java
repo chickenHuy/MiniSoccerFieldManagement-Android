@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.net.Uri;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AlertDialogLayout;
@@ -145,6 +146,16 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
     }
 
     private void setEvents() {
+        // Set OnClickListener for ImageView
+        binding.imgCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phoneNumber = binding.tvPhoneNumber.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                startActivity(intent);
+            }
+        });
         binding.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

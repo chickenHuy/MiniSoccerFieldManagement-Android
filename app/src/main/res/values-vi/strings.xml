@@ -91,6 +91,7 @@
     <string name="error_password_not_match">Mật khẩu nhập lại không khớp</string>
     <string name="error_password_empty">Mật khẩu không được để trống</string>
     <string name="error_password_incorrect">Mật khẩu hiện tại không đúng</string>
+    <string name="call_customer">Gọi khách hàng</string>
     <string name="choose_option">Tuỳ chọn tải ảnh lên</string>
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>

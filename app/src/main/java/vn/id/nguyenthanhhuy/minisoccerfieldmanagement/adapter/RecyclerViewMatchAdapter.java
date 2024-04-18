@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Console;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetBookingDetailsFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
@@ -140,7 +143,11 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
                         public void onClick(View v) {
                             if (selectedButtonId == R.id.button_upcoming) {
                                 // Hiển thị BottomSheetMenu với thông tin về booking
-                                // ...
+                                BottomSheetBookingDetailsFragment bottomSheetBookingDetailsFragment = new BottomSheetBookingDetailsFragment();
+                                Bundle args = new Bundle();
+                                args.putSerializable("booking", booking);
+                                bottomSheetBookingDetailsFragment.setArguments(args);
+                                bottomSheetBookingDetailsFragment.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheetBookingDetailsFragment.getTag());
                             }else {
                                 // Chuyển đến Activity khác với thông tin chi tiết hơn về booking
                                 // ...
