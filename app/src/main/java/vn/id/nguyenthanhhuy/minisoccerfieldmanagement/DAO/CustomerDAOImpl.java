@@ -353,4 +353,38 @@ public class CustomerDAOImpl implements ICustomerDAO{
         }
         return customers;
     }
+
+    @Override
+    public String getMembershipNameByID(String membershipID) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String membershipName = "";
+        Cursor cursor = null;
+
+        try {
+            String[] projection = {SoccerFieldContract.MemberShipEntry.COLUMN_NAME_NAME};
+            String selection = SoccerFieldContract.MemberShipEntry.COLUMN_NAME_ID + " = ?";
+            String[] selectionArgs = {membershipID};
+
+            cursor = db.query(
+                    SoccerFieldContract.MemberShipEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                membershipName = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MemberShipEntry.COLUMN_NAME_NAME));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return membershipName;
+    }
 }

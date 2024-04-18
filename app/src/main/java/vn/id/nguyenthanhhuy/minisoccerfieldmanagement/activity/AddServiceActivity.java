@@ -1,12 +1,15 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -14,7 +17,10 @@ import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -26,6 +32,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
+@RequiresApi(api = 26)
 public class AddServiceActivity extends AppCompatActivity {
 
     private ActivityAddServiceBinding binding;
@@ -142,21 +149,17 @@ public class AddServiceActivity extends AppCompatActivity {
         binding.imageButtonAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(AddServiceActivity.this).setTitle("Select Image").setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                        }
-                    }
-                }).setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-                    }
-                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+                new AlertDialog.Builder(AddServiceActivity.this)
+                        .setTitle(R.string.choose_option)
+                        .setPositiveButton(R.string.take_photo, (dialog, which) -> {
+                            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(takePicture, 0);
+                        })
+                        .setNegativeButton(R.string.choose_from_gallery, (dialog, which) -> {
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(pickPhoto, 1);
+                        })
+                        .show();
             }
         });
 
@@ -277,19 +280,26 @@ public class AddServiceActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
+        if (resultCode == RESULT_OK) {
+            Bitmap bitmap = null;
 
-            try {
-                bitmapServiceImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                binding.imageViewServiceImage.setImageBitmap(bitmapServiceImage);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (requestCode == 0) {
+                bitmap = (Bitmap) data.getExtras().get("data");
             }
-        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            bitmapServiceImage = (Bitmap) extras.get("data");
-            binding.imageViewServiceImage.setImageBitmap(bitmapServiceImage);
+            else if (requestCode == 1) {
+                Uri selectedImage = data.getData();
+                try {
+                    InputStream imageStream = getContentResolver().openInputStream(selectedImage);
+                    bitmap = BitmapFactory.decodeStream(imageStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (bitmap != null) {
+                binding.imageViewServiceImage.setImageBitmap(bitmap);
+                bitmapServiceImage = bitmap;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.biometric.BiometricManager;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +64,7 @@ public class ShowUserProfileFragment extends Fragment {
     private User currentUser;
     private UserServiceImpl userService;
     private TextView text_view_name, text_view_phone_number, text_view_username;
+    private CustomDialogFragment customDialogFragment;
 
     @Nullable
     @Override
@@ -113,6 +116,7 @@ public class ShowUserProfileFragment extends Fragment {
 
         binding.switchVietnamese.setChecked(MainApplication.language.equals("vi"));
         binding.switchNotification.setChecked(MainApplication.notify);
+        binding.switchFingerprint.setChecked(MainApplication.fingerprint);
 
         binding.switchVietnamese.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!buttonView.isShown()) {
@@ -143,6 +147,39 @@ public class ShowUserProfileFragment extends Fragment {
             } else {
                 MainApplication.notify = false;
                 MainApplication.editor.putBoolean("notify", false);
+                MainApplication.editor.apply();
+            }
+        });
+
+        binding.switchFingerprint.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!buttonView.isShown()) {
+                return;
+            }
+            if (isChecked) {
+
+                if (!MainApplication.checkSupportFingerprint(getContext())) {
+                    customDialogFragment = new CustomDialogFragment(getActivity(), "Error", "Your device does not support fingerprint!!!", "error", "Close", "-1", v -> customDialogFragment.dismiss(), null);
+                    customDialogFragment.show(getParentFragmentManager(), "custom_dialog_fragment");
+                    binding.switchFingerprint.setChecked(false);
+                    return;
+                }
+
+                try {
+                    String TOKEN = MainApplication.encrypt(MainApplication.curentUser.getUserName() + "," + MainApplication.curentUser.getPassword());
+                    MainApplication.editor.putString("TOKEN", TOKEN);
+
+                    MainApplication.fingerprint = true;
+                    MainApplication.editor.putBoolean("fingerprint", true);
+                    MainApplication.editor.apply();
+                } catch (Exception e) {
+                    binding.switchFingerprint.setChecked(false);
+                    throw new RuntimeException(e);
+                }
+
+            } else {
+                MainApplication.fingerprint = false;
+                MainApplication.editor.putString("TOKEN", "");
+                MainApplication.editor.putBoolean("fingerprint", false);
                 MainApplication.editor.apply();
             }
         });

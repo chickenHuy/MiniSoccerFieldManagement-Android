@@ -13,6 +13,8 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class AppTransactionDAOImpl implements IAppTransactionDAO{
@@ -424,7 +426,98 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 cursor.close();
             }
         }
-
         return userName;
+    }
+
+    @Override
+    public Customer getCustomerByServiceUsageId(String serviceUsageId) {
+        Customer customer = null;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT * FROM " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME +
+                    " INNER JOIN " + SoccerFieldContract.CustomerEntry.TABLE_NAME +
+                    " ON " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME + "." + SoccerFieldContract.ServiceUsageEntry.COLUMN_NAME_CUSTOMER_ID +
+                    " = " + SoccerFieldContract.CustomerEntry.TABLE_NAME + "." + SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID +
+                    " WHERE " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME + "." + SoccerFieldContract.ServiceUsageEntry.COLUMN_NAME_ID +
+                    " = ?";
+
+            cursor = db.rawQuery(query, new String[]{serviceUsageId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String customerId = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_NAME));
+                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_PHONE_NUMBER));
+                String membershipId = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_MEMBERSHIP_ID));
+                customer = new Customer(customerId, membershipId, name, phoneNumber);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return customer;
+    }
+    @Override
+    public String getNameOfField(String appTransactionId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        String fieldName = "";
+
+        try {
+            String query = "SELECT Field.name FROM AppTransaction " +
+                    "INNER JOIN ServiceUsage ON AppTransaction.serviceUsageId = ServiceUsage.id " +
+                    "INNER JOIN MatchRecord ON ServiceUsage.matchRecordId = MatchRecord.id " +
+                    "INNER JOIN Booking ON MatchRecord.bookingId = Booking.id " +
+                    "INNER JOIN Field ON Booking.fieldId = Field.id " +
+                    "WHERE AppTransaction.id = ?";
+
+            cursor = db.rawQuery(query, new String[]{appTransactionId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                fieldName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return fieldName;
+    }
+    @Override
+    public Booking getBookingDetails(String appTransactionId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        Booking booking = null;
+
+        try {
+            String query = "SELECT Booking.id, Booking.timeStart, Booking.timeEnd, Booking.price " +
+                    "FROM Booking " +
+                    "INNER JOIN MatchRecord ON Booking.id = MatchRecord.bookingId " +
+                    "INNER JOIN ServiceUsage ON MatchRecord.id = ServiceUsage.matchRecordId " +
+                    "INNER JOIN AppTransaction ON ServiceUsage.id = AppTransaction.serviceUsageId " +
+                    "WHERE AppTransaction.id = ?";
+            cursor = db.rawQuery(query, new String[]{appTransactionId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String id = cursor.getString(cursor.getColumnIndexOrThrow("id"));
+                Timestamp timeStart = Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeStart")));
+                Timestamp timeEnd = Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeEnd")));
+                BigDecimal price = new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow("price")));
+                booking = new Booking(id, null, null, null, null, null, timeStart, timeEnd, price, null, null, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return booking;
     }
 }

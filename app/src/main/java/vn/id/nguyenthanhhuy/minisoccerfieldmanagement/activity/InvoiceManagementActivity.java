@@ -33,7 +33,6 @@ public class InvoiceManagementActivity extends AppCompatActivity {
     private List<AppTransaction> appTransactionList;
     private ActivityInvoiceManagementBinding binding;
     private ListViewInvoiceAdapter listViewInvoiceAdapter;
-    private ListView listViewInvoice;
     private AppTransactionServiceImpl appTransactionService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,9 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         binding.listViewInvoice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppTransaction selectedTransaction = appTransactionList.get(position);
                 Intent intent = new Intent(InvoiceManagementActivity.this, InvoiceDetailActivity.class);
+                intent.putExtra("selectedTransaction", selectedTransaction);
                 startActivity(intent);
             }
         });

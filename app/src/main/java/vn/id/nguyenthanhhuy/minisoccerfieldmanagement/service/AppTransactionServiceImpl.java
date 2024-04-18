@@ -8,6 +8,8 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.AppTransactionDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IAppTransactionDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 
 public class AppTransactionServiceImpl implements IAppTransactionService{
     IAppTransactionDAO appTransactionDAO;
@@ -69,5 +71,20 @@ public class AppTransactionServiceImpl implements IAppTransactionService{
     @Override
     public String getUserNameByUserID(String userID){
         return appTransactionDAO.getUserNameByUserID(userID);
+    }
+
+    @Override
+    public Customer getCustomerByServiceUsageId(String serviceUsageId) {
+        return appTransactionDAO.getCustomerByServiceUsageId(serviceUsageId);
+    }
+
+    @Override
+    public String getNameOfField(String appTransactionId) {
+        return appTransactionDAO.getNameOfField(appTransactionId);
+    }
+
+    @Override
+    public Booking getBookingDetails(String appTransactionId) {
+        return appTransactionDAO.getBookingDetails(appTransactionId);
     }
 }

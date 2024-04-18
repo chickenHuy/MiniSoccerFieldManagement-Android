@@ -13,5 +13,6 @@ public interface ICustomerDAO {
     Customer findByPhoneNumber(String phoneNumber);
     List<Customer> findAll();
     List<Customer> findByMemberShip(String membershipId);
-    public List<Customer> findCustomer(String searchparam);
+    List<Customer> findCustomer(String searchparam);
+    String getMembershipNameByID(String membershipId);
 }

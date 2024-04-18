@@ -1,10 +1,18 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.biometric.BiometricManager;
+
 import com.yariksoffice.lingver.Lingver;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
@@ -12,7 +20,10 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 public class MainApplication extends Application {
     public static String language;
     public static Boolean notify = false;
+    public static Boolean fingerprint = false;
     public static SharedPreferences.Editor editor;
+    public static final String AES = "AES";
+    public static final String SECRET_KEY = "chickenHuySecret";
 
     public static User curentUser = null;
 
@@ -20,6 +31,7 @@ public class MainApplication extends Application {
 
 
     public static boolean isChangeLanguage = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,6 +49,7 @@ public class MainApplication extends Application {
 
         language = sharedPreferences.getString("language", "en");
         notify = sharedPreferences.getBoolean("notify", false);
+        fingerprint = sharedPreferences.getBoolean("fingerprint", false);
     }
 
     private void createfakeUser() {
@@ -52,5 +65,33 @@ public class MainApplication extends Application {
         newUser.setType(null);
         newUser.setGender("Nam");
         curentUser = newUser;
+    }
+
+    public static String encrypt(String data) throws Exception {
+        SecretKeySpec secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), AES);
+        Cipher cipher = Cipher.getInstance(AES);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] encryptedBytes = cipher.doFinal(data.getBytes());
+        return Base64.encodeToString(encryptedBytes, Base64.DEFAULT);
+    }
+
+    public static String decrypt(String data) throws Exception {
+        SecretKeySpec secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), AES);
+        Cipher cipher = Cipher.getInstance(AES);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decodedBytes = Base64.decode(data, Base64.DEFAULT);
+        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+        return new String(decryptedBytes);
+    }
+
+    public static Boolean checkSupportFingerprint(Context context) {
+        BiometricManager biometricManager = BiometricManager.from(context);
+        boolean canAuthenticate = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+        if (!canAuthenticate) {
+            fingerprint = false;
+            editor.putBoolean("fingerprint", false);
+            editor.apply();
+        }
+        return canAuthenticate;
     }
 }

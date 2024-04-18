@@ -98,6 +98,7 @@
     <string name="start_time">Start time: </string>
     <string name="end_time">End time: </string>
     <string name="warning_booking">Time on!!!</string>
+    <string name="call_customer">Call Customer</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
@@ -153,4 +154,8 @@
     <string name="analysis">Analysis</string>
     <string name="invoice_detail">Invoice detail</string>
     <string name="service_usage">Service usage</string>
+    <string name="login_with_fingerprint">Login with fingerprint</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="fingerprint_message">Please place your fingerprint on the sensor to continue</string>
+    <string name="cancel">Cancel</string>
 </resources>

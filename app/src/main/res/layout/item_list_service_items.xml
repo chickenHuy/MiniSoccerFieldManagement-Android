@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/width_mp_height_wc"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    android:orientation="horizontal">
+
+    <TextView
+        style="@style/width_wc_height_wc"
+        android:text="Service Item"
+        android:id="@+id/service_name"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="17sp" />
+
+    <TextView
+        style="@style/width_wc_height_wc"
+        android:text=" ("
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        style="@style/width_wc_height_wc"
+        android:text="Quantity"
+        android:id="@+id/quantity"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        style="@style/width_wc_height_wc"
+        android:layout_width="86dp"
+        android:text=")"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/price_item"
+        style="@style/width_wc_height_wc"
+        android:layout_width="122dp"
+        android:text="Price"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -454,7 +454,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private void insertCustomerTest (@NonNull SQLiteDatabase db) {
         String INSERT_DATA = "INSERT INTO Customer (id, memberShipId, name, phoneNumber, totalSpend, image, isDeleted, createdAt, updatedAt)\n" +
                 "VALUES\n" +
-                "('1', '1', 'Nguyễn Văn Thành', '0323431450', 0, NULL, 0, datetime('now'), NULL);\n";
+                "('1', '1', 'Nguyễn Văn Thành', '0323430450543', 0, NULL, 0, datetime('now'), NULL);\n";
+        db.execSQL(INSERT_DATA);
+    }
+
+    private void insertServiceTest(@NonNull SQLiteDatabase db) {
+        String INSERT_DATA = "INSERT INTO \"Service\" VALUES ('1', 'Nước cam', 250000, NULL, NULL, 'Ly', 50, 0, 'Active', 0, datetime('now'), NULL);";
         db.execSQL(INSERT_DATA);
     }
     private void insertBooking(@NonNull SQLiteDatabase db) {
@@ -477,6 +482,11 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(INSERT_DATA);
     }
 
+    private void insertServiceItems(@NonNull SQLiteDatabase db){
+        String INSERT_DATA = "INSERT INTO \"ServiceItems\" VALUES ('SI3097859438', 'SU3097859438', '1', 10, 0, datetime('now'), NULL);";
+        db.execSQL(INSERT_DATA);
+    }
+
     private void testAppTransaction(@NonNull SQLiteDatabase db){
         insertFieldTest(db);
         insertCustomerTest(db);
@@ -484,5 +494,7 @@ public class DBHandler extends SQLiteOpenHelper {
         insertMatchRecord(db);
         insertServiceUsage(db);
         insertAppTransaction(db);
+        insertServiceTest(db);
+        insertServiceItems(db);
     }
 }

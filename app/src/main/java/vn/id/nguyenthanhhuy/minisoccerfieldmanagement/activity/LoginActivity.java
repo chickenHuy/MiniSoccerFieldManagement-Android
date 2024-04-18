@@ -1,23 +1,32 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
 import java.io.Console;
+import java.util.concurrent.Executor;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomDialogFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
@@ -27,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     Button btnLogin;
     AppCompatButton buttonShowPassword;
+    AppCompatButton buttonFingerprint;
+    CustomDialogFragment customDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         buttonShowPassword = findViewById(R.id.button_show_password);
+        buttonFingerprint = findViewById(R.id.button_fingerprint);
 
         setStatusBarColor();
         Lingver.getInstance().setLocale(LoginActivity.this, MainApplication.language);
@@ -76,6 +88,80 @@ public class LoginActivity extends AppCompatActivity {
                 edtPassword.setSelection(edtPassword.getText().length());
             }
         });
+
+        if (MainApplication.fingerprint) {
+            buttonFingerprint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!MainApplication.checkSupportFingerprint(LoginActivity.this)) {
+                        customDialogFragment = new CustomDialogFragment(LoginActivity.this, "Error", "Your device does not support fingerprint!!!", "error", "Close", "-1", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                customDialogFragment.dismiss();
+                            }
+                        }, null);
+                        customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_fragment");
+                        return;
+                    }
+                    loginWithFingerprint();
+                }
+            });
+        } else {
+            ((LinearLayout) findViewById(R.id.layout_fingerprint)).setVisibility(View.GONE);
+        }
+
+    }
+
+    private void loginWithFingerprint() {
+        BiometricManager biometricManager = BiometricManager.from(LoginActivity.this);
+
+        Executor executor = ContextCompat.getMainExecutor(LoginActivity.this);
+        BiometricPrompt biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+
+                String TOKEN = getSharedPreferences("UserSettings", MODE_PRIVATE).getString("TOKEN", "");
+                if (TOKEN.isEmpty()) {
+                    customDialogFragment = new CustomDialogFragment(LoginActivity.this, "Error", "Token is empty!!!", "error", "Close", "-1", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            customDialogFragment.dismiss();
+                        }
+                    }, null);
+                } else {
+                    try {
+                        String userToken = MainApplication.decrypt(TOKEN);
+                        String[] parts = userToken.split(",");
+
+                        String username = parts[0];
+                        String hashedPassword = parts[1];
+
+                        loginAuthentication(username, hashedPassword, true);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getResources().getString(R.string.login_with_fingerprint))
+                .setSubtitle(getResources().getString(R.string.fingerprint_message))
+                .setNegativeButtonText(getResources().getString(R.string.cancel))
+                .build();
+
+        biometricPrompt.authenticate(promptInfo);
     }
 
     public void setStatusBarColor() {
@@ -83,24 +169,42 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
-        // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
         if (edtUsername.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_SHORT).show();
-            return; // Kết thúc hàm
+            customDialogFragment = new CustomDialogFragment(LoginActivity.this, "Login failed", "Please enter username and password!!!", "error", "Close", "-1", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customDialogFragment.dismiss();
+                }
+            }, null);
+            customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_fragment");
+            return;
         } else {
-            // Gọi hàm verifyLoginData trong UserServiceImpl để kiểm tra thông tin đăng nhập
-            UserServiceImpl userService = new UserServiceImpl(LoginActivity.this);
-            User user = userService.verifyLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
+            loginAuthentication(edtUsername.getText().toString(), edtPassword.getText().toString(), false);
+        }
+    }
 
-            // Nếu thông tin đăng nhập không chính xác
-            if (user == null) {
-                Toast.makeText(LoginActivity.this, "Username or password is incorrect", Toast.LENGTH_SHORT).show();
-            } else {
-                // Nếu thông tin đăng nhập chính xác, chuyển sang màn hình Dashboard
-                MainApplication.curentUser = user;
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+    public void loginAuthentication(String username, String password, Boolean isFingerprint) {
+        UserServiceImpl userService = new UserServiceImpl(LoginActivity.this);
+        User user = null;
+        if (!isFingerprint) {
+            user = userService.verifyLoginData(username, password);
+        } else {
+            user = userService.verifyLoginWithHashedPassword(username, password);
+        }
+
+        if (user == null) {
+            customDialogFragment = new CustomDialogFragment(LoginActivity.this, "Login failed", "Username or password is incorrect!!!", "error", "Close", "-1", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customDialogFragment.dismiss();
+                }
+            }, null);
+            customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_fragment");
+        } else {
+            MainApplication.curentUser = user;
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
     }
 }

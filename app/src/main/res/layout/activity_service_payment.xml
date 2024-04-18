@@ -9,7 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="15dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -61,77 +64,80 @@
 
                 <LinearLayout
                     style="@style/width_mp_height_wc"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text="@string/full_name"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text=": "
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/text_view_customer_name"
                         style="@style/width_wc_height_wc"
                         android:text="Thanh Huy"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     style="@style/width_mp_height_wc"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text="@string/phone_number"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text=": "
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/text_view_customer_phone_number"
                         style="@style/width_wc_height_wc"
                         android:text="0869017464"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     style="@style/width_mp_height_wc"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text="@string/membership_name"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         style="@style/width_wc_height_wc"
                         android:text=": "
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/text_view_customer_membership_name"
                         style="@style/width_wc_height_wc"
                         android:text="Diamond"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
             </LinearLayout>
 
