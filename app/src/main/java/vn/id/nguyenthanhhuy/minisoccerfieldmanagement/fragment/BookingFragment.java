@@ -46,7 +46,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 
 public class BookingFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
-    private static final int REQUEST_CODE_EDIT_ADD_BOOKING = 1;
+    public static final int REQUEST_CODE_EDIT_ADD_BOOKING = 1;
     private FragmentBookingBinding binding;
     private  int adapterPosition = -1;
     private RecyclerView recyclerView;
