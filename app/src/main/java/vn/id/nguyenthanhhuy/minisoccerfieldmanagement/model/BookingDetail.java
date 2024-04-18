@@ -1,8 +1,9 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BookingDetail {
+public class BookingDetail implements Serializable {
     private String customerName;
     private String customerPhone;
     private String fieldName;

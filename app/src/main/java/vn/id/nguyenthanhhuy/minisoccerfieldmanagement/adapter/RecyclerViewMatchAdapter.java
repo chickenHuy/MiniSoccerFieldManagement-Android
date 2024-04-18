@@ -1,6 +1,7 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -29,10 +30,13 @@ import java.util.List;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.LiveMatchDetailActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BottomSheetBookingDetailsFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewMatchAdapter.ViewHolder> {
@@ -40,6 +44,7 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
     private List<Booking> bookingList;
     private BookingDetail bookingDetail;
     private BookingServiceImpl bookingService;
+    private MatchRecordServiceImpl matchRecordService;
     private boolean isClickable;
     private boolean showWarning;
     private boolean isSweap;
@@ -87,6 +92,7 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
             Booking booking = bookingList.get(position);
             if (booking != null) {
                 bookingService = new BookingServiceImpl(context);
+                matchRecordService = new MatchRecordServiceImpl(context);
                 bookingDetail = bookingService.getBookingDetail(booking.getStatus(), booking.getId());
 
                 if (bookingDetail != null) {
@@ -151,9 +157,14 @@ public class RecyclerViewMatchAdapter extends RecyclerView.Adapter<RecyclerViewM
                                 args.putSerializable("booking", booking);
                                 bottomSheetBookingDetailsFragment.setArguments(args);
                                 bottomSheetBookingDetailsFragment.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheetBookingDetailsFragment.getTag());
-                            }else {
+                            }else if(selectedButtonId == R.id.button_live){
+                                MatchRecord matchRecord = matchRecordService.findByBooking(booking.getId());
                                 // Chuyển đến Activity khác với thông tin chi tiết hơn về booking
-                                // ...
+                                Intent intent = new Intent(context, LiveMatchDetailActivity.class);
+                                intent.putExtra("booking", booking);
+                                intent.putExtra("matchRecord", matchRecord);
+                                intent.putExtra("bookingDetail", bookingDetail);
+                                context.startActivity(intent);
                             }
                         }
                     });
