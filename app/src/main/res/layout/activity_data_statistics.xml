@@ -25,7 +25,7 @@
                 android:id="@+id/text_view_activity_tittle"
                 style="@style/header_text_custom"
                 android:layout_gravity="center"
-                android:text="Analysis"
+                android:text="@string/analysis"
                 android:textColor="@color/black" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="TOTAL REVENUE"
+                    android:text="@string/total_revenue"
                     android:textColor="@color/black_overlay"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -69,6 +69,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="200000000 VNĐ"
+                    android:id="@+id/total_revenue"
                     android:textColor="@color/primaryColor" />
 
             </LinearLayout>
@@ -86,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="REVENUE TODAY"
+                    android:text="@string/revenue_today"
                     android:textColor="@color/black_overlay"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -96,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:id="@+id/revenue_today"
                     android:text="1900000 VNĐ"
                     android:textColor="@color/primaryColor" />
 
@@ -124,7 +126,7 @@
                 android:background="@drawable/background_header_time"
                 android:paddingStart="10dp"
                 android:paddingTop="8dp"
-                android:text="Income"
+                android:text="@string/income"
                 android:textColor="@color/primaryColor"
                 android:textStyle="bold"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -146,7 +148,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Top services"
+                android:text="@string/top_services"
                 android:textStyle="bold"
                 android:textColor="@color/primaryColor"
                 android:paddingTop="8dp"
@@ -173,7 +175,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Booking"
+                android:text="@string/booking"
                 android:textStyle="bold"
                 android:textColor="@color/primaryColor"
                 android:paddingTop="8dp"

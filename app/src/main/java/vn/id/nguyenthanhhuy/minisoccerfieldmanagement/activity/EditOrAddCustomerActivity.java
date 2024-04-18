@@ -1,12 +1,15 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +40,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 public class EditOrAddCustomerActivity extends AppCompatActivity {
     private ImageView ivAvatar;
+    private Button btnContacts;
     private TextView customerHeading;
     private String option;
     private EditText edtName, edtPhone;
@@ -45,6 +49,7 @@ public class EditOrAddCustomerActivity extends AppCompatActivity {
     private CustomerServiceImpl customerService;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_IMAGE_PICK = 102;
+    private  static final  int REQUEST_CONTACT = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +173,7 @@ public class EditOrAddCustomerActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.save_button);
         btnCancel = findViewById(R.id.cancel_button);
         btnBack = findViewById(R.id.btnBack);
+        btnContacts = findViewById(R.id.btnContacts);
 
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -213,6 +219,15 @@ public class EditOrAddCustomerActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CONTACT);
+            }
+        });
+
     }
     private boolean isValidName(String name) {
         return name.matches("[a-zA-Z\\p{L}\\s'-]+");
@@ -245,6 +260,42 @@ public class EditOrAddCustomerActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ivAvatar.setImageBitmap(imageBitmap);
+        }
+        if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
+            try {
+                Uri contactUri = data.getData();
+                String[] projection = {ContactsContract.Contacts._ID};
+                Cursor cursor = this.getContentResolver().query(contactUri, projection, null, null, null);
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+
+                    Cursor phoneCursor = this.getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+
+                    if (phoneCursor != null && phoneCursor.moveToFirst()) {
+                        @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        @SuppressLint("Range") String name = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+                        edtPhone.setText(number);
+                        edtName.setText(name);
+                    }
+
+                    if (phoneCursor != null) {
+                        phoneCursor.close();
+                    }
+                }
+
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

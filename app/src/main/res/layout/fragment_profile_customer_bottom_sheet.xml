@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primaryColor"
             android:textColor="@android:color/white"
-            android:text="Delete" />
+            android:text="@string/delete" />
 
         <Button
             android:id="@+id/edit_button"
@@ -99,7 +99,7 @@
             android:backgroundTint="@color/primaryColor"
             android:textColor="@android:color/white"
             android:layout_marginStart="16dp"
-            android:text="Edit" />
+            android:text="@string/edit" />
 
     </LinearLayout>
 

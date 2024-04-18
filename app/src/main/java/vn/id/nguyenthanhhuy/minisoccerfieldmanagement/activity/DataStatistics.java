@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,47 +26,77 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.ChartDAOImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IChartDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingChart;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class DataStatistics extends AppCompatActivity {
     private LineChart lineChart;
     private PieChart serviceChart;
     private BarChart bookingChart;
+    private TextView tvTotalIncome, tvTotalIncomeToday;
+    IChartDAO chartDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_statistics);
-
+        chartDAO = new ChartDAOImpl(this);
         setWidgets();
         setLineChart();
         setPieChart();
         setBarChart();
+        setIncome();
+    }
 
+    private void setIncome() {
+        tvTotalIncome.setText(Utils.formatVND(chartDAO.getTotalIncome()));
+        tvTotalIncomeToday.setText(Utils.formatVND(chartDAO.getTotalIncomeToday()));
     }
 
     private void setBarChart() {
-        // Booking chart
+        List<BookingChart> bookingCharts = chartDAO.getBookingChart();
+
         List<BarEntry> bookingData = new ArrayList<>();
         List<String> days = new ArrayList<>();
-        // Replace with your actual data
-        float[] bookings = new float[]{5, 7, 6, 8, 9};
 
-        for (int i = 0; i < bookings.length; i++) {
-            bookingData.add(new BarEntry(i, bookings[i]));
+        for (int i = 0; i < bookingCharts.size(); i++) {
+            BookingChart bookingChart = bookingCharts.get(i);
+            bookingData.add(new BarEntry(i, bookingChart.getCount()));
+            days.add(bookingChart.getCreatedAt());
         }
 
-        BarDataSet bookingDataSet = new BarDataSet(bookingData, "Number of bookings");
-        bookingDataSet.setColor(ContextCompat.getColor(this, R.color.primaryColor));
-        BarData bookingBarData = new BarData(bookingDataSet);
+        BarDataSet bookingDataSet = new BarDataSet(bookingData, "");
+        bookingDataSet.setColors(new int[] {
+                ContextCompat.getColor(this, R.color.primaryColor),
+                ContextCompat.getColor(this, R.color.aquamarine),
+                ContextCompat.getColor(this, R.color.lightGreen),
+                ContextCompat.getColor(this, R.color.persianGreen)
+        });
+        bookingDataSet.setHighLightAlpha(255);
+        bookingDataSet.setDrawValues(true);
 
+        BarData bookingBarData = new BarData(bookingDataSet);
         bookingChart.setData(bookingBarData);
 
         XAxis bookingXAxis = bookingChart.getXAxis();
         bookingXAxis.setDrawGridLines(false);
         bookingXAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         bookingXAxis.setValueFormatter(new IndexAxisValueFormatter(days));
+        bookingXAxis.setTextColor(ContextCompat.getColor(this, R.color.primaryColor));
+
+        YAxis leftAxis = bookingChart.getAxisLeft();
+        leftAxis.setDrawLabels(false);
+        leftAxis.setAxisLineColor(ContextCompat.getColor(this, R.color.primaryColor));
+
+        YAxis rightAxis = bookingChart.getAxisRight();
+        rightAxis.setDrawLabels(false);
+        rightAxis.setAxisLineColor(ContextCompat.getColor(this, R.color.primaryColor));
+
         bookingChart.getDescription().setEnabled(false);
         bookingChart.invalidate();
+        bookingChart.animateXY(1000, 1000);
     }
 
 
@@ -100,6 +133,10 @@ public class DataStatistics extends AppCompatActivity {
         lineChart = findViewById(R.id.line_chart);
         serviceChart = findViewById(R.id.service_chart);
         bookingChart = findViewById(R.id.booking_chart);
+
+        tvTotalIncome = findViewById(R.id.total_revenue);
+        tvTotalIncomeToday = findViewById(R.id.revenue_today);
+
     }
 
     private void setLineChart() {
