@@ -166,4 +166,6 @@
     <string name="top_services">Top services</string>
     <string name="booking">Booking</string>
     <string name="schedule">SCHEDULE</string>
+    <string name="final_amount">Final amount</string>
+    <string name="by_day">By day</string>
 </resources>
