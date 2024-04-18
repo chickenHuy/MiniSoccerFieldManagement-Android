@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +29,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFr
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomerFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchReminderService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, MatchReminderService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+
         setContentView(R.layout.activity_main);
-        // Lấy dữ liệu User từ Intent
         user = (User) MainApplication.curentUser;
 
         Lingver.getInstance().setLocale(MainActivity.this, MainApplication.language);

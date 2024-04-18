@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.BookingDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IBookingDAO;
@@ -239,5 +240,34 @@ public class BookingServiceImpl implements IBookingService{
     @Override
     public BookingDetail getBookingDetail(String status, String bookingId) {
         return bookingDAO.getBookingDetail(status, bookingId);
+    }
+
+    @Override
+    public List<Booking> getBookingUpcoming() {
+        List<Booking> bookingList = bookingDAO.findByDate(new Timestamp(System.currentTimeMillis()));
+        List<Booking> upcomingBookingList = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        long currentTimeInMillis = calendar.getTimeInMillis();
+        for (Booking booking : bookingList) {
+            calendar.setTimeInMillis(booking.getTimeStart().getTime());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            long bookingTimeInMillis = calendar.getTimeInMillis();
+
+            long diffInMillis = bookingTimeInMillis - currentTimeInMillis;
+            if (diffInMillis < 0) {
+                continue;
+            }
+            long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis);
+
+            if (diffInMinutes == 15 ) {
+                upcomingBookingList.add(booking);
+            }
+        }
+
+        return upcomingBookingList;
     }
 }

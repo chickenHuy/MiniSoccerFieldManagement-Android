@@ -20,4 +20,5 @@ public interface IBookingDAO {
     List<Booking> findByDate(Timestamp date);
     List<Booking> findByDateAndField(Timestamp date, String fieldId);
     BookingDetail getBookingDetail(String status, String bookingId);
+
 }
