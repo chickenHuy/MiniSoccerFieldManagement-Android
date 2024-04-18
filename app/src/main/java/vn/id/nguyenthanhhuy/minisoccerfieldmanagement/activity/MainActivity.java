@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 switchFragment(new ServiceFragment(), args);
                 return true;
             }
-            if (item.getItemId() == R.id.menu_option_wallet) {
+            if (item.getItemId() == R.id.menu_option_customer) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
                 switchFragment(new CustomerFragment(), args);
                 return true;
