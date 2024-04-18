@@ -30,15 +30,14 @@ public class MatchReminderService extends Service {
     private Runnable runnable;
     private IBookingService bookingService;
     private ICustomerService customerService;
+    private int notificationId = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
         bookingService = new BookingServiceImpl(this);
         customerService = new CustomerServiceImpl(this);
-        createNotificationChannel();
         startForegroundWithTemporaryNotification();
-        startReminderRunnable();
     }
     @SuppressLint("ForegroundServiceType")
     private void startForegroundWithTemporaryNotification() {
@@ -55,6 +54,12 @@ public class MatchReminderService extends Service {
             @Override
             public void run() {
                 List<Booking> upcomingBookings = bookingService.getBookingUpcoming();
+                if (upcomingBookings.size() == 0) {
+                    stopForeground(true);
+                    handler.postDelayed(this, 60 * 1000); // Run every minute
+                    return;
+                }
+                createNotificationChannel();
                 for (Booking booking : upcomingBookings) {
                     createNotificationForBooking(booking);
                 }
@@ -62,6 +67,14 @@ public class MatchReminderService extends Service {
             }
         };
         handler.post(runnable);
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            startReminderRunnable();
+        } catch (Exception e) {
+        }
+        return START_NOT_STICKY;
     }
 
     @SuppressLint("ForegroundServiceType")
@@ -75,7 +88,7 @@ public class MatchReminderService extends Service {
         }
 
         Customer customer = customerService.findById(booking.getCustomerId());
-        int notificationId = (int) new Date().getTime(); // Unique ID for each notification
+        notificationId++; // Unique ID for each notification
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Next match:" + Utils.getTimeFromTimestamp(booking.getTimeStart()) + " #" + booking.getId())
                 .setContentText("Customer: " + customer.getName() +" - " + customer.getPhoneNumber())
@@ -83,8 +96,6 @@ public class MatchReminderService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
 
-        // Call startForeground() right after creating the notification
-        startForeground(notificationId, notification);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationId, notification);
