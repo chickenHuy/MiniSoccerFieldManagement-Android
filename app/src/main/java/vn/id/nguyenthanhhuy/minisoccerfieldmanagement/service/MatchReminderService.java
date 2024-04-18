@@ -25,26 +25,41 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class MatchReminderService extends Service {
     private static final String CHANNEL_ID = "MatchReminderServiceChannel";
+    private static final int TEMPORARY_NOTIFICATION_ID = 1;
     private Handler handler;
     private Runnable runnable;
     private IBookingService bookingService;
     private ICustomerService customerService;
+    private int notificationId = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
         bookingService = new BookingServiceImpl(this);
         customerService = new CustomerServiceImpl(this);
-        createNotificationChannel();
-        startReminderRunnable();
+        startForegroundWithTemporaryNotification();
     }
+    @SuppressLint("ForegroundServiceType")
+    private void startForegroundWithTemporaryNotification() {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Preparing...")
+                .setSmallIcon(R.drawable.ic_notification)
+                .build();
 
+        startForeground(TEMPORARY_NOTIFICATION_ID, notification);
+    }
     private void startReminderRunnable() {
         handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
                 List<Booking> upcomingBookings = bookingService.getBookingUpcoming();
+                if (upcomingBookings.size() == 0) {
+                    stopForeground(true);
+                    handler.postDelayed(this, 60 * 1000); // Run every minute
+                    return;
+                }
+                createNotificationChannel();
                 for (Booking booking : upcomingBookings) {
                     createNotificationForBooking(booking);
                 }
@@ -52,6 +67,14 @@ public class MatchReminderService extends Service {
             }
         };
         handler.post(runnable);
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            startReminderRunnable();
+        } catch (Exception e) {
+        }
+        return START_NOT_STICKY;
     }
 
     @SuppressLint("ForegroundServiceType")
@@ -65,7 +88,7 @@ public class MatchReminderService extends Service {
         }
 
         Customer customer = customerService.findById(booking.getCustomerId());
-        int notificationId = (int) new Date().getTime(); // Unique ID for each notification
+        notificationId++; // Unique ID for each notification
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Next match:" + Utils.getTimeFromTimestamp(booking.getTimeStart()) + " #" + booking.getId())
                 .setContentText("Customer: " + customer.getName() +" - " + customer.getPhoneNumber())
@@ -73,11 +96,9 @@ public class MatchReminderService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
 
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationId, notification);
-
-        // Call startForeground() right after creating the notification
-        startForeground(notificationId, notification);
     }
 
     private void createNotificationChannel() {

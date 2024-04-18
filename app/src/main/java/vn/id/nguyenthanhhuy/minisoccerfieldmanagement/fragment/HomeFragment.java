@@ -46,12 +46,16 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class HomeFragment extends Fragment {
@@ -77,6 +81,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerViewListService;
     private RecyclerView recyclerViewListBooking;
+    private List<Field> listField;
+    private IFieldService fieldService;
 
     private TextView text_view_name;
 
@@ -119,12 +125,12 @@ public class HomeFragment extends Fragment {
                 imagePathArray[i] = "viewPagerImages/" + imagePathArray[i];
             }
 
-            String[] imageFieldArray = new String[7];
+            String[] imageFieldArray = new String[listField.size()];
             for (int i = 0; i < imageFieldArray.length; i++) {
                 imageFieldArray[i] = imagePathArray[i % imagePathArray.length];
             }
 
-            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), imageFieldArray);
+            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), imageFieldArray, listField);
             viewPagerImage.setAdapter(viewPagerImageAdapter);
 
             viewPagerImage.setClipToPadding(false);
@@ -373,6 +379,8 @@ public class HomeFragment extends Fragment {
         });
 
         listService = new ArrayList<>();
+        fieldService = new FieldServiceImpl(getContext());
+        listField = fieldService.findByStatus(StaticString.ACTIVE);
     }
 
     public void setRecyclerViewListService() {

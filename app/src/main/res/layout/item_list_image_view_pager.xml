@@ -32,6 +32,7 @@
 
         <TextView
             style="@style/header_text_custom"
+            android:id="@+id/tvNameField"
             android:layout_marginStart="10dp"
             android:text="Chicken"
             android:textColor="@color/primaryColor" />
