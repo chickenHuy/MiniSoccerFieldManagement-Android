@@ -25,6 +25,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class MatchReminderService extends Service {
     private static final String CHANNEL_ID = "MatchReminderServiceChannel";
+    private static final int TEMPORARY_NOTIFICATION_ID = 1;
     private Handler handler;
     private Runnable runnable;
     private IBookingService bookingService;
@@ -36,9 +37,18 @@ public class MatchReminderService extends Service {
         bookingService = new BookingServiceImpl(this);
         customerService = new CustomerServiceImpl(this);
         createNotificationChannel();
+        startForegroundWithTemporaryNotification();
         startReminderRunnable();
     }
+    @SuppressLint("ForegroundServiceType")
+    private void startForegroundWithTemporaryNotification() {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Preparing...")
+                .setSmallIcon(R.drawable.ic_notification)
+                .build();
 
+        startForeground(TEMPORARY_NOTIFICATION_ID, notification);
+    }
     private void startReminderRunnable() {
         handler = new Handler();
         runnable = new Runnable() {
@@ -73,11 +83,11 @@ public class MatchReminderService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(notificationId, notification);
-
         // Call startForeground() right after creating the notification
         startForeground(notificationId, notification);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(notificationId, notification);
     }
 
     private void createNotificationChannel() {
