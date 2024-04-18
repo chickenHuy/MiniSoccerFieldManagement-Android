@@ -80,4 +80,9 @@ public class CustomerServiceImpl implements ICustomerService{
     public List<Customer> findCustomer(String searchparam){
         return customerDAO.findCustomer(searchparam);
     }
+
+    @Override
+    public String getMembershipNameByID(String membershipId) {
+        return customerDAO.getMembershipNameByID(membershipId);
+    }
 }

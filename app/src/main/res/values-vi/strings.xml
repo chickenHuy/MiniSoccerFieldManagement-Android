@@ -150,4 +150,8 @@
     <string name="invoice_detail">Chi tiết hóa đơn</string>
     <string name="service_usage">Dịch vụ sử dụng</string>
     <string name="warning_booking">Đến giờ!!!</string>
+    <string name="login_with_fingerprint">Đăng nhập với vân tay</string>
+    <string name="fingerprint">Vân tay</string>
+    <string name="fingerprint_message">Vui lòng đặt vân tay của bạn lên cảm biến để tiếp tục</string>
+    <string name="cancel">Hủy</string>
 </resources>

@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +153,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                if(!isSwipeable) {
+                if (!isSwipeable) {
 //                    recyclerViewListBooking.getAdapter().notifyItemChanged(viewHolder.getAdapterPosition());
                     return;
                 }
@@ -259,7 +260,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     List<Booking> selectedBookingList = new ArrayList<>();
-                        boolean showWarning = false;
+                    boolean showWarning = false;
                     if (v.getId() == R.id.button_upcoming) {
                         selectedBookingList = bookingService.findUpcomingBookings("active");
                         showWarning = true;

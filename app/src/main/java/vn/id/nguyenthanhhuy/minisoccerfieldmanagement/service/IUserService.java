@@ -21,6 +21,8 @@ public interface IUserService {
 
     public User verifyLoginData(String username, String password);
 
+    public User verifyLoginWithHashedPassword(String username, String hashedPassword);
+
     public boolean changeRole(String id, String role);
 
     public boolean changePassword(String id, String newPassword);

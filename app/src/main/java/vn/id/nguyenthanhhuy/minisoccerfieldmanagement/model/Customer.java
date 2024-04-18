@@ -30,6 +30,13 @@ public class Customer implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public Customer(String id, String memberShipId, String name, String phoneNumber) {
+        this.id = id;
+        this.memberShipId = memberShipId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getId() {
         return id;
     }

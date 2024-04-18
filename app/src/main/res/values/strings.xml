@@ -154,4 +154,8 @@
     <string name="analysis">Analysis</string>
     <string name="invoice_detail">Invoice detail</string>
     <string name="service_usage">Service usage</string>
+    <string name="login_with_fingerprint">Login with fingerprint</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="fingerprint_message">Please place your fingerprint on the sensor to continue</string>
+    <string name="cancel">Cancel</string>
 </resources>

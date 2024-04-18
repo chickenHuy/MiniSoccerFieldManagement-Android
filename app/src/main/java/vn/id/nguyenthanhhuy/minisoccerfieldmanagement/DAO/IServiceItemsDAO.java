@@ -2,6 +2,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO;
 
 import java.util.List;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
 
 public interface IServiceItemsDAO {
@@ -18,4 +19,5 @@ public interface IServiceItemsDAO {
     public List<ServiceItems> findByServiceUsage(String serviceUsageId);
 
     public List<ServiceItems> findByService(String serviceId);
+    Service getServiceInfo(String serviceID);
 }

@@ -13,6 +13,9 @@ import java.util.List;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.Databases.DBHandler;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.contract.SoccerFieldContract;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class AppTransactionDAOImpl implements IAppTransactionDAO{
     DBHandler dbHandler;
@@ -135,7 +138,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,12 +171,14 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                     SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT
             };
 
-            String selection = SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED + " = 0 ;";
+            String selection = SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED + " = ?";
+            String[] selectionArgument = {"0"};
+
             cursor = db.query(
                     SoccerFieldContract.AppTransactionEntry.TABLE_NAME,
                     projection,
                     selection,
-                    null,
+                    selectionArgument,
                     null,
                     null,
                     null
@@ -190,7 +195,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -249,7 +254,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -308,7 +313,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -367,7 +372,7 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
                 appTransaction.setFinalAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_FINAL_AMOUNT))));
                 appTransaction.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 appTransaction.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_CREATED_AT))));
-                appTransaction.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
+                appTransaction.setUpdatedAt(Utils.toTimestamp(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.AppTransactionEntry.COLUMN_NAME_UPDATED_AT))));
                 listAppTransactions.add(appTransaction);
             }
         } catch (Exception e) {
@@ -388,5 +393,131 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
     @Override
     public List<AppTransaction> findByFieldId(String fieldId) {
         return null;
+    }
+
+    @Override
+    public String getUserNameByUserID(String userID){
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String userName = "";
+        Cursor cursor = null;
+
+        try {
+            String[] projection = {SoccerFieldContract.UserEntry.COLUMN_NAME_NAME};
+            String selection = SoccerFieldContract.UserEntry.COLUMN_NAME_ID + " = ?";
+            String[] selectionArgs = {userID};
+
+            cursor = db.query(
+                    SoccerFieldContract.UserEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                userName = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.UserEntry.COLUMN_NAME_NAME));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return userName;
+    }
+
+    @Override
+    public Customer getCustomerByServiceUsageId(String serviceUsageId) {
+        Customer customer = null;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT * FROM " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME +
+                    " INNER JOIN " + SoccerFieldContract.CustomerEntry.TABLE_NAME +
+                    " ON " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME + "." + SoccerFieldContract.ServiceUsageEntry.COLUMN_NAME_CUSTOMER_ID +
+                    " = " + SoccerFieldContract.CustomerEntry.TABLE_NAME + "." + SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID +
+                    " WHERE " + SoccerFieldContract.ServiceUsageEntry.TABLE_NAME + "." + SoccerFieldContract.ServiceUsageEntry.COLUMN_NAME_ID +
+                    " = ?";
+
+            cursor = db.rawQuery(query, new String[]{serviceUsageId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String customerId = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_NAME));
+                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_PHONE_NUMBER));
+                String membershipId = cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.CustomerEntry.COLUMN_NAME_MEMBERSHIP_ID));
+                customer = new Customer(customerId, membershipId, name, phoneNumber);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return customer;
+    }
+    @Override
+    public String getNameOfField(String appTransactionId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        String fieldName = "";
+
+        try {
+            String query = "SELECT Field.name FROM AppTransaction " +
+                    "INNER JOIN ServiceUsage ON AppTransaction.serviceUsageId = ServiceUsage.id " +
+                    "INNER JOIN MatchRecord ON ServiceUsage.matchRecordId = MatchRecord.id " +
+                    "INNER JOIN Booking ON MatchRecord.bookingId = Booking.id " +
+                    "INNER JOIN Field ON Booking.fieldId = Field.id " +
+                    "WHERE AppTransaction.id = ?";
+
+            cursor = db.rawQuery(query, new String[]{appTransactionId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                fieldName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return fieldName;
+    }
+    @Override
+    public Booking getBookingDetails(String appTransactionId) {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        Booking booking = null;
+
+        try {
+            String query = "SELECT Booking.id, Booking.timeStart, Booking.timeEnd, Booking.price " +
+                    "FROM Booking " +
+                    "INNER JOIN MatchRecord ON Booking.id = MatchRecord.bookingId " +
+                    "INNER JOIN ServiceUsage ON MatchRecord.id = ServiceUsage.matchRecordId " +
+                    "INNER JOIN AppTransaction ON ServiceUsage.id = AppTransaction.serviceUsageId " +
+                    "WHERE AppTransaction.id = ?";
+            cursor = db.rawQuery(query, new String[]{appTransactionId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                String id = cursor.getString(cursor.getColumnIndexOrThrow("id"));
+                Timestamp timeStart = Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeStart")));
+                Timestamp timeEnd = Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("timeEnd")));
+                BigDecimal price = new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow("price")));
+                booking = new Booking(id, null, null, null, null, null, timeStart, timeEnd, price, null, null, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return booking;
     }
 }
