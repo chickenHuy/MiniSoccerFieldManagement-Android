@@ -27,6 +27,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplicatio
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityEditProfileBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 
 public class EditProfileActivity extends AppCompatActivity {
     private ActivityEditProfileBinding binding;
@@ -75,7 +76,7 @@ public class EditProfileActivity extends AppCompatActivity {
         adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) binding.spinnerGender).setAdapter(adapterGender);
 
-        String[] roleItems = new String[]{"Staff", "Manager"};
+        String[] roleItems = new String[]{StaticString.STAFF, StaticString.MANAGER};
         ArrayAdapter<String> adapterRole = new ArrayAdapter<>(
                 this,
                 R.layout.item_custom_text_spinner,

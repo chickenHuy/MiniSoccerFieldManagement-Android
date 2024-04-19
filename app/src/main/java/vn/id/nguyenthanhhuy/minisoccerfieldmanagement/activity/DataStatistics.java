@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -48,6 +48,7 @@ public class DataStatistics extends AppCompatActivity {
         setPieChart();
         setBarChart();
         setIncome();
+        goBack();
     }
 
     private void setIncome() {
@@ -68,12 +69,10 @@ public class DataStatistics extends AppCompatActivity {
         }
 
         BarDataSet bookingDataSet = new BarDataSet(bookingData, "");
-        bookingDataSet.setColors(new int[] {
-                ContextCompat.getColor(this, R.color.primaryColor),
+        bookingDataSet.setColors(ContextCompat.getColor(this, R.color.primaryColor),
                 ContextCompat.getColor(this, R.color.aquamarine),
                 ContextCompat.getColor(this, R.color.lightGreen),
-                ContextCompat.getColor(this, R.color.persianGreen)
-        });
+                ContextCompat.getColor(this, R.color.persianGreen));
         bookingDataSet.setHighLightAlpha(255);
         bookingDataSet.setDrawValues(true);
 
@@ -113,13 +112,11 @@ public class DataStatistics extends AppCompatActivity {
         PieDataSet serviceDataSet = new PieDataSet(serviceData, "Doanh thu dịch vụ");
 
         // Set colors for the PieDataSet
-        serviceDataSet.setColors(new int[] {
-                ContextCompat.getColor(this, R.color.primaryColor),
+        serviceDataSet.setColors(ContextCompat.getColor(this, R.color.primaryColor),
                 ContextCompat.getColor(this, R.color.black_overlay),
                 ContextCompat.getColor(this, R.color.red),
                 ContextCompat.getColor(this, R.color.light_blue_900),
-                ContextCompat.getColor(this, R.color.light_blue_A400)
-        });
+                ContextCompat.getColor(this, R.color.light_blue_A400));
 
         PieData servicePieData = new PieData(serviceDataSet);
 
@@ -177,5 +174,13 @@ public class DataStatistics extends AppCompatActivity {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         xAxis.setLabelCount(dates.length, true);
         lineChart.invalidate();
+    }
+
+    public void goBack() {
+        findViewById(R.id.button_back).setOnClickListener(this::onClick);
+    }
+
+    private void onClick(View v) {
+        finish();
     }
 }

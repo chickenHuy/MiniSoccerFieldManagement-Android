@@ -14,7 +14,6 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.util.Date;
 import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
@@ -56,14 +55,14 @@ public class MatchReminderService extends Service {
                 List<Booking> upcomingBookings = bookingService.getBookingUpcoming();
                 if (upcomingBookings.size() == 0) {
                     stopForeground(true);
-                    handler.postDelayed(this, 60 * 1000); // Run every minute
+                    handler.postDelayed(this, 6 * 1000); // Run every minute
                     return;
                 }
                 createNotificationChannel();
                 for (Booking booking : upcomingBookings) {
                     createNotificationForBooking(booking);
                 }
-                handler.postDelayed(this, 60 * 1000); // Run every minute
+                handler.postDelayed(this, 6 * 1000); // Run every minute
             }
         };
         handler.post(runnable);
@@ -72,12 +71,12 @@ public class MatchReminderService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             startReminderRunnable();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return START_NOT_STICKY;
     }
 
-    @SuppressLint("ForegroundServiceType")
+    @SuppressLint({"ForegroundServiceType", "UnspecifiedImmutableFlag"})
     private void createNotificationForBooking(Booking booking) {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent;
