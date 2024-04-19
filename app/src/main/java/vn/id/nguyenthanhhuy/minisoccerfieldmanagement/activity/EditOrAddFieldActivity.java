@@ -1,14 +1,13 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,12 +22,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -201,12 +197,12 @@ public class EditOrAddFieldActivity extends AppCompatActivity {
                 new AlertDialog.Builder(EditOrAddFieldActivity.this)
                         .setTitle("Select Image")
                         .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+                            @SuppressLint("QueryPermissionsNeeded")
                             public void onClick(DialogInterface dialog, int which) {
                                 // Tạo Intent để mở camera
                                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                if (takePictureIntent.resolveActivity(getPackageManager()) != null)
                                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                }
                             }
                         })
                         .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {

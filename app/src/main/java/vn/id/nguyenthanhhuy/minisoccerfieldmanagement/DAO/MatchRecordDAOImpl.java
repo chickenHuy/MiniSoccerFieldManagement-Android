@@ -32,9 +32,8 @@ public class MatchRecordDAOImpl implements IMatchRecordDAO{
             values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_ID, matchRecord.getId());
             values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_BOOKING_ID, matchRecord.getBookingId());
             values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CHECK_IN, matchRecord.getCheckIn().toString());
-            values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CHECK_OUT, matchRecord.getCheckOut().toString());
             values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_IS_DELETED, 0);
-            values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CREATED_AT, matchRecord.getCreatedAt().toString());
+            values.put(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CREATED_AT, String.valueOf(new Timestamp(System.currentTimeMillis())));
 
             long result = db.insert(SoccerFieldContract.MatchRecordEntry.TABLE_NAME, null, values);
             db.close();
@@ -144,9 +143,9 @@ public class MatchRecordDAOImpl implements IMatchRecordDAO{
     }
 
     @Override
-    public List<MatchRecord> findByBooking(String bookingId) {
+    public MatchRecord findByBooking(String bookingId) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        List<MatchRecord> matchRecords = new ArrayList<>();
+        MatchRecord matchRecord = null;
         Cursor cursor = null;
         try {
             String[] projection = {
@@ -172,8 +171,8 @@ public class MatchRecordDAOImpl implements IMatchRecordDAO{
                     null
             );
 
-            while (cursor.moveToNext()) {
-                MatchRecord matchRecord = new MatchRecord();
+            if (cursor.moveToFirst()) {
+                matchRecord = new MatchRecord();
                 matchRecord.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_ID)));
                 matchRecord.setBookingId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_BOOKING_ID)));
                 matchRecord.setCheckIn(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CHECK_IN))));
@@ -181,7 +180,6 @@ public class MatchRecordDAOImpl implements IMatchRecordDAO{
                 matchRecord.setDeleted(cursor.getInt(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_IS_DELETED)) == 1);
                 matchRecord.setCreatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_CREATED_AT))));
                 matchRecord.setUpdatedAt(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.MatchRecordEntry.COLUMN_NAME_UPDATED_AT))));
-                matchRecords.add(matchRecord);
             }
         } catch (Exception e) {
             // Handle the exception
@@ -192,7 +190,7 @@ public class MatchRecordDAOImpl implements IMatchRecordDAO{
             }
         }
 
-        return matchRecords;
+        return matchRecord;
     }
 
     @Override

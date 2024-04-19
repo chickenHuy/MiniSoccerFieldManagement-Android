@@ -98,6 +98,9 @@
     <string name="start_time">Start time: </string>
     <string name="end_time">End time: </string>
     <string name="warning_booking">Time on!!!</string>
+    <string name="call_customer">Call Customer</string>
+    <string name="rental_fee">Rental fee</string>
+    <string name="additional_services">Additional Services</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
@@ -157,4 +160,12 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_message">Please place your fingerprint on the sensor to continue</string>
     <string name="cancel">Cancel</string>
+    <string name="total_revenue">TOTAL REVENUE</string>
+    <string name="revenue_today">REVENUE TODAY</string>
+    <string name="income">Income</string>
+    <string name="top_services">Top services</string>
+    <string name="booking">Booking</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="final_amount">Final amount</string>
+    <string name="by_day">By day</string>
 </resources>

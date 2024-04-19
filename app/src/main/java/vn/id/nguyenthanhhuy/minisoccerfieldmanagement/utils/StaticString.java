@@ -7,5 +7,7 @@ public class StaticString {
     public static final String INACTIVE = "inactive";
     public static final String CANCELED = "canceled";
     public static final String COMPLETED = "completed";
+    public static final String STAFF = "staff";
+    public static final String MANAGER = "manager";
 
 }

@@ -9,7 +9,7 @@ public interface IMatchRecordDAO {
     Boolean checkOut(String id);
     Boolean softDelete(String id);
     MatchRecord findById(String id);
-    List<MatchRecord> findByBooking(String bookingId);
+    MatchRecord findByBooking(String bookingId);
     List<MatchRecord> findByDate(Timestamp date);
     List<MatchRecord> findByField(String fieldId);
     List<MatchRecord> findByDateAndField(Timestamp date, String fieldId);

@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.pm.ServiceInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +30,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ShowUserProfileFr
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomerFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchReminderService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +42,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            Intent intent = new Intent(this, MatchReminderService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForegroundService(intent);
+            }
+            else
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                startForegroundService(intent);
+            }
+            else {
+                startService(intent);
+            }
+        }
+        catch (Exception e) {
+            Log.e("MainActivity", e.getMessage());
+        }
+
         setContentView(R.layout.activity_main);
-        // Lấy dữ liệu User từ Intent
         user = (User) MainApplication.curentUser;
 
         Lingver.getInstance().setLocale(MainActivity.this, MainApplication.language);
@@ -70,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 switchFragment(new ServiceFragment(), args);
                 return true;
             }
-            if (item.getItemId() == R.id.menu_option_wallet) {
+            if (item.getItemId() == R.id.menu_option_customer) {
                 floatingActionButton.setImageTintList(getResources().getColorStateList(R.color.black, getTheme()));
                 switchFragment(new CustomerFragment(), args);
                 return true;

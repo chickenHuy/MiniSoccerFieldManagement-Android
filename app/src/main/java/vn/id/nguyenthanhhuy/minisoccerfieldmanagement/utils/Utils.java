@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -71,18 +72,25 @@ public class Utils {
     public static String convertDay(String day) {
         switch (day.toLowerCase()) {
             case "mon":
+            case "th 2":
                 return "Monday";
             case "tue":
+            case "th 3 ":
                 return "Tuesday";
             case "wed":
+            case "th 4":
                 return "Wednesday";
             case "thu":
+            case "th 5":
                 return "Thursday";
             case "fri":
+            case "th 6":
                 return "Friday";
             case "sat":
+            case "th 7":
                 return "Saturday";
             case "sun":
+            case "cn":
                 return "Sunday";
             default:
                 return "Invalid day";
@@ -97,7 +105,16 @@ public class Utils {
             return sqlDate;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            try {
+                Locale localeVN = new Locale("vi", "VN");
+                SimpleDateFormat formatVn = new SimpleDateFormat("dd MMMM yyyy", localeVN);
+                java.util.Date parsedDate = formatVn.parse(dateString);
+                Date sqlDate = new Date(parsedDate.getTime());
+                return sqlDate;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return null;
+            }
         }
     }
 

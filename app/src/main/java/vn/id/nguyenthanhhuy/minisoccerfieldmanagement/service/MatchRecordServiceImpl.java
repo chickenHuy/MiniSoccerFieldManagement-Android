@@ -38,7 +38,7 @@ public class MatchRecordServiceImpl implements IMatchRecordService{
     }
 
     @Override
-    public List<MatchRecord> findByBooking(String bookingId) {
+    public MatchRecord findByBooking(String bookingId) {
         return matchRecordDAO.findByBooking(bookingId);
     }
 

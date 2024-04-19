@@ -46,9 +46,17 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ViewPagerAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentHomeBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class HomeFragment extends Fragment {
     private boolean isSwipeable;
@@ -68,11 +76,13 @@ public class HomeFragment extends Fragment {
     private ListView listViewMatch;
     private List<Service> listService;
     private List<Booking> bookingList;
-
     private BookingServiceImpl bookingService;
+    private MatchRecordServiceImpl matchRecordService;
 
     private RecyclerView recyclerViewListService;
     private RecyclerView recyclerViewListBooking;
+    private List<Field> listField;
+    private IFieldService fieldService;
 
     private TextView text_view_name;
 
@@ -83,6 +93,7 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         bookingService = new BookingServiceImpl(getContext());
+        matchRecordService = new MatchRecordServiceImpl(getContext());
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -114,12 +125,12 @@ public class HomeFragment extends Fragment {
                 imagePathArray[i] = "viewPagerImages/" + imagePathArray[i];
             }
 
-            String[] imageFieldArray = new String[7];
+            String[] imageFieldArray = new String[listField.size()];
             for (int i = 0; i < imageFieldArray.length; i++) {
                 imageFieldArray[i] = imagePathArray[i % imagePathArray.length];
             }
 
-            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), imageFieldArray);
+            viewPagerImageAdapter = new ViewPagerAdapter(getContext(), imageFieldArray, listField);
             viewPagerImage.setAdapter(viewPagerImageAdapter);
 
             viewPagerImage.setClipToPadding(false);
@@ -193,6 +204,12 @@ public class HomeFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with checkin operation
                                     bookingService.updateStatus(bookingList.get(position).getId(), "completed");
+                                    MatchRecord matchRecord = new MatchRecord();
+                                    matchRecord.setId(CurrentTimeID.nextId("MR"));
+                                    matchRecord.setBookingId(bookingList.get(position).getId());
+                                    matchRecord.setCheckIn(new Timestamp(System.currentTimeMillis()));
+                                    if(!matchRecordService.checkIn(matchRecord))
+                                        return;
                                     bookingList.remove(position);
                                     // Notify the adapter that an item is removed.
                                     RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListBooking.getAdapter();
@@ -362,6 +379,8 @@ public class HomeFragment extends Fragment {
         });
 
         listService = new ArrayList<>();
+        fieldService = new FieldServiceImpl(getContext());
+        listField = fieldService.findByStatus(StaticString.ACTIVE);
     }
 
     public void setRecyclerViewListService() {

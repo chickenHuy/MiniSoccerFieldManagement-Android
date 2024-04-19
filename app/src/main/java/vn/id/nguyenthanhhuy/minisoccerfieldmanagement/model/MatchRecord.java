@@ -1,8 +1,9 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MatchRecord {
+public class MatchRecord implements Serializable {
     private String id;
     private String bookingId;
     private Timestamp checkIn;

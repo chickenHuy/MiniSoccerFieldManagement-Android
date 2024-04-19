@@ -72,5 +72,9 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         binding.textViewDiscountAmount.setText(Utils.formatVND(selectedTransaction.getAdditionalFee()));
         binding.textViewAdditionalFee.setText(Utils.formatVND(selectedTransaction.getDiscountAmount()));
         binding.textViewFinalAmount.setText(Utils.formatVND(selectedTransaction.getFinalAmount()));
+
+        binding.buttonBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 }
