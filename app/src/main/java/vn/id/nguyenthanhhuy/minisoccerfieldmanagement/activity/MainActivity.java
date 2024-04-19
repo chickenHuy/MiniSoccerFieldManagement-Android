@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,9 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             Intent intent = new Intent(this, MatchReminderService.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 startForegroundService(intent);
-            } else {
+            }
+            else
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                startForegroundService(intent);
+            }
+            else {
                 startService(intent);
             }
         }

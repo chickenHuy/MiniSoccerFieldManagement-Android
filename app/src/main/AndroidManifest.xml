@@ -5,6 +5,7 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -23,7 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniSoccerFieldManagement"
         tools:targetApi="31">
-        <service android:name="vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchReminderService" />
+        <service
+            android:name=".service.MatchReminderService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            tools:ignore="ForegroundServicePermission">
+        </service>
         <activity
             android:name=".activity.LiveMatchDetailActivity"
             android:exported="false" />

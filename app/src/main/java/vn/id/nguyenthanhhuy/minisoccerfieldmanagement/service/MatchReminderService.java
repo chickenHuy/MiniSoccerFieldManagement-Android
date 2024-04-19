@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -36,6 +37,7 @@ public class MatchReminderService extends Service {
         super.onCreate();
         bookingService = new BookingServiceImpl(this);
         customerService = new CustomerServiceImpl(this);
+        createNotificationChannel(); // Create the notification channel here
         startForegroundWithTemporaryNotification();
     }
     @SuppressLint("ForegroundServiceType")
@@ -44,8 +46,11 @@ public class MatchReminderService extends Service {
                 .setContentTitle("Preparing...")
                 .setSmallIcon(R.drawable.ic_notification)
                 .build();
-
-        startForeground(TEMPORARY_NOTIFICATION_ID, notification);
+        if (Build.VERSION.SDK_INT >= 34) {
+            startForeground(TEMPORARY_NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+        } else {
+            startForeground(TEMPORARY_NOTIFICATION_ID, notification);
+        }
     }
     private void startReminderRunnable() {
         handler = new Handler();
@@ -55,14 +60,14 @@ public class MatchReminderService extends Service {
                 List<Booking> upcomingBookings = bookingService.getBookingUpcoming();
                 if (upcomingBookings.size() == 0) {
                     stopForeground(true);
-                    handler.postDelayed(this, 6 * 1000); // Run every minute
+                    handler.postDelayed(this, 31 * 1000); // Run every minute
                     return;
                 }
                 createNotificationChannel();
                 for (Booking booking : upcomingBookings) {
                     createNotificationForBooking(booking);
                 }
-                handler.postDelayed(this, 6 * 1000); // Run every minute
+                handler.postDelayed(this, 31 * 1000); // Run every minute
             }
         };
         handler.post(runnable);
