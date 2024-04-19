@@ -36,7 +36,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentServiceBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 
@@ -137,13 +139,14 @@ public class ServiceFragment extends Fragment {
             public void onClick(View v) {
                 if (!hasMatch) {
                     List<ServiceItems> listServiceItemInCart = new ArrayList<>();
-                    String serviceUsageId = CurrentTimeID.nextId("SU");
+                    ServiceUsage serviceUsage = new ServiceUsage();
+                    serviceUsage.setId(CurrentTimeID.nextId("SU"));
 
                     for (Service service : listServiceInCart) {
                         ServiceItems serviceItems = new ServiceItems();
 
                         serviceItems.setId(CurrentTimeID.nextId("SI"));
-                        serviceItems.setServiceUsageId(serviceUsageId);
+                        serviceItems.setServiceUsageId(serviceUsage.getId());
                         serviceItems.setServiceId(service.getId());
                         serviceItems.setQuantity(service.getOrderQuantity());
 
@@ -152,6 +155,7 @@ public class ServiceFragment extends Fragment {
 
                     Intent intent = new Intent(getActivity(), ServicePaymentActivity.class);
                     intent.putExtra("hasMatch", hasMatch);
+                    intent.putExtra("serviceUsage", serviceUsage);
                     intent.putExtra("listServiceItemInCart", (ArrayList<ServiceItems>) listServiceItemInCart);
                     startActivityForResult(intent, GO_TO_PAYMENT);
                 }
@@ -285,7 +289,7 @@ public class ServiceFragment extends Fragment {
                 if (serviceInCart.getId().equals(serviceSelected.getId())) {
                     int quantity = serviceInCart.getOrderQuantity() + serviceSelected.getOrderQuantity();
                     if (quantity > serviceInCart.getQuantity()) {
-                        Toast.makeText(getContext(),  getResources().getString(R.string.failed) + ": " + getResources().getString(R.string.in_stock) + " " + serviceInCart.getQuantity(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.failed) + ": " + getResources().getString(R.string.in_stock) + " " + serviceInCart.getQuantity(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     serviceInCart.setOrderQuantity(quantity);

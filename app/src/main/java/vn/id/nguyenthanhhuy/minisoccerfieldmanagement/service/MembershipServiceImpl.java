@@ -50,5 +50,4 @@ public class MembershipServiceImpl implements IMembershipService {
 
         return result.orElse(null);
     }
-
 }
