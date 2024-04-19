@@ -9,5 +9,8 @@ public class StaticString {
     public static final String COMPLETED = "completed";
     public static final String STAFF = "staff";
     public static final String MANAGER = "manager";
+    public static final String FINAL_AMOUNT = "finalAmount";
+    public static final String FIELD_AMOUNT = "field";
+    public static final String SERVICE_AMOUNT = "service";
 
 }
