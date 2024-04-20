@@ -164,4 +164,5 @@
     <string name="schedule">LỊCH SÂN</string>
     <string name="final_amount">Giá cuối</string>
     <string name="by_day">Theo ngày</string>
+    <string name="logout">Logout</string>
 </resources>
