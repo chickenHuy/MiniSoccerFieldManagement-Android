@@ -169,7 +169,7 @@ public class ServiceItemsDAOImpl implements IServiceItemsDAO {
                     null
             );
 
-            if (cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 ServiceItems serviceItems = new ServiceItems();
                 serviceItems.setId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_ID)));
                 serviceItems.setServiceUsageId(cursor.getString(cursor.getColumnIndexOrThrow(SoccerFieldContract.ServiceItemsEntry.COLUMN_NAME_SERVICE_USAGE_ID)));

@@ -87,4 +87,9 @@ public class AppTransactionServiceImpl implements IAppTransactionService{
     public Booking getBookingDetails(String appTransactionId) {
         return appTransactionDAO.getBookingDetails(appTransactionId);
     }
+
+    @Override
+    public List<AppTransaction> searchList(String searchParam) {
+        return appTransactionDAO.searchList(searchParam);
+    }
 }
