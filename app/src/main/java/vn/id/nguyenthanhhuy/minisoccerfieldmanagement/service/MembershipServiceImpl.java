@@ -50,4 +50,9 @@ public class MembershipServiceImpl implements IMembershipService {
 
         return result.orElse(null);
     }
+
+    @Override
+    public int getDiscountRateByCustomerId(String id) {
+        return membershipDAO.getDiscountRateByCustomerId(id);
+    }
 }

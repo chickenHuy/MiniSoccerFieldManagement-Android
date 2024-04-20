@@ -11,4 +11,5 @@ public interface IServiceUsageDAO {
     ServiceUsage findById (String id);
     ServiceUsage findByMatchRecord (String matchRecordId);
     List <ServiceUsage> findByCustomer (String customerId);
+    double getTotalServicePriceByMatchId (String matchRecordId);
 }

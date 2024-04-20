@@ -4,18 +4,15 @@ import android.content.Context;
 
 import java.util.List;
 
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IServiceUsageDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.ServiceUsageDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
 
-public class ServiceUsageServiceImpl implements IServiceUsageService {
-    private Context context;
-    ServiceUsageDAOImpl serviceUsageDAO;
-
+public class ServiceUsageServiceImpl implements IServiceUsageService{
+    IServiceUsageDAO serviceUsageDAO;
     public ServiceUsageServiceImpl(Context context) {
-        this.context = context;
         serviceUsageDAO = new ServiceUsageDAOImpl(context);
     }
-
     @Override
     public Boolean add(ServiceUsage serviceUsage) {
         return serviceUsageDAO.add(serviceUsage);
@@ -44,5 +41,10 @@ public class ServiceUsageServiceImpl implements IServiceUsageService {
     @Override
     public List<ServiceUsage> findByCustomer(String customerId) {
         return serviceUsageDAO.findByCustomer(customerId);
+    }
+
+    @Override
+    public double getTotalServicePriceByMatchId(String matchRecordId) {
+        return serviceUsageDAO.getTotalServicePriceByMatchId(matchRecordId);
     }
 }

@@ -401,6 +401,8 @@ public class BookingDAOImpl implements IBookingDAO{
             String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND " + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
             String[] selectionArgs = { status, "0" };
 
+            String sortOrder = SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " ASC";
+
             cursor = db.query(
                     SoccerFieldContract.BookingEntry.TABLE_NAME,
                     projection,
@@ -408,7 +410,7 @@ public class BookingDAOImpl implements IBookingDAO{
                     selectionArgs,
                     null,
                     null,
-                    null
+                    sortOrder
             );
 
             while (cursor.moveToNext()) {
@@ -470,6 +472,7 @@ public class BookingDAOImpl implements IBookingDAO{
                     + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
             String[] selectionArgs = { status, fifteenMinutesBefore.toString(), oneHourLater.toString(), "0" };
 
+            String sortOrder = SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " ASC";
             cursor = db.query(
                     SoccerFieldContract.BookingEntry.TABLE_NAME,
                     projection,
@@ -477,7 +480,7 @@ public class BookingDAOImpl implements IBookingDAO{
                     selectionArgs,
                     null,
                     null,
-                    null
+                    sortOrder
             );
 
             while (cursor.moveToNext()) {
@@ -533,10 +536,11 @@ public class BookingDAOImpl implements IBookingDAO{
 
             String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND "
                     + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + ", '-1 hour') <= ? AND "
-                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END + " >= ? AND "
+                    + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END + ", '+2 hour') >= ? AND "
                     + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
             String[] selectionArgs = { "completed", currentTime.toString(), currentTime.toString(), "0" };
 
+            String sortOrder = SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " ASC";
             cursor = db.query(
                     SoccerFieldContract.BookingEntry.TABLE_NAME,
                     projection,
@@ -544,7 +548,7 @@ public class BookingDAOImpl implements IBookingDAO{
                     selectionArgs,
                     null,
                     null,
-                    null
+                    sortOrder
             );
 
             while (cursor.moveToNext()) {
@@ -601,6 +605,7 @@ public class BookingDAOImpl implements IBookingDAO{
             String selection = "DATE(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + ") = DATE(?) AND " + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
             String[] selectionArgs = { date.toString(), "0" };
 
+            String sortOrder = SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " ASC";
             cursor = db.query(
                     SoccerFieldContract.BookingEntry.TABLE_NAME,
                     projection,
@@ -608,7 +613,7 @@ public class BookingDAOImpl implements IBookingDAO{
                     selectionArgs,
                     null,
                     null,
-                    null
+                    sortOrder
             );
 
             while (cursor.moveToNext()) {

@@ -93,6 +93,7 @@
     <string name="error_password_incorrect">Mật khẩu hiện tại không đúng</string>
     <string name="call_customer">Gọi khách hàng</string>
     <string name="rental_fee">Phí đặt sân</string>
+    <string name="total">Tổng cộng:</string>
     <string name="choose_option">Tuỳ chọn tải ảnh lên</string>
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>
