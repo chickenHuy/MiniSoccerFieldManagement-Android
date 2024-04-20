@@ -9,7 +9,6 @@ public interface ICustomerService {
     Boolean add(Customer customer);
     Boolean update(Customer customer);
     Boolean softDelete(String id);
-    Boolean updateTotalSpend(String id, BigDecimal increment);
     Customer findById(String id);
     Customer findByPhoneNumber(String phoneNumber);
     List<Customer> findAll();
@@ -17,5 +16,5 @@ public interface ICustomerService {
     int findDiscountByCustomer(String customerId);
     List<Customer> findCustomer(String searchparam);
     String getMembershipNameByID(String membershipId);
-
+    Boolean updateTotalSpend(String id, BigDecimal increment);
 }

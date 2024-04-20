@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.ChartDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IChartDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingChart;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.IncomeChart;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceChart;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class DataStatistics extends AppCompatActivity {
@@ -48,6 +52,7 @@ public class DataStatistics extends AppCompatActivity {
         setPieChart();
         setBarChart();
         setIncome();
+        goBack();
     }
 
     private void setIncome() {
@@ -68,12 +73,10 @@ public class DataStatistics extends AppCompatActivity {
         }
 
         BarDataSet bookingDataSet = new BarDataSet(bookingData, "");
-        bookingDataSet.setColors(new int[] {
-                ContextCompat.getColor(this, R.color.primaryColor),
+        bookingDataSet.setColors(ContextCompat.getColor(this, R.color.primaryColor),
                 ContextCompat.getColor(this, R.color.aquamarine),
                 ContextCompat.getColor(this, R.color.lightGreen),
-                ContextCompat.getColor(this, R.color.persianGreen)
-        });
+                ContextCompat.getColor(this, R.color.persianGreen));
         bookingDataSet.setHighLightAlpha(255);
         bookingDataSet.setDrawValues(true);
 
@@ -101,25 +104,22 @@ public class DataStatistics extends AppCompatActivity {
 
 
     private void setPieChart() {
+
+        List<ServiceChart> services = chartDAO.getServiceChart();
         List<PieEntry> serviceData = new ArrayList<>();
         // Replace with your actual data
-        float[] serviceRevenues = new float[]{20, 30, 25, 35, 40};
-        String[] services = new String[]{"Dịch vụ 1", "Dịch vụ 2", "Dịch vụ 3", "Dịch vụ 4", "Other"};
-
-        for (int i = 0; i < serviceRevenues.length; i++) {
-            serviceData.add(new PieEntry(serviceRevenues[i], services[i]));
+        for (int i = 0; i < services.size(); i++) {
+            serviceData.add(new PieEntry(services.get(i).getRate(), services.get(i).getName()));
         }
 
-        PieDataSet serviceDataSet = new PieDataSet(serviceData, "Doanh thu dịch vụ");
+        PieDataSet serviceDataSet = new PieDataSet(serviceData, "");
 
         // Set colors for the PieDataSet
-        serviceDataSet.setColors(new int[] {
-                ContextCompat.getColor(this, R.color.primaryColor),
+        serviceDataSet.setColors(ContextCompat.getColor(this, R.color.primaryColor),
                 ContextCompat.getColor(this, R.color.black_overlay),
                 ContextCompat.getColor(this, R.color.red),
                 ContextCompat.getColor(this, R.color.light_blue_900),
-                ContextCompat.getColor(this, R.color.light_blue_A400)
-        });
+                ContextCompat.getColor(this, R.color.light_blue_A400));
 
         PieData servicePieData = new PieData(serviceDataSet);
 
@@ -142,19 +142,46 @@ public class DataStatistics extends AppCompatActivity {
     private void setLineChart() {
         lineChart.getDescription().setEnabled(false);
 
-        float[] totalIncome = new float[]{100000, 200000, 150000, 200000};
-        float[] fieldIncome = new float[]{50000, 100000, 75000,0};
-        float[] serviceIncome = new float[]{20000, 40000, 30000,25000};
-        String[] dates = new String[]{"Ngày 1", "Ngày 2", "Ngày 3", "Ngày 4"};
+        List<IncomeChart> finalAmount = chartDAO.getIncomeChart(StaticString.FINAL_AMOUNT);
+        List<IncomeChart> fieldIncome = chartDAO.getIncomeChart(StaticString.FIELD_AMOUNT);
+        List<IncomeChart> serviceIncome = chartDAO.getIncomeChart(StaticString.SERVICE_AMOUNT);
+        // Make 3 char only size : if not exist date insert date and set data = 0
+        String[] dates = new String[finalAmount.size()];
+        BigDecimal[] totalIncomeBig = new BigDecimal[finalAmount.size()];
+        BigDecimal[] fieldIncomeBig = new BigDecimal[finalAmount.size()];
+        BigDecimal[] serviceIncomeBig = new BigDecimal[finalAmount.size()];
+        for (int i = 0; i < finalAmount.size(); i++) {
+            dates[i] = finalAmount.get(i).getDate();
+            totalIncomeBig[i] = finalAmount.get(i).getIncome();
+            fieldIncomeBig[i] = BigDecimal.ZERO;
+            serviceIncomeBig[i] = BigDecimal.ZERO;
+        }
+        for (int i = 0; i < fieldIncomeBig.length; i++) {
+            for (IncomeChart incomeChart : fieldIncome) {
+                if (dates[i].equals(incomeChart.getDate())) {
+                    fieldIncomeBig[i] = incomeChart.getIncome();
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < serviceIncomeBig.length; i++) {
+            for (IncomeChart incomeChart : serviceIncome) {
+                if (dates[i].equals(incomeChart.getDate())) {
+                    serviceIncomeBig[i] = incomeChart.getIncome();
+                    break;
+                }
+            }
+        }
+
 
         List<Entry> totalIncomeData = new ArrayList<>();
         List<Entry> additionalFeeData = new ArrayList<>();
         List<Entry> discountData = new ArrayList<>();
 
-        for (int i = 0; i < totalIncome.length; i++) {
-            totalIncomeData.add(new Entry(i, totalIncome[i]));
-            additionalFeeData.add(new Entry(i, fieldIncome[i]));
-            discountData.add(new Entry(i, serviceIncome[i]));
+        for (int i = 0; i < dates.length; i++) {
+            totalIncomeData.add(new Entry(i, totalIncomeBig[i].floatValue()));
+            additionalFeeData.add(new Entry(i, fieldIncomeBig[i].floatValue()));
+            discountData.add(new Entry(i, serviceIncomeBig[i].floatValue()));
         }
 
         LineDataSet totalIncomeDataSet = new LineDataSet(totalIncomeData, "Total Income");
@@ -177,5 +204,13 @@ public class DataStatistics extends AppCompatActivity {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         xAxis.setLabelCount(dates.length, true);
         lineChart.invalidate();
+    }
+
+    public void goBack() {
+        findViewById(R.id.button_back).setOnClickListener(this::onClick);
+    }
+
+    private void onClick(View v) {
+        finish();
     }
 }

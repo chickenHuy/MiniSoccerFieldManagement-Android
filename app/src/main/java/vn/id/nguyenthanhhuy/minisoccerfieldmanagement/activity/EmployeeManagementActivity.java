@@ -98,25 +98,6 @@ public class EmployeeManagementActivity extends AppCompatActivity {
             employeeList = employeesFromDb;
         }
 
-//        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-//        User fakeUser = new User(
-//                "1", // id
-//                "John Doe", // name
-//                "Male", // gender
-//                "1990-01-01", // dateOfBirth
-//                null, // image
-//                "1234567890", // phoneNumber
-//                "johndoe", // userName
-//                "password", // password
-//                "Employee", // role
-//                "Type1", // type
-//                false, // isDeleted
-//                currentTimestamp, // createdAt
-//                currentTimestamp // updatedAt
-//        );
-//
-//        employeeList.add(fakeUser);
-
         recyclerViewEmployeeAdapter = new RecyclerViewEmployeeAdapter(this, employeeList, this::onEmployeeClick, getLayoutInflater());
         binding.recyclerViewEmployee.setAdapter(recyclerViewEmployeeAdapter);
         binding.recyclerViewEmployee.setLayoutManager(new LinearLayoutManager(this));

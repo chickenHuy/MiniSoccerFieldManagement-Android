@@ -15,9 +15,9 @@
         android:icon="@drawable/ic_home"
         android:title="@string/app_name" />
     <item
-        android:id="@+id/menu_option_wallet"
+        android:id="@+id/menu_option_customer"
         android:enabled="true"
-        android:icon="@drawable/ic_wallet"
+        android:icon="@drawable/ic_customer"
         android:title="@string/app_name" />
     <item
         android:id="@+id/menu_option_show_user_profile"

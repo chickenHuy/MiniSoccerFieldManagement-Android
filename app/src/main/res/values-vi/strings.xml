@@ -163,4 +163,6 @@
     <string name="top_services">Top dịch vụ</string>
     <string name="booking">Đặt sân</string>
     <string name="schedule">LỊCH SÂN</string>
+    <string name="final_amount">Giá cuối</string>
+    <string name="by_day">Theo ngày</string>
 </resources>

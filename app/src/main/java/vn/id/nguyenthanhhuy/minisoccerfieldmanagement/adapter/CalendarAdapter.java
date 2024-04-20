@@ -1,5 +1,6 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +35,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         mListener = listener;
     }
 
+    @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -40,9 +43,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return new CalendarViewHolder(view);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(api = Build.VERSION_CODES.O)
- @Override
-public void onBindViewHolder(CalendarViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(CalendarViewHolder holder, int position) {
     CalendarDateModel itemList = list.get(position);
     holder.calendarDay.setText(itemList.getCalendarDay());
     holder.calendarDate.setText(itemList.getCalendarDate());
@@ -78,6 +82,7 @@ public void onBindViewHolder(CalendarViewHolder holder, int position) {
         return list.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(ArrayList<CalendarDateModel> calendarList) {
         list.clear();
         list.addAll(calendarList);

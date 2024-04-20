@@ -10,7 +10,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceChart;
 public interface IChartDAO {
     List<BookingChart> getBookingChart();
     List<ServiceChart> getServiceChart();
-    List<IncomeChart> getIncomeChart();
+    List<IncomeChart> getIncomeChart(String type);
     BigDecimal getTotalIncome();
     BigDecimal getTotalIncomeToday();
 }

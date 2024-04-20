@@ -10,6 +10,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.ICustomerDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.IMembershipDAO;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.DAO.MembershipDAOImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
 
 public class CustomerServiceImpl implements ICustomerService{
     ICustomerDAO customerDAO;
@@ -31,18 +32,6 @@ public class CustomerServiceImpl implements ICustomerService{
     @Override
     public Boolean softDelete(String id) {
         return customerDAO.softDelete(id);
-    }
-
-    @Override
-    public Boolean updateTotalSpend(String id, BigDecimal increment) {
-        Customer customer = customerDAO.findById(id);
-        if (customer == null) {
-            return false;
-        }
-        else {
-            customer.setTotalSpend(customer.getTotalSpend().add(increment));
-            return customerDAO.update(customer);
-        }
     }
 
     @Override
@@ -84,5 +73,18 @@ public class CustomerServiceImpl implements ICustomerService{
     @Override
     public String getMembershipNameByID(String membershipId) {
         return customerDAO.getMembershipNameByID(membershipId);
+    }
+
+    @Override
+    public Boolean updateTotalSpend(String id, BigDecimal increment) {
+        Customer customer = customerDAO.findById(id);
+        IMembershipService memberShipService = new MembershipServiceImpl(context);
+        if (customer == null) {
+            return false;
+        }
+        customer.setTotalSpend(customer.getTotalSpend().add(increment));
+        Membership newMemberShip = memberShipService.findBySpendAmount(customer.getTotalSpend());
+        customer.setMemberShipId(newMemberShip.getId());
+        return update(customer);
     }
 }

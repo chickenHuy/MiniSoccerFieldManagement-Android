@@ -4,25 +4,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yariksoffice.lingver.Lingver;
 
@@ -38,13 +33,17 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplicatio
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityServicePaymentBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomDialogFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.AppTransactionServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MembershipServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
@@ -54,6 +53,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
 
     private boolean hasMatch;
     private boolean paymentSuccess = false;
+    private ServiceUsage serviceUsage = null;
     private ArrayList<ServiceItems> listServiceItemInCart;
     private final String paymentCode = CurrentTimeID.nextId("PM");
     private final Timestamp paymentTime = Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -62,7 +62,8 @@ public class ServicePaymentActivity extends AppCompatActivity {
     private BigDecimal additionalFee = new BigDecimal(0);
     private BigDecimal totalDiscount = new BigDecimal(0);
     private BigDecimal totalAmount = new BigDecimal(0);
-    CustomerServiceImpl customerService = new CustomerServiceImpl(ServicePaymentActivity.this);
+    private CustomerServiceImpl customerService = new CustomerServiceImpl(ServicePaymentActivity.this);
+    private ServiceServiceImpl serviceService = new ServiceServiceImpl(ServicePaymentActivity.this);
     private Customer customer = null;
     private CustomDialogFragment customDialogFragment;
 
@@ -84,6 +85,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             hasMatch = extras.getBoolean("hasMatch");
+            serviceUsage = (ServiceUsage) extras.getSerializable("serviceUsage");
             listServiceItemInCart = (ArrayList<ServiceItems>) extras.getSerializable("listServiceItemInCart");
         }
     }
@@ -206,7 +208,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
         ((TextView) binding.textViewTotalFieldPrice).setText(Utils.formatVND(totalFieldPrice));
         ((TextView) binding.textViewAdditionalFee).setText(Utils.formatVND(additionalFee));
         ((TextView) binding.textViewDiscount).setText(Utils.formatVND(totalDiscount));
-        ((TextView) binding.textViewTotalAmount).setText(Utils.formatVND(totalServicePrice.add(totalFieldPrice).add(additionalFee).subtract(totalDiscount)));
+        ((TextView) binding.textViewTotalAmount).setText(Utils.formatVND(totalAmount));
     }
 
     public void setListServicesPayment() {
@@ -223,7 +225,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
             ((LinearLayout) itemView.findViewById(R.id.linear_layout_service_wrapper)).setBackgroundColor(Color.TRANSPARENT);
 
             try {
-                Service service = new ServiceServiceImpl(ServicePaymentActivity.this).findById(serviceItem.getServiceId());
+                Service service = serviceService.findById(serviceItem.getServiceId());
 
                 if (service.getImage() != null) {
                     ((ImageView) itemView.findViewById(R.id.image_view_service)).setImageBitmap(Utils.convertByteToBitmap(service.getImage()));
@@ -245,11 +247,91 @@ public class ServicePaymentActivity extends AppCompatActivity {
             }
 
         }
+        totalAmount = totalServicePrice.add(totalFieldPrice).add(additionalFee).subtract(totalDiscount);
     }
 
     public void onButtonPaymentClick(View view) {
-        paymentSuccess = true;
-        customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
+        boolean check = true;
+
+        ServiceUsageServiceImpl serviceUsageService = new ServiceUsageServiceImpl(ServicePaymentActivity.this);
+        AppTransactionServiceImpl appTransactionService = new AppTransactionServiceImpl(ServicePaymentActivity.this);
+        ServiceItemsServiceImpl serviceItemsService = new ServiceItemsServiceImpl(ServicePaymentActivity.this);
+        AppTransaction appTransaction = new AppTransaction();
+
+        if (customer != null) {
+            serviceUsage.setCustomerId(customer.getId());
+            check = customerService.updateTotalSpend(customer.getId(), totalAmount);
+            if (!check) {
+                customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Error when update total spend of customer!!!", "error");
+                customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                return;
+            }
+        }
+        try {
+            for (ServiceItems serviceItem : listServiceItemInCart) {
+                Service service = serviceService.findById(serviceItem.getServiceId());
+                if (service.getQuantity() < serviceItem.getQuantity()) {
+                    customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Service " + service.getName() + " is out of stock!!!", "error");
+                    customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                    return;
+                } else {
+                    service.setQuantity(service.getQuantity() - serviceItem.getQuantity());
+                    service.setSold(service.getSold() + serviceItem.getQuantity());
+                }
+                check = serviceService.update(service);
+                if (!check) {
+                    customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Error when update quantity and sold of service!!!", "error");
+                    customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                    return;
+                }
+            }
+
+            check = serviceUsageService.add(serviceUsage);
+            if (!check) {
+                customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Error when add service usage!!!", "error");
+                customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                return;
+            }
+
+            appTransaction.setId(CurrentTimeID.nextId("TS"));
+            appTransaction.setUserID(MainApplication.curentUser.getId());
+            appTransaction.setServiceUsageId(serviceUsage.getId());
+            appTransaction.setType(hasMatch ? "Combo" : "Retail");
+            appTransaction.setTotalAmount(totalAmount);
+            appTransaction.setAdditionalFee(additionalFee);
+            appTransaction.setDiscountAmount(totalDiscount);
+            appTransaction.setFinalAmount(totalAmount);
+
+            check = appTransactionService.add(appTransaction);
+            if (!check) {
+                customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Error when add transaction!!!", "error");
+                customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                return;
+            }
+            for (ServiceItems serviceItem : listServiceItemInCart) {
+                check = serviceItemsService.add(serviceItem);
+                if (!check) {
+                    customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Error when add service item!!!", "error");
+                    customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
+                    return;
+                }
+            }
+
+            if (check) {
+                paymentSuccess = true;
+                binding.buttonPayment.setEnabled(false);
+                binding.buttonPayment.setBackgroundTintList(getResources().getColorStateList(R.color.gray, getTheme()));
+
+                customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
+            } else {
+                paymentSuccess = false;
+                customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Please check and try again!!!", "error");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            paymentSuccess = false;
+            customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Please check and try again!!!", "error");
+        }
         customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
     }
 }

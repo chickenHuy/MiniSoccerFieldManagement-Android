@@ -310,7 +310,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="Total amount"
+                    android:text="@string/total_amount"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -338,7 +338,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="Additional Fee "
+                    android:text="@string/additional_fee"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -366,7 +366,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="Discount Amount"
+                    android:text="@string/discount"
                     android:textColor="@color/black"
                     android:textSize="17sp" />
 
@@ -394,7 +394,7 @@
 
                 <TextView
                     style="@style/width_wc_height_wc"
-                    android:text="@string/total_amount"
+                    android:text="@string/final_amount"
                     android:textColor="@color/black"
                     android:textSize="19sp"
                     android:textStyle="bold" />
