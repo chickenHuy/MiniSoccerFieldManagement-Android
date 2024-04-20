@@ -11,5 +11,6 @@ public interface IMembershipDAO {
     Boolean softDelete(String id);
     Membership findById(String id);
     List<Membership> findAll();
+    int getDiscountRateByCustomerId(String id);
 
 }

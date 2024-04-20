@@ -204,5 +204,25 @@ public class MembershipDAOImpl implements IMembershipDAO{
         }
     }
 
-
+    @Override
+    public int getDiscountRateByCustomerId(String customerId) {
+        int discountRate = 0;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT MemberShip.discountRate FROM Customer INNER JOIN MemberShip ON Customer.memberShipId = MemberShip.id WHERE Customer.id = ?";
+            cursor = db.rawQuery(query, new String[]{customerId});
+            if (cursor.moveToFirst()) {
+                discountRate = cursor.getInt(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        return discountRate;
+    }
 }

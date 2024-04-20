@@ -44,6 +44,12 @@
         <item name="hintTextColor">@color/primaryColor</item>
     </style>
 
+    <style name="icon_custom" parent="width_wc_height_wc">
+        <item name="android:tint">@color/primaryColor</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
     <style name="header_text_custom" parent="width_wc_height_wc">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">23sp</item>

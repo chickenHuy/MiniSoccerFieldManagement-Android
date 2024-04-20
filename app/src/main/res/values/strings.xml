@@ -101,6 +101,7 @@
     <string name="call_customer">Call Customer</string>
     <string name="rental_fee">Rental fee</string>
     <string name="additional_services">Additional Services</string>
+    <string name="total">Total:</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>

@@ -235,4 +235,30 @@ public class ServiceUsageDAOImpl implements IServiceUsageDAO{
         }
         return listServiceUsages;
     }
+    public double getTotalServicePriceByMatchId(String matchId) {
+        double total = 0.0;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT SUM(Service.price * ServiceItems.quantity) as total_price " +
+                    "FROM ServiceUsage " +
+                    "JOIN ServiceItems ON ServiceUsage.id = ServiceItems.serviceUsageId " +
+                    "JOIN Service ON ServiceItems.serviceId = Service.id " +
+                    "WHERE ServiceUsage.matchRecordId = ? AND ServiceUsage.isDeleted = 0 AND ServiceItems.isDeleted = 0 AND Service.isDeleted = 0";
+            cursor = db.rawQuery(query, new String[]{matchId});
+
+            if (cursor.moveToFirst()) {
+                total = cursor.getDouble(cursor.getColumnIndexOrThrow("total_price"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return total;
+    }
 }
