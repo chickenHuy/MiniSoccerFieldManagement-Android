@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceItemsService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
@@ -74,7 +78,9 @@ public class ServiceFragment extends Fragment {
 
     private Handler handler = new Handler();
     private Runnable runnable;
-
+    private String serviceUsageId;
+    private IServiceItemsService serviceItemsService;
+    private IServiceService serviceService;
 
     @Nullable
     @Override
@@ -103,12 +109,16 @@ public class ServiceFragment extends Fragment {
             if (openWithServiceItem) {
                 serviceItem = (Service) getArguments().getSerializable("service_item");
             }
+            if (hasMatch) {
+                serviceUsageId = getArguments().getString("serviceUsageId");
+            }
         }
     }
 
     public void setWidget() {
         countAllService = new ServiceServiceImpl(getContext()).countServices("Active", 0);
-
+        serviceItemsService = new ServiceItemsServiceImpl(getContext());
+        serviceService = new ServiceServiceImpl(getContext());
         buttonAdd = binding.buttonAdd;
         linearLayoutTittleCartService = binding.linearLayoutTittleCartService;
         listService = new ArrayList<>();
@@ -158,6 +168,28 @@ public class ServiceFragment extends Fragment {
                     intent.putExtra("serviceUsage", serviceUsage);
                     intent.putExtra("listServiceItemInCart", (ArrayList<ServiceItems>) listServiceItemInCart);
                     startActivityForResult(intent, GO_TO_PAYMENT);
+                }
+                else {
+
+                    for (Service service : listServiceInCart) {
+                        ServiceItems serviceItems = new ServiceItems();
+
+                        serviceItems.setId(CurrentTimeID.nextId("SI"));
+                        serviceItems.setServiceUsageId(serviceUsageId);
+                        serviceItems.setServiceId(service.getId());
+                        serviceItems.setQuantity(service.getOrderQuantity());
+
+                        try {
+                            serviceService.updateQuantity(serviceItems.getServiceId(), service.getQuantity() - serviceItems.getQuantity());
+                            serviceService.updateSold(serviceItems.getServiceId(), service.getSold() + serviceItems.getQuantity());
+                            mergerService(serviceItems);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    getActivity().onBackPressed();
                 }
             }
         });
@@ -216,6 +248,18 @@ public class ServiceFragment extends Fragment {
             }
         });
 
+    }
+
+    private void mergerService(ServiceItems serviceNew) {
+        List<ServiceItems> serviceItems = serviceItemsService.findByServiceUsage(serviceUsageId);
+        for (ServiceItems item : serviceItems) {
+            if (item.getServiceId().equals(serviceNew.getServiceId())) {
+                item.setQuantity(item.getQuantity() + serviceNew.getQuantity());
+                serviceItemsService.update(item);
+                return;
+            }
+        }
+        serviceItemsService.add(serviceNew);
     }
 
     public void setListView() {

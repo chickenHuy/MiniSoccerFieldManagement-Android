@@ -42,6 +42,9 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IBookingService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ICustomerService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IMatchRecordService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment {
@@ -101,6 +104,11 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
 
             // Compare only the dates
             if (cal1.getTime().before(cal2.getTime())) {
+                binding.llAction.setVisibility(View.GONE);
+            }
+            IMatchRecordService matchRecordService = new MatchRecordServiceImpl(getContext());
+            if (booking.getStatus() == StaticString.COMPLETED ||  matchRecordService.findByBooking(booking.getId()) != null)
+            {
                 binding.llAction.setVisibility(View.GONE);
             }
             Customer customer = customerService.findById(booking.getCustomerId());

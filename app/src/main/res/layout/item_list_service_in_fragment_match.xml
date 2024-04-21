@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="155dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="7dp"
+    android:background="@drawable/background_white_radius_10dp"
+    android:backgroundTint="#F3F3F3"
+    android:elevation="1.5dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sivImageService"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/background_green_radius_10dp"
+            android:backgroundTint="#FAFAFA"
+            app:shapeAppearanceOverlay="@style/item_view_list_service_corner" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:background="@drawable/background_radius_5dp"
+            android:backgroundTint="#B3FFFFFF"
+            android:drawableEnd="@drawable/ic_close"
+            android:paddingTop="3dp"
+            android:paddingEnd="4dp"
+            android:translationX="3dp"
+            android:translationY="-3dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvServiceName"
+                style="@style/width_mp_height_wc"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Service name"
+                android:textColor="#001C33"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/width_mp_height_wc"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="20000 VND"
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:gravity="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lines="1"
+                        android:text="x"
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:gravity="end"
+                        android:id="@+id/tvQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:lines="1"
+                        android:text="10"
+                        android:textColor="#7A7A7A"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_view_quantity"
+                    style="@style/width_wc_height_wc"
+                    android:text="x5"
+                    android:textColor="#001C33"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tvTotalPrice"
+                style="@style/width_wc_height_wc"
+                android:lines="1"
+                android:text="2000000 VND"
+                android:textColor="@color/primaryColor"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

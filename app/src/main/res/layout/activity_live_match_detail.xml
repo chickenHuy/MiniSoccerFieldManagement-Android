@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/matchContainer"
     android:layout_height="match_parent"
     android:background="@color/white">
 
@@ -46,10 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:gravity="center_vertical">
-
-            <ImageButton
+            android:paddingEnd="10dp" android:gravity="center_vertical"><ImageButton
                 android:layout_width="35dp"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
@@ -112,7 +110,7 @@
             android:id="@+id/llInfo"
             style="@style/width_mp_height_wc"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="10dp"
@@ -137,7 +135,7 @@
                     android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
-                    android:text="Thông tin trận đấu"
+                    android:text="@string/th_ng_tin_tr_n_u"
                     android:padding="2dp" />
 
                 <View
@@ -228,6 +226,7 @@
                 android:orientation="horizontal"
                 android:paddingStart="20dp"
                 android:paddingEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp">
 
                 <ImageView
@@ -270,29 +269,6 @@
                     android:textColor="@color/black" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/clickable_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="@drawable/background_white_radius_10dp"
-                    android:backgroundTint="#04AA32"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:elevation="1dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="CHECK OUT"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
-            </RelativeLayout>
 
         </LinearLayout>
 
@@ -325,7 +301,7 @@
                     android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
-                    android:text="Hóa đơn tạm tính"
+                    android:text="@string/h_a_n_t_m_t_nh"
                     android:padding="2dp" />
 
                 <View
@@ -381,7 +357,7 @@
                 <TextView
                     style="@style/content_text_custom"
                     android:id="@+id/text_view_additional_services"
-                    android:text="200.000"
+                    android:text=""
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -478,14 +454,28 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_list_service"
+                style="@style/width_mp_height_wc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="7dp"
-                android:scrollbarSize="0dp"
-                android:scrollbars="vertical" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/rvServiceInMatch"
+                android:layout_marginEnd="10dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnCheckOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true"
+        android:text="CHECK OUT"
+        android:textColor="@color/primaryColor" />
 </FrameLayout>

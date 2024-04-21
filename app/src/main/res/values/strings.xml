@@ -170,4 +170,6 @@
     <string name="final_amount">Final amount</string>
     <string name="by_day">By day</string>
     <string name="logout">Logout</string>
+    <string name="th_ng_tin_tr_n_u">Match Info</string>
+    <string name="h_a_n_t_m_t_nh">Provisional Invoice</string>
 </resources>

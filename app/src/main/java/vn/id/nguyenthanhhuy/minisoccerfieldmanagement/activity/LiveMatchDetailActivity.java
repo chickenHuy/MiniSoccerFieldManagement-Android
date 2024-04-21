@@ -1,25 +1,42 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ServiceItemsRecyclerViewAdapter;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityLiveMatchDetailBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ICustomerService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceItemsService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceUsageService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 
 public class LiveMatchDetailActivity extends AppCompatActivity {
@@ -31,6 +48,19 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
     private BookingDetail bookingDetail;
     private IServiceUsageService serviceUsageService;
     private ICustomerService customerService;
+
+
+    private List<ServiceItems> servicesItems;
+    private ServiceItemsRecyclerViewAdapter serviceItemsRecyclerViewAdapter;
+    private IServiceItemsService serviceItemsService;
+    int discount = 0;
+    private ServiceUsage serviceUsage;
+    private NumberFormat format;
+    private ExtendedFloatingActionButton btnCheckOut;
+    private BigDecimal firstTotal = BigDecimal.ZERO;
+    private  IServiceService serviceService;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +73,72 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
         matchRecord = (MatchRecord) getIntent().getSerializableExtra("matchRecord");
         bookingDetail = (BookingDetail) getIntent().getSerializableExtra("bookingDetail");
         setWidget();
+        setAdapter();
         setInfo_Match();
+        setAdditionalServices();
+        setCheckOutEvent();
+    }
+
+    private void setCheckOutEvent() {
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Show thông báo alert
+                AlertDialog.Builder builder = new AlertDialog.Builder(LiveMatchDetailActivity.this);
+                builder.setTitle("Check out");
+                builder.setMessage("Are you sure you want to check out?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    Intent intent = new Intent(LiveMatchDetailActivity.this, ServicePaymentActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("serviceUsage", serviceUsage);
+                    bundle.putBoolean("hasMatch", true);
+                    bundle.putString("totalDiscount", String.valueOf(firstTotal.multiply(new BigDecimal(discount)).divide(new BigDecimal(100))));
+                    bundle.putSerializable("listServiceItemInCart", (ArrayList<ServiceItems>) serviceItemsService.findByServiceUsage(serviceUsage.getId()));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                });
+                builder.setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                });
+                builder.show();
+            }
+        });
+    }
+
+    private void setAdapter() {
+        serviceItemsService = new ServiceItemsServiceImpl(this);
+        serviceService = new ServiceServiceImpl(this);
+        serviceUsage = serviceUsageService.findByMatchRecord(matchRecord.getId());
+        servicesItems = serviceItemsService.findByServiceUsage(serviceUsage.getId());
+        serviceItemsRecyclerViewAdapter = new ServiceItemsRecyclerViewAdapter(servicesItems, this);
+        binding.rvServiceInMatch.setAdapter(serviceItemsRecyclerViewAdapter);
+        int numberOfColumns = 2;
+        binding.rvServiceInMatch.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+    }
+
+    private void setAdditionalServices() {
+        binding.addService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ServiceFragment serviceFragment = new ServiceFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("has_match", true);
+
+                if (serviceUsage != null) {
+                    bundle.putString("serviceUsageId", serviceUsage.getId());
+                }
+
+                serviceFragment.setArguments(bundle);
+
+                // Replace the current fragment with the new one
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.matchContainer, serviceFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     private void setWidget() {
@@ -87,8 +182,15 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
                 }
             }.start();
         }
-    }
 
+        btnCheckOut = findViewById(R.id.btnCheckOut);
+    }
+    private Boolean hasService()
+    {
+        servicesItems = serviceItemsService.findByServiceUsage(serviceUsage.getId());
+        serviceItemsRecyclerViewAdapter.setServiceItems(servicesItems);
+        return true;
+    }
     private void setInfo_Match(){
         // Cập nhật thông tin trận đấu
         binding.liveMatchTittle.setText(booking.getId());
@@ -105,7 +207,23 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
         binding.textViewTimeEnd.setText(formattedTimeEnd);
         binding.textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(booking.getTimeStart()));
 
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        caculateServiceFee();
+    }
+
+    public void goBack(View view) {
+        finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        hasService();
+        caculateServiceFee();
+        super.onBackPressed();
+    }
+
+    private void caculateServiceFee() {
         String formattedPrice = format.format(booking.getPrice());
         binding.textViewRentalFee.setText(formattedPrice);
 
@@ -113,17 +231,15 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
         String formattedTotal = format.format(total_service);
         binding.textViewAdditionalServices.setText(formattedTotal);
 
-        int discount = customerService.findDiscountByCustomer(booking.getCustomerId());
+        discount = customerService.findDiscountByCustomer(booking.getCustomerId());
         binding.textViewDiscount.setText(String.valueOf(discount) + "%");
 
         BigDecimal total_service_bd = BigDecimal.valueOf(total_service);
         BigDecimal discount_bd = BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100));
-        BigDecimal total = booking.getPrice().add(total_service_bd.multiply(BigDecimal.ONE.subtract(discount_bd)));
+        firstTotal = booking.getPrice().add(total_service_bd);
+        BigDecimal total = firstTotal.multiply(BigDecimal.ONE.subtract(discount_bd));
         String formattedTotalPrice = format.format(total);
         binding.textViewTotal.setText(formattedTotalPrice);
-    }
 
-    public void goBack(View view) {
-        finish();
     }
 }
