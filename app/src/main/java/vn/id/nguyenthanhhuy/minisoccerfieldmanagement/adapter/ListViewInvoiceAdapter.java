@@ -12,6 +12,7 @@ import java.util.List;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.AppTransactionServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
@@ -65,5 +66,10 @@ public class ListViewInvoiceAdapter extends BaseAdapter {
         tvDate.setText(Utils.formatDate(date));
 
         return convertView;
+    }
+
+
+    public void setData(List<AppTransaction> appTransactionList) {
+        this.appTransactionList = appTransactionList;
     }
 }

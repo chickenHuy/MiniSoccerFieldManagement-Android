@@ -12,5 +12,5 @@ public interface IMembershipService {
     Membership findById(String id);
     List<Membership> findAll();
     public Membership findBySpendAmount(BigDecimal totalSpend);
-
+    int getDiscountRateByCustomerId(String id);
 }

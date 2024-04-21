@@ -163,7 +163,6 @@
                 style="@style/width_mp_height_wc"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -343,7 +342,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="30dp"
             android:background="@drawable/background_white_radius_10dp"
             android:elevation="7dp"
             android:orientation="vertical">
@@ -453,7 +451,6 @@
                 style="@style/width_mp_height_wc"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -517,6 +514,50 @@
                     android:drawableTint="@color/blackGray"
                     android:paddingEnd="13dp" />
 
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_mp_height_wc"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_white_radius_10dp"
+            android:elevation="7dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/width_mp_height_wc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
+                    android:src="@drawable/ic_logout" />
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/logout"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_logout"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="@color/blackGray"
+                    android:paddingEnd="13dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -49,11 +49,16 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IBookingService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IMatchRecordService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceUsageService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchRecordServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
@@ -73,11 +78,11 @@ public class HomeFragment extends Fragment {
     private Button buttonToday;
     private Button buttonTomorrow;
     private ArrayList<Button> listButton;
-    private ListView listViewMatch;
     private List<Service> listService;
     private List<Booking> bookingList;
-    private BookingServiceImpl bookingService;
-    private MatchRecordServiceImpl matchRecordService;
+    private IBookingService bookingService;
+    private IMatchRecordService matchRecordService;
+    private IServiceUsageService serviceUsageService;
 
     private RecyclerView recyclerViewListService;
     private RecyclerView recyclerViewListBooking;
@@ -94,6 +99,7 @@ public class HomeFragment extends Fragment {
 
         bookingService = new BookingServiceImpl(getContext());
         matchRecordService = new MatchRecordServiceImpl(getContext());
+        serviceUsageService = new ServiceUsageServiceImpl(getContext());
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -210,6 +216,14 @@ public class HomeFragment extends Fragment {
                                     matchRecord.setCheckIn(new Timestamp(System.currentTimeMillis()));
                                     if(!matchRecordService.checkIn(matchRecord))
                                         return;
+
+                                    ServiceUsage serviceUsage = new ServiceUsage();
+                                    serviceUsage.setId(CurrentTimeID.nextId("SU"));
+                                    serviceUsage.setMatchRecordId(matchRecord.getId());
+                                    serviceUsage.setCustomerId(bookingList.get(position).getCustomerId());
+                                    if(!serviceUsageService.add(serviceUsage))
+                                        return;
+
                                     bookingList.remove(position);
                                     // Notify the adapter that an item is removed.
                                     RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListBooking.getAdapter();
@@ -282,14 +296,6 @@ public class HomeFragment extends Fragment {
                         selectedBookingList = bookingService.findUpcomingBookings("active");
                         showWarning = true;
                         isSwipeable = true;
-//                        listMatch = new ArrayList<>();
-//                        bookingList.add("MatchRecord 1");
-//                        bookingList.add("MatchRecord 2");
-//                        bookingList.add("MatchRecord 3");
-                        // Đặt danh sách này làm dữ liệu cho RecyclerView
-//                        RecyclerViewMatchAdapter adapter = (RecyclerViewMatchAdapter) recyclerViewListBooking.getAdapter();
-//                        adapter.setBookingList(upcomingBookingList);
-//                        adapter.notifyDataSetChanged();
                     } else {
                         if (v.getId() == R.id.button_live) {
                             selectedBookingList = bookingService.findLiveBookings();
@@ -310,15 +316,6 @@ public class HomeFragment extends Fragment {
                                 selectedBookingList = bookingService.findByDate(currentDateTime);
                                 showWarning = false;
                                 isSwipeable = false;
-//                                listMatch = new ArrayList<>();
-//                                bookingList.add("MatchRecord 1");
-//                                bookingList.add("MatchRecord 2");
-//                                bookingList.add("MatchRecord 3");
-//                                bookingList.add("MatchRecord 4");
-//                                bookingList.add("MatchRecord 5");
-
-//                                ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-//                                listViewMatch.setAdapter(listViewMatchAdapter);
                             } else {
                                 if (v.getId() == R.id.button_tomorrow) {
                                     // Lấy các trận đấu vào ngày mai
@@ -329,16 +326,6 @@ public class HomeFragment extends Fragment {
                                     selectedBookingList = bookingService.findByDate(nextDayDateTime);
                                     showWarning = false;
                                     isSwipeable = false;
-//                                    listMatch = new ArrayList<>();
-//                                    bookingList.add("MatchRecord 1");
-//                                    bookingList.add("MatchRecord 2");
-//                                    bookingList.add("MatchRecord 3");
-//                                    bookingList.add("MatchRecord 4");
-//                                    bookingList.add("MatchRecord 5");
-//                                    bookingList.add("MatchRecord 6");
-
-//                                    ListViewMatchAdapter listViewMatchAdapter = new ListViewMatchAdapter(getContext(), listMatch);
-//                                    listViewMatch.setAdapter(listViewMatchAdapter);
                                 }
                             }
                         }
@@ -439,6 +426,31 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void updateBookingList() {
+        bookingList = new ArrayList<>();
+        boolean showWarning = true;
+        isSwipeable = true;
+        int selectedButtonId = R.id.button_upcoming;
+        List<Booking> upcomingBookingList = bookingService.findUpcomingBookings("active");
+        bookingList.addAll(upcomingBookingList);
+
+        RecyclerViewMatchAdapter recyclerViewMatchAdapter = new RecyclerViewMatchAdapter(getContext(), bookingList, showWarning, isSwipeable, selectedButtonId);
+        recyclerViewListBooking.setAdapter(recyclerViewMatchAdapter);
+        recyclerViewListBooking.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        buttonUpcoming.setBackground(getResources().getDrawable(R.drawable.background_white_radius_10dp));
+        buttonUpcoming.setBackgroundTintList(getResources().getColorStateList(R.color.primaryColor));
+        buttonUpcoming.setTextColor(getResources().getColor(R.color.white));
+
+        for (Button otherButton : listButton) {
+            if (otherButton != buttonUpcoming) {
+                otherButton.setBackground(getResources().getDrawable(R.drawable.background_border_1dp_radius_10dp));
+                otherButton.setBackgroundTintList(getResources().getColorStateList(R.color.gray));
+                otherButton.setTextColor(getResources().getColor(R.color.blackGray));
+            }
+        }
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -451,5 +463,10 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBookingList();
     }
 }

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -14,6 +17,10 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.BookingDetail;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.ActivityLiveMatchDetailBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ICustomerService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IServiceUsageService;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 
 public class LiveMatchDetailActivity extends AppCompatActivity {
 
@@ -22,12 +29,16 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
     private Booking booking;
     private MatchRecord matchRecord;
     private BookingDetail bookingDetail;
+    private IServiceUsageService serviceUsageService;
+    private ICustomerService customerService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLiveMatchDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // Lấy booking từ Intent
+        serviceUsageService = new ServiceUsageServiceImpl(this);
+        customerService = new CustomerServiceImpl(this);
         booking = (Booking) getIntent().getSerializableExtra("booking");
         matchRecord = (MatchRecord) getIntent().getSerializableExtra("matchRecord");
         bookingDetail = (BookingDetail) getIntent().getSerializableExtra("bookingDetail");
@@ -80,6 +91,7 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
 
     private void setInfo_Match(){
         // Cập nhật thông tin trận đấu
+        binding.liveMatchTittle.setText(booking.getId());
         binding.textViewField.setText(bookingDetail.getFieldName());
         binding.textViewCusName.setText(bookingDetail.getCustomerName());
         binding.textViewCusPhone.setText(bookingDetail.getCustomerPhone());
@@ -88,7 +100,30 @@ public class LiveMatchDetailActivity extends AppCompatActivity {
         String formattedTimeStart = timeFormat.format(booking.getTimeStart());
         String formattedTimeEnd = timeFormat.format(booking.getTimeEnd());
 
+        binding.textViewCheckIn.setText(new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault()).format(matchRecord.getCheckIn()));
         binding.textViewTimeStart.setText(formattedTimeStart);
         binding.textViewTimeEnd.setText(formattedTimeEnd);
+        binding.textViewDate.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(booking.getTimeStart()));
+
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedPrice = format.format(booking.getPrice());
+        binding.textViewRentalFee.setText(formattedPrice);
+
+        double total_service = serviceUsageService.getTotalServicePriceByMatchId(matchRecord.getId());
+        String formattedTotal = format.format(total_service);
+        binding.textViewAdditionalServices.setText(formattedTotal);
+
+        int discount = customerService.findDiscountByCustomer(booking.getCustomerId());
+        binding.textViewDiscount.setText(String.valueOf(discount) + "%");
+
+        BigDecimal total_service_bd = BigDecimal.valueOf(total_service);
+        BigDecimal discount_bd = BigDecimal.valueOf(discount).divide(BigDecimal.valueOf(100));
+        BigDecimal total = booking.getPrice().add(total_service_bd.multiply(BigDecimal.ONE.subtract(discount_bd)));
+        String formattedTotalPrice = format.format(total);
+        binding.textViewTotal.setText(formattedTotalPrice);
+    }
+
+    public void goBack(View view) {
+        finish();
     }
 }

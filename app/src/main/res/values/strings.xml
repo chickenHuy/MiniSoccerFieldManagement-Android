@@ -101,6 +101,7 @@
     <string name="call_customer">Call Customer</string>
     <string name="rental_fee">Rental fee</string>
     <string name="additional_services">Additional Services</string>
+    <string name="total">Total:</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>
@@ -168,4 +169,5 @@
     <string name="schedule">SCHEDULE</string>
     <string name="final_amount">Final amount</string>
     <string name="by_day">By day</string>
+    <string name="logout">Logout</string>
 </resources>

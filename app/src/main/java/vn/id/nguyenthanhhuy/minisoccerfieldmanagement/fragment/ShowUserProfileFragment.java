@@ -43,6 +43,8 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditProfileActivi
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EmployeeManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.FieldManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.InvoiceManagementActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.LoginActivity;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServiceManagementActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingMembershipActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.SettingPriceListActivity;
@@ -286,6 +288,13 @@ public class ShowUserProfileFragment extends Fragment {
             ActionMenuView toolbar;
             binding.settings.setOverflowIcon(newIcon);
         }
+
+        binding.buttonLogout.setOnClickListener(v -> {
+            MainApplication.curentUser = null;
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 
     @Override

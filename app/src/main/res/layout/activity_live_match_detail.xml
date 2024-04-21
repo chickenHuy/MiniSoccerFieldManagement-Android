@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <!-- Background layout -->
     <RelativeLayout style="@style/width_mp_height_wc">
@@ -51,11 +53,11 @@
                 android:layout_width="35dp"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_back_arrow"
                 android:tint="@color/white"
-                android:scaleType="fitStart"
-                android:paddingStart="0dp"
+                android:scaleType="fitCenter"
                 android:onClick="goBack" />
 
             <LinearLayout
@@ -75,7 +77,7 @@
                     android:id="@+id/live_match_tittle"
                     style="@style/header_text_custom"
                     android:layout_gravity="center_vertical"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:text="F17312354"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -110,7 +112,7 @@
             android:id="@+id/llInfo"
             style="@style/width_mp_height_wc"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="175dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="10dp"
@@ -148,22 +150,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
 
-                <TextView
-                    style="@style/content_text_custom"
-                    android:text="@string/field"
-                    android:textColor="@color/black" />
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/baseline_stadium_24" />
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:text=": "
-                    android:textColor="@color/black" />
-
-                <TextView
-                    style="@style/content_text_custom"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:id="@+id/text_view_field"
                     android:text="Field 5a"
                     android:textColor="@color/black" />
@@ -174,17 +172,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
 
-                <TextView
-                    style="@style/content_text_custom"
-                    android:text="Check in: "
-                    android:textColor="@color/black" />
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/ic_checkin" />
 
                 <TextView
                     style="@style/content_text_custom"
+                    android:id="@+id/text_view_check_in"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="12:30 18/04/2024"
                     android:textColor="@color/black" />
             </LinearLayout>
@@ -193,29 +193,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
+
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/ic_customer" />
 
                 <TextView
                     style="@style/content_text_custom"
                     android:id="@+id/text_view_cus_name"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Trần Lâm Nhựt Khang"
                     android:textColor="@color/black" />
 
-                <TextView
-                    style="@style/content_text_custom"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:text=" - "
-                    android:textColor="@color/black" />
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/ic_phone" />
 
                 <TextView
                     style="@style/content_text_custom"
                     android:id="@+id/text_view_cus_phone"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="0889192145"
                     android:textColor="@color/black" />
             </LinearLayout>
@@ -224,13 +226,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
+
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/baseline_calendar_month_24" />
 
                 <TextView
                     style="@style/content_text_custom"
                     android:id="@+id/text_view_time_start"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="17:30"
                     android:textColor="@color/black" />
 
@@ -247,12 +255,16 @@
                 <TextView
                     style="@style/content_text_custom"
                     android:id="@+id/text_view_time_end"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="18:30"
                     android:textColor="@color/black" />
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:gravity="center_horizontal"
+                    android:id="@+id/text_view_date"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:text="18/04/2024"
                     android:textColor="@color/black" />
@@ -266,16 +278,20 @@
                     android:id="@+id/clickable_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="3dp"
                     android:background="@drawable/background_white_radius_10dp"
+                    android:backgroundTint="#04AA32"
                     android:clickable="true"
                     android:focusable="true"
-                    android:padding="3dp"
-                    android:layout_margin="5dp"
+                    android:elevation="1dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:text="CHECK OUT"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:textColor="@color/light_blue_900" />
+                    android:textSize="18dp"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -284,7 +300,7 @@
             android:id="@+id/llInfoMatch"
             style="@style/width_mp_height_wc"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="150dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
@@ -297,6 +313,32 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="10dp"
+                android:paddingEnd="5dp">
+
+                <TextView
+                    style="@style/content_text_custom"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/shape_login_background"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:text="Hóa đơn tạm tính"
+                    android:padding="2dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
 
@@ -322,7 +364,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="50dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
 
@@ -347,13 +389,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
+                android:paddingStart="50dp"
                 android:paddingEnd="10dp"
                 android:layout_marginTop="5dp">
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:text="@string/membership_name"
+                    android:text="@string/discount"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -363,45 +405,38 @@
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:id="@+id/text_view_membership_name"
-                    android:text="0889192145"
+                    android:id="@+id/text_view_discount"
+                    android:text="5%"
                     android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:layout_marginTop="5dp">
+                android:paddingEnd="30dp"
+                android:gravity="end"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    style="@style/icon_custom"
+                    android:src="@drawable/ic_attach_money" />
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:text="17:30"
+                    android:layout_marginLeft="-5dp"
+                    android:textStyle="bold"
+                    android:text="@string/total"
                     android:textColor="@color/black" />
 
                 <TextView
                     style="@style/content_text_custom"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:text=" - "
-                    android:textColor="@color/black" />
-
-                <TextView
-                    style="@style/content_text_custom"
-                    android:text="18:30"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    style="@style/content_text_custom"
+                    android:id="@+id/text_view_total"
                     android:gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
                     android:text="18/04/2024"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/primaryColor" />
             </LinearLayout>
 
         </LinearLayout>
@@ -417,13 +452,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/width_wc_height_wc"
-                    android:layout_marginStart="20dp"
-                    android:layout_weight="1"
-                    android:text="@string/service"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/header_text_custom"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/service_in_hoa"
+                    android:textColor="@color/primaryColor" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -434,19 +468,12 @@
                     android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_see_all_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@android:color/transparent"
-                    android:drawableEnd="@drawable/ic_chevron_right"
-                    android:drawableTint="#6E6E6E"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:text="@string/see_all"
-                    android:textAllCaps="false"
-                    android:textColor="#6E6E6E"
-                    android:textSize="17sp" />
+                    android:id="@+id/addService"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/baseline_add_24" />
 
             </LinearLayout>
 

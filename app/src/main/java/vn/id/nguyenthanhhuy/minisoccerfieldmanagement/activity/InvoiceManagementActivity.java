@@ -47,6 +47,7 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInvoiceManagementBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         appTransactionService = new AppTransactionServiceImpl(this);
         setWidgets();
         Utils.setStatusBarColor(this);
@@ -121,10 +122,20 @@ public class InvoiceManagementActivity extends AppCompatActivity {
                 }
                 String searchText = s.toString();
                 List<AppTransaction> listSearch = appTransactionService.findByUser(searchText);
-                if (listSearch != null) {
-                    listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), listSearch);
-                    binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
+                if (listSearch == null) {
+                    appTransactionList = new ArrayList<>();
+                } else{
+                    appTransactionList = listSearch;
                 }
+
+                if (listViewInvoiceAdapter == null) {
+                    listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionList);
+                    binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
+                }else {
+                    listViewInvoiceAdapter.setData(appTransactionList);
+                    listViewInvoiceAdapter.notifyDataSetChanged();
+                }
+
             }
         });
     }

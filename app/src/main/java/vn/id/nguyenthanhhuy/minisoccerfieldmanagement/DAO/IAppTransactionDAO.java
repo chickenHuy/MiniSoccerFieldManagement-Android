@@ -23,4 +23,5 @@ public interface IAppTransactionDAO {
     Customer getCustomerByServiceUsageId(String serviceUsageId);
     String getNameOfField(String appTransactionId);
     Booking getBookingDetails(String appTransactionId);
+    List<AppTransaction> searchList (String searchParam);
 }
