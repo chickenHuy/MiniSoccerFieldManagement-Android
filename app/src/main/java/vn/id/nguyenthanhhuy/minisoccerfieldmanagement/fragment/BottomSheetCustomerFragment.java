@@ -18,6 +18,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.EditOrAddCustomer
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.databinding.FragmentProfileCustomerBottomSheetBinding;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BottomSheetCustomerFragment extends BottomSheetDialogFragment {
     public interface OnDismissListener {
@@ -68,7 +69,7 @@ public class BottomSheetCustomerFragment extends BottomSheetDialogFragment {
         binding.customerId.setText(customer_selected.getId());
         binding.customerPhone.setText(customer_selected.getPhoneNumber());
         binding.customerMembership.setText(membershipName);
-        binding.customerTotalSpend.setText(customer_selected.getTotalSpend().toPlainString());
+        binding.customerTotalSpend.setText(Utils.formatVND(customer_selected.getTotalSpend()));
 
         if (customer_selected.getImage() != null) {
             // Convert byte array to bitmap
