@@ -101,6 +101,9 @@ public class InvoiceDetailActivity extends AppCompatActivity {
             binding.phoneCustomer.setText(customer.getPhoneNumber());
             String membershipName = customerService.getMembershipNameByID(customer.getMemberShipId());
             binding.membership.setText(membershipName);
+        }else{
+            LinearLayout linearLayout = binding.linearLayoutCustomer;
+            linearLayout.setVisibility(View.GONE);
         }
 
         binding.textViewPaymentCode.setText(selectedTransaction.getId());
