@@ -43,7 +43,7 @@ public class MatchReminderService extends Service {
     @SuppressLint("ForegroundServiceType")
     private void startForegroundWithTemporaryNotification() {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Preparing...")
+                .setContentTitle("Notification turn on...")
                 .setSmallIcon(R.drawable.ic_notification)
                 .build();
         if (Build.VERSION.SDK_INT >= 34) {
@@ -59,7 +59,7 @@ public class MatchReminderService extends Service {
             public void run() {
                 List<Booking> upcomingBookings = bookingService.getBookingUpcoming();
                 if (upcomingBookings.size() == 0) {
-                    stopForeground(true);
+                    //stopForeground(true);
                     handler.postDelayed(this, 31 * 1000); // Run every minute
                     return;
                 }
