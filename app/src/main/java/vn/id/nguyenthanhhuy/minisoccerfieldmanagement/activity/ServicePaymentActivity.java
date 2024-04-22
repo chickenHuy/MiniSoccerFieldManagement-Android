@@ -328,7 +328,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
             appTransaction.setUserID(MainApplication.curentUser.getId());
             appTransaction.setServiceUsageId(serviceUsage.getId());
             appTransaction.setType(hasMatch ? "Combo" : "Retail");
-            appTransaction.setTotalAmount(totalAmount);
+            appTransaction.setTotalAmount(totalServicePrice.add(totalFieldPrice).add(additionalFee));
             appTransaction.setAdditionalFee(additionalFee);
             appTransaction.setDiscountAmount(totalDiscount);
             appTransaction.setFinalAmount(totalAmount);
