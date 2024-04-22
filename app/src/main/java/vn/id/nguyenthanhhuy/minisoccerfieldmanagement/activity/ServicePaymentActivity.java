@@ -51,6 +51,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class ServicePaymentActivity extends AppCompatActivity {
@@ -350,7 +351,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
                     matchRecordService.checkOut(serviceUsage.getMatchRecordId());
                     IBookingService bookingService = new BookingServiceImpl(this);
                     MatchRecord mr = matchRecordService.findById(serviceUsage.getMatchRecordId());
-                    bookingService.updateStatus(mr.getBookingId(), "Completed");
+                    bookingService.updateStatus(mr.getBookingId(), StaticString.COMPLETED);
                 }
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
             } else {
