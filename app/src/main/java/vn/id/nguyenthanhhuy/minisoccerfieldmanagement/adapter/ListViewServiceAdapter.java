@@ -3,6 +3,7 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,11 @@ public class ListViewServiceAdapter extends BaseAdapter {
         ((TextView) convertView.findViewById(R.id.text_view_unit_of_service)).setText(serviceList.get(position).getUnit());
         ((TextView) convertView.findViewById(R.id.text_view_in_stock)).setText(String.valueOf(serviceList.get(position).getQuantity()));
         ((TextView) convertView.findViewById(R.id.text_view_price_of_service)).setText(Utils.formatVND(serviceList.get(position).getPrice()));
+        if (serviceList.get(position).getQuantity() == 0) {
+            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.VISIBLE);
+        } else {
+            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.GONE);
+        }
 
         if (isServiceManagement) {
             ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.VISIBLE);

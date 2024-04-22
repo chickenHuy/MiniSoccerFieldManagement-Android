@@ -37,6 +37,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ServiceFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.AppTransaction;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.MatchRecord;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Service;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceItems;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.ServiceUsage;
@@ -51,6 +52,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.SendInvoice;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
@@ -183,6 +185,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
                             }, null);
                             customDialogFragment.show(getSupportFragmentManager(), "custom_dialog_notify");
                         }
+
                     } else {
                         dialog.dismiss();
                     }
@@ -191,6 +194,14 @@ public class ServicePaymentActivity extends AppCompatActivity {
                     binding.textViewCustomerName.setText(customer.getName());
                     binding.textViewCustomerPhoneNumber.setText(customer.getPhoneNumber());
                     binding.textViewCustomerMembershipName.setText(new MembershipServiceImpl(ServicePaymentActivity.this).findById(customer.getMemberShipId()).getName());
+
+                    Membership membershipCustomer = new MembershipServiceImpl(ServicePaymentActivity.this).findById(customer.getMemberShipId());
+
+                    totalDiscount = totalServicePrice.multiply(new BigDecimal(membershipCustomer.getDiscountRate())).divide(new BigDecimal(100));
+                    totalAmount = totalServicePrice.add(totalFieldPrice).add(additionalFee).subtract(totalDiscount);
+
+                    binding.textViewDiscount.setText("-" + Utils.formatVND(totalDiscount));
+                    binding.textViewTotalAmount.setText(Utils.formatVND(totalAmount));
 
                     binding.buttonAddCustomer.setVisibility(View.GONE);
 
@@ -225,7 +236,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
         ((TextView) binding.textViewTotalServicePrice).setText(Utils.formatVND(totalServicePrice));
         ((TextView) binding.textViewTotalFieldPrice).setText(Utils.formatVND(totalFieldPrice));
         ((TextView) binding.textViewAdditionalFee).setText(Utils.formatVND(additionalFee));
-        ((TextView) binding.textViewDiscount).setText(Utils.formatVND(totalDiscount));
+        ((TextView) binding.textViewDiscount).setText("-" + Utils.formatVND(totalDiscount));
         ((TextView) binding.textViewTotalAmount).setText(Utils.formatVND(totalAmount));
     }
 
@@ -286,8 +297,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
             }
         }
         try {
-            if (!hasMatch)
-            {
+            if (!hasMatch) {
                 for (ServiceItems serviceItem : listServiceItemInCart) {
                     Service service = serviceService.findById(serviceItem.getServiceId());
                     if (service.getQuantity() < serviceItem.getQuantity()) {
@@ -345,8 +355,7 @@ public class ServicePaymentActivity extends AppCompatActivity {
                 paymentSuccess = true;
                 binding.buttonPayment.setEnabled(false);
                 binding.buttonPayment.setBackgroundTintList(getResources().getColorStateList(R.color.gray, getTheme()));
-                if (hasMatch)
-                {
+                if (hasMatch) {
                     IMatchRecordService matchRecordService = new MatchRecordServiceImpl(this);
                     matchRecordService.checkOut(serviceUsage.getMatchRecordId());
                     IBookingService bookingService = new BookingServiceImpl(this);
@@ -354,6 +363,9 @@ public class ServicePaymentActivity extends AppCompatActivity {
                     bookingService.updateStatus(mr.getBookingId(), StaticString.COMPLETED);
                 }
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
+//                if (customer != null) {
+//                    SendInvoice.sendInvoice(appTransaction, customer.getPhoneNumber());
+//                }
             } else {
                 paymentSuccess = false;
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Please check and try again!!!", "error");
