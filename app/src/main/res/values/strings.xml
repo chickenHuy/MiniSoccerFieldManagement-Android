@@ -172,5 +172,6 @@
     <string name="logout">Logout</string>
     <string name="th_ng_tin_tr_n_u">Match Info</string>
     <string name="h_a_n_t_m_t_nh">Provisional Invoice</string>
+    <string name="update">Update</string>
     <string name="sold_out">Sold out</string>
 </resources>

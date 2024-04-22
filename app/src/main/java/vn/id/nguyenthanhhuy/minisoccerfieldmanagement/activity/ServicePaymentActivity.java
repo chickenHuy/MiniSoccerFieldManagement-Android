@@ -52,6 +52,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceItemsServic
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ServiceUsageServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.SendInvoice;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
@@ -362,6 +363,9 @@ public class ServicePaymentActivity extends AppCompatActivity {
                     bookingService.updateStatus(mr.getBookingId(), StaticString.COMPLETED);
                 }
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
+//                if (customer != null) {
+//                    SendInvoice.sendInvoice(appTransaction, customer.getPhoneNumber());
+//                }
             } else {
                 paymentSuccess = false;
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Please check and try again!!!", "error");

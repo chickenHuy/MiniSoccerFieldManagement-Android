@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.LiveMatchDetailActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServicePaymentActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
@@ -470,8 +471,10 @@ public class ServiceFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (((MainActivity) getActivity()) != null) {
-            ((MainActivity) getActivity()).args.clear();
+        if (!(getActivity() instanceof LiveMatchDetailActivity)) {
+            if (((MainActivity) getActivity()) != null) {
+                ((MainActivity) getActivity()).args.clear();
+            }
         }
         binding = null;
     }
