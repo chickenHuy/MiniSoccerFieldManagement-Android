@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.MainActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity.ServicePaymentActivity;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.ListViewServiceAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.RecyclerViewServiceAdapter;
@@ -168,8 +169,7 @@ public class ServiceFragment extends Fragment {
                     intent.putExtra("serviceUsage", serviceUsage);
                     intent.putExtra("listServiceItemInCart", (ArrayList<ServiceItems>) listServiceItemInCart);
                     startActivityForResult(intent, GO_TO_PAYMENT);
-                }
-                else {
+                } else {
 
                     for (Service service : listServiceInCart) {
                         ServiceItems serviceItems = new ServiceItems();
@@ -183,8 +183,7 @@ public class ServiceFragment extends Fragment {
                             serviceService.updateQuantity(serviceItems.getServiceId(), service.getQuantity() - serviceItems.getQuantity());
                             serviceService.updateSold(serviceItems.getServiceId(), service.getSold() + serviceItems.getQuantity());
                             mergerService(serviceItems);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -271,6 +270,9 @@ public class ServiceFragment extends Fragment {
         listViewService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (listService.get(position).getQuantity() == 0) {
+                    return;
+                }
                 positionSelected = position;
                 Service serviceSelected = null;
                 if (isSearching) {
@@ -471,6 +473,9 @@ public class ServiceFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (((MainActivity) getActivity()) != null) {
+            ((MainActivity) getActivity()).args.clear();
+        }
         binding = null;
     }
 }

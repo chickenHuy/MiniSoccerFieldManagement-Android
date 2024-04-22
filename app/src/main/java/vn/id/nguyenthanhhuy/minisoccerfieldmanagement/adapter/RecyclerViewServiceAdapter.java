@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -59,6 +60,11 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.textViewServiceName.setText(service.getName());
         holder.textViewServiceUnit.setText(service.getUnit());
         holder.textViewServicePrice.setText(Utils.formatVND(service.getPrice()));
+        if (service.getQuantity() == 0) {
+            holder.linearLayoutSoldOut.setVisibility(View.VISIBLE);
+        } else {
+            holder.linearLayoutSoldOut.setVisibility(View.GONE);
+        }
 
         if (isCartService) {
             holder.textViewQuantity.setText("x" + String.valueOf(service.getOrderQuantity()));
@@ -105,6 +111,10 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (service.getQuantity() == 0) {
+                        return;
+                    }
+
                     BottomSheetServiceFragment bottomSheet = new BottomSheetServiceFragment(true, fragment, service);
                     bottomSheet.setTargetFragment(targetFragment, ServiceFragment.GET_QUANTITY);
                     bottomSheet.show(fragmentManager, "ServiceBottomSheetDialogFragment");
@@ -126,6 +136,7 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
 
         AppCompatButton buttonClose;
         TextView textViewQuantity;
+        LinearLayout linearLayoutSoldOut;
 
         ViewHolder(View itemView, boolean isCartService) {
             super(itemView);
@@ -134,6 +145,7 @@ public class RecyclerViewServiceAdapter extends RecyclerView.Adapter<RecyclerVie
             imageViewServiceImage = itemView.findViewById(R.id.image_view_service_image);
             textViewServiceUnit = itemView.findViewById(R.id.text_view_unit);
             textViewServicePrice = itemView.findViewById(R.id.text_view_price);
+            linearLayoutSoldOut = itemView.findViewById(R.id.linear_layout_sold_out);
 
             if (isCartService) {
                 buttonClose = itemView.findViewById(R.id.button_close);

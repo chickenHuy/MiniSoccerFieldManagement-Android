@@ -214,14 +214,14 @@ public class HomeFragment extends Fragment {
                                     matchRecord.setId(CurrentTimeID.nextId("MR"));
                                     matchRecord.setBookingId(bookingList.get(position).getId());
                                     matchRecord.setCheckIn(new Timestamp(System.currentTimeMillis()));
-                                    if(!matchRecordService.checkIn(matchRecord))
+                                    if (!matchRecordService.checkIn(matchRecord))
                                         return;
 
                                     ServiceUsage serviceUsage = new ServiceUsage();
                                     serviceUsage.setId(CurrentTimeID.nextId("SU"));
                                     serviceUsage.setMatchRecordId(matchRecord.getId());
                                     serviceUsage.setCustomerId(bookingList.get(position).getCustomerId());
-                                    if(!serviceUsageService.add(serviceUsage))
+                                    if (!serviceUsageService.add(serviceUsage))
                                         return;
 
                                     bookingList.remove(position);
@@ -464,6 +464,7 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
     @Override
     public void onResume() {
         super.onResume();

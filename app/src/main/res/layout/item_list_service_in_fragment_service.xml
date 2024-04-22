@@ -26,15 +26,41 @@
             android:paddingEnd="1.5dp"
             android:paddingBottom="1.5dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_view_service"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/background_white_radius_10dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view_service"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/background_white_radius_10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/item_list_view_service_corner" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_sold_out"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/background_circular_50_percent"
+                    android:backgroundTint="#8C000000"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sold_out"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </FrameLayout>
+
         </LinearLayout>
 
 
