@@ -60,14 +60,15 @@
         android:textStyle="bold" />
 
     <Space
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="0dp" />
 
     <TextView
         style="@style/width_wc_height_wc"
         android:text="Price"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         android:textStyle="bold"
+        android:maxLines="1"
         android:id="@+id/price_field"
         android:textColor="@color/primaryColor"
         android:textSize="16sp" />

@@ -109,8 +109,8 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         binding.textViewPaymentCode.setText(selectedTransaction.getId());
         binding.textViewPaymentTime.setText(Utils.getDateFromTimestamp(selectedTransaction.getCreatedAt()));
         binding.textViewTotalAmount.setText(Utils.formatVND(selectedTransaction.getTotalAmount()));
-        binding.textViewDiscountAmount.setText(Utils.formatVND(selectedTransaction.getAdditionalFee()));
-        binding.textViewAdditionalFee.setText(Utils.formatVND(selectedTransaction.getDiscountAmount()));
+        binding.textViewDiscountAmount.setText(Utils.formatVND(selectedTransaction.getDiscountAmount()));
+        binding.textViewAdditionalFee.setText(Utils.formatVND(selectedTransaction.getAdditionalFee()));
         binding.textViewFinalAmount.setText(Utils.formatVND(selectedTransaction.getFinalAmount()));
 
         binding.buttonBack.setOnClickListener(v -> {
