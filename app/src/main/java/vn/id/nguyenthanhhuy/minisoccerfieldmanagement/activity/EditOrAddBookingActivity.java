@@ -1,17 +1,19 @@
 package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,17 +36,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.adapter.CalendarAdapter;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.BookingFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Booking;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.CalendarDateModel;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Customer;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Field;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.Membership;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.BookingServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.CustomerServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.FieldServiceImpl;
@@ -53,13 +54,10 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.ICustomerService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IFieldService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IMembershipService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IPriceListService;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.IUserService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MembershipServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.PriceListServiceImpl;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
-import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.TimeGenerator;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class EditOrAddBookingActivity extends AppCompatActivity implements CalendarAdapter.OnItemClickListener  {
@@ -93,6 +91,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
     private java.sql.Date dateSelected;
     private Field fieldSelected;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,13 +121,13 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
             Bundle bundle = intent.getParcelableExtra("args");
             if (bundle == null) {
                 bundle = intent.getExtras();
-                Long date = bundle.getLong("date");
+                long date = bundle != null ? bundle.getLong("date") : 0;
                 dateSelected = new java.sql.Date(date);
                 tvSchedule.setText(Utils.getDateFromTimestamp(new Timestamp(date)));
-                String startTime = bundle.getString("startTime");
+                String startTime = bundle != null ? bundle.getString("startTime") : null;
                 edtStartTime.setText(startTime);
 
-                String endTime = bundle.getString("endTime");
+                String endTime = Objects.requireNonNull(bundle).getString("endTime");
                 edtEndTime.setText(endTime);
 
                 String fieldId = bundle.getString("fieldId");
@@ -181,9 +180,9 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                     spinnerField.setSelection(position);
                 }
 
-                tvIdBooking.setText("#"+ booking.getId());
+                tvIdBooking.setText(String.format("#%s", booking.getId()));
                 tvPrice.setText(Utils.formatPrice(booking.getPrice()));
-                btnSave.setText("Update");
+                btnSave.setText(getResources().getString(R.string.update));
             }
         }
     }
@@ -220,6 +219,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 try {
@@ -396,11 +396,12 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
         fields = fieldService.findAllActiveField();
 
         ArrayAdapter<Field> adapter = new ArrayAdapter<Field>(this, android.R.layout.simple_spinner_item, fields) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setText(getItem(position).getName() + " : " + getItem(position).getType());  // replace with your field name getter
+                textView.setText(String.format("%s : %s", Objects.requireNonNull(getItem(position)).getName(), Objects.requireNonNull(getItem(position)).getType()));  // replace with your field name getter
                 return view;
             }
 
@@ -408,7 +409,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setText(getItem(position).getName() + " : " + getItem(position).getType());  // replace with your field name getter
+                textView.setText(String.format("%s : %s", Objects.requireNonNull(getItem(position)).getName(), Objects.requireNonNull(getItem(position)).getType()));  // replace with your field name getter
                 return view;
             }
         };
@@ -448,7 +449,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                                 if ((hourOfDay < 6 || hourOfDay > 22) || (hourOfDay == 22 && minute > 30) || (minute != 0 && minute != 30)) {
                                     Toast.makeText(EditOrAddBookingActivity.this, "Vui lòng chọn thời gian từ 6h sáng đến 22h30 và phút là 0 hoặc 30", Toast.LENGTH_LONG).show();
                                 } else {
-                                    edtStartTime.setText(hourOfDay + ":" + minute);
+                                    edtStartTime.setText(String.format("%d:%d", hourOfDay, minute));
                                     getPrice();
                                 }
                             }
@@ -474,7 +475,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                                 if ((hourOfDay < 6 || hourOfDay > 23) || (hourOfDay == 22 && minute > 30) || (minute != 0 && minute != 30) || (hourOfDay == 23 && minute != 0))  {
                                     Toast.makeText(EditOrAddBookingActivity.this, "Vui lòng chọn thời gian từ 6h sáng đến 23h và phút là 0 hoặc 30", Toast.LENGTH_LONG).show();
                                 } else {
-                                    edtEndTime.setText(hourOfDay + ":" + minute);
+                                    edtEndTime.setText(String.format("%d:%d", hourOfDay, minute));
                                     getPrice();
                                 }
                             }
