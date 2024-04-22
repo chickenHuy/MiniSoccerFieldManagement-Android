@@ -364,10 +364,7 @@ public class ServiceFragment extends Fragment {
             return;
         }
         if (resultCode == PAYMENT_SUCCESSFULLY && data != null) {
-            listServiceInCart.clear();
-            recyclerViewServiceAdapter.notifyDataSetChanged();
-            setCartServiceTittle(View.GONE);
-            return;
+            ((MainActivity) getActivity()).switchFragment(new ServiceFragment(), null);
         }
     }
 
