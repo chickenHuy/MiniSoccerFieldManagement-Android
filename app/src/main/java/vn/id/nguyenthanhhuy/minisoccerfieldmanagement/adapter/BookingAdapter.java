@@ -159,6 +159,10 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     ((BookedViewHolder) holder).tvCustomer.setText(customer.getName());
                 }
             }
+            if (data[position].getStatus().equals(StaticString.COMPLETED))
+            {
+                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.primaryColor));
+            }
         }
 
 

@@ -326,6 +326,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Booking booking1 = bookingService.findById(idUpdated);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
                             if (booking1 != null) {
                                 booking.setId(idUpdated);
                                 if(bookingService.update(booking))
@@ -334,7 +335,7 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                                     Timestamp timestamp = booking.getTimeStart();
                                     java.sql.Date date = new java.sql.Date(timestamp.getTime());
                                     Intent intent = new Intent();
-                                    intent.putExtra("date", Utils.convertDay(String.valueOf(date)));
+                                    intent.putExtra("date", dateFormat.format(date));
                                     setResult(RESULT_OK, intent);
                                     finish();
 
@@ -348,7 +349,6 @@ public class EditOrAddBookingActivity extends AppCompatActivity implements Calen
                             {
                                 Timestamp timestamp = booking.getTimeStart();
                                 java.sql.Date date = new java.sql.Date(timestamp.getTime());
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
                                 Intent intent = new Intent();
                                 intent.putExtra("date", dateFormat.format(date));
                                 setResult(RESULT_OK, intent);
