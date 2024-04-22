@@ -56,9 +56,9 @@ public class ListViewServiceAdapter extends BaseAdapter {
         ((TextView) convertView.findViewById(R.id.text_view_in_stock)).setText(String.valueOf(serviceList.get(position).getQuantity()));
         ((TextView) convertView.findViewById(R.id.text_view_price_of_service)).setText(Utils.formatVND(serviceList.get(position).getPrice()));
         if (serviceList.get(position).getQuantity() == 0) {
-            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.VISIBLE);
+            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold_out)).setVisibility(View.VISIBLE);
         } else {
-            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold)).setVisibility(View.GONE);
+            ((LinearLayout) convertView.findViewById(R.id.linear_layout_sold_out)).setVisibility(View.GONE);
         }
 
         if (isServiceManagement) {
