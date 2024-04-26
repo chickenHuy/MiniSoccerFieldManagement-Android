@@ -2,12 +2,15 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.biometric.BiometricManager;
 
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -16,8 +19,10 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,13 +148,25 @@ public class ShowUserProfileFragment extends Fragment {
                 return;
             }
             if (isChecked) {
-                MainApplication.notify = true;
-                MainApplication.editor.putBoolean("notify", true);
-                MainApplication.editor.apply();
+                NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                if (!notificationManager.areNotificationsEnabled()) {
+                    Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+                    getContext().startActivity(intent);
+                } else {
+                    MainApplication.notify = true;
+                    MainApplication.editor.putBoolean("notify", true);
+                    MainApplication.editor.apply();
+
+                    MainApplication.turnOnNotify(getContext());
+                }
+
             } else {
                 MainApplication.notify = false;
                 MainApplication.editor.putBoolean("notify", false);
                 MainApplication.editor.apply();
+
+                MainApplication.turnOffNotify(getContext());
             }
         });
 
@@ -308,6 +325,19 @@ public class ShowUserProfileFragment extends Fragment {
         super.onResume();
         // Update user information when the fragment resumes
         //setWidget();
+
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager.areNotificationsEnabled()) {
+            MainApplication.notify = true;
+            MainApplication.editor.putBoolean("notify", true);
+            MainApplication.editor.apply();
+
+            MainApplication.turnOnNotify(getContext());
+            binding.switchNotification.setChecked(true);
+        } else {
+            binding.switchNotification.setChecked(false);
+        }
+
         setInformation();
     }
 
