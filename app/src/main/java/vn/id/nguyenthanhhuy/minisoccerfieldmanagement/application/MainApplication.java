@@ -2,7 +2,9 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.MatchReminderService;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
 
 public class MainApplication extends Application {
@@ -40,6 +43,7 @@ public class MainApplication extends Application {
         Lingver.init(MainApplication.this, language);
         Lingver.getInstance().setLocale(MainApplication.this, language);
 
+        turnOnNotify(getApplicationContext());
         createfakeUser();
     }
 
@@ -93,5 +97,35 @@ public class MainApplication extends Application {
             editor.apply();
         }
         return canAuthenticate;
+    }
+
+    public static void turnOnNotify(Context context) {
+        if (notify) {
+            Log.i("MainApplication", "Turn on notify");
+            try {
+                Intent intent = new Intent(context, MatchReminderService.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    context.startForegroundService(intent);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    context.startForegroundService(intent);
+                } else {
+                    context.startService(intent);
+                }
+            } catch (Exception e) {
+                Log.i("MainApplication error", "Turn on notify");
+            }
+        }
+    }
+
+    public static void turnOffNotify(Context context) {
+        if (!notify) {
+            Log.i("MainApplication", "Turn off notify");
+            try {
+                Intent intent = new Intent(context, MatchReminderService.class);
+                context.stopService(intent);
+            } catch (Exception e) {
+                Log.i("MainApplication error", "Turn off notify");
+            }
+        }
     }
 }

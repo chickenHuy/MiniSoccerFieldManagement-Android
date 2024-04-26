@@ -42,22 +42,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            Intent intent = new Intent(this, MatchReminderService.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                startForegroundService(intent);
-            }
-            else
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                startForegroundService(intent);
-            }
-            else {
-                startService(intent);
-            }
-        }
-        catch (Exception e) {
-            Log.e("MainActivity", e.getMessage());
-        }
 
         setContentView(R.layout.activity_main);
         user = (User) MainApplication.curentUser;
