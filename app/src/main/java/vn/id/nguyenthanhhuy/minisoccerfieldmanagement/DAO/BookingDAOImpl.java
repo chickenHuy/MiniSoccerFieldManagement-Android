@@ -517,39 +517,18 @@ public class BookingDAOImpl implements IBookingDAO{
         List<Booking> bookings = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String[] projection = {
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_ID,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CUSTOMER_ID,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_USER_ID,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_FIELD_ID,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_NOTE,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_PRICE,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_CREATED_AT,
-                    SoccerFieldContract.BookingEntry.COLUMN_NAME_UPDATED_AT
-            };
-
+            String query = "SELECT Booking.* FROM Booking " +
+                    "INNER JOIN MatchRecord ON Booking.id = MatchRecord.bookingId " +
+                    "WHERE Booking.status = ? AND " +
+                    "DATETIME(Booking.timeStart, '-1 hour') <= ? AND " +
+                    "DATETIME(Booking.timeEnd, '+2 hour') >= ? AND " +
+                    "Booking.isDeleted = ? AND " +
+                    "MatchRecord.checkOut IS NULL " +
+                    "ORDER BY Booking.timeStart ASC";
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-
-            String selection = SoccerFieldContract.BookingEntry.COLUMN_NAME_STATUS + " = ? AND "
-                    + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + ", '-1 hour') <= ? AND "
-                    + "DATETIME(" + SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_END + ", '+2 hour') >= ? AND "
-                    + SoccerFieldContract.BookingEntry.COLUMN_NAME_IS_DELETED + " = ?";
             String[] selectionArgs = { "completed", currentTime.toString(), currentTime.toString(), "0" };
 
-            String sortOrder = SoccerFieldContract.BookingEntry.COLUMN_NAME_TIME_START + " ASC";
-            cursor = db.query(
-                    SoccerFieldContract.BookingEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    sortOrder
-            );
+            cursor = db.rawQuery(query, selectionArgs);
 
             while (cursor.moveToNext()) {
                 Booking booking = new Booking();
