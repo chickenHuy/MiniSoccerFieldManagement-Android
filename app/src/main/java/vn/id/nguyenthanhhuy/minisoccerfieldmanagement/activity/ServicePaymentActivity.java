@@ -363,9 +363,9 @@ public class ServicePaymentActivity extends AppCompatActivity {
                     bookingService.updateStatus(mr.getBookingId(), StaticString.COMPLETED);
                 }
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_successfully), "", "success");
-//                if (customer != null) {
-//                    SendInvoice.sendInvoice(appTransaction, customer.getPhoneNumber());
-//                }
+                if (customer != null) {
+                    SendInvoice.send(appTransaction, customer.getPhoneNumber(), this);
+                }
             } else {
                 paymentSuccess = false;
                 customDialogFragment = new CustomDialogFragment(ServicePaymentActivity.this, getResources().getString(R.string.payment_error), "Please check and try again!!!", "error");

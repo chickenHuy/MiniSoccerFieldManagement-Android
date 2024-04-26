@@ -249,8 +249,8 @@ public class UserDAOImpl implements IUserDAO {
                     SoccerFieldContract.UserEntry.COLUMN_NAME_CREATED_AT,
                     SoccerFieldContract.UserEntry.COLUMN_NAME_UPDATED_AT
             };
-            String selection = SoccerFieldContract.UserEntry.COLUMN_NAME_IS_DELETED + " = ?";
-            String[] selectionArgument = {"0"};
+            String selection = SoccerFieldContract.UserEntry.COLUMN_NAME_IS_DELETED + " = ? AND " + SoccerFieldContract.UserEntry.COLUMN_NAME_ROLE + " = ?";
+            String[] selectionArgument = {"0", "Staff"};
 
             cursor = db.query(
                     SoccerFieldContract.UserEntry.TABLE_NAME,

@@ -159,7 +159,7 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
             @Override
             public void onClick(View v) {
                 String phoneNumber = binding.tvPhoneNumber.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + phoneNumber));
                 startActivity(intent);
             }
