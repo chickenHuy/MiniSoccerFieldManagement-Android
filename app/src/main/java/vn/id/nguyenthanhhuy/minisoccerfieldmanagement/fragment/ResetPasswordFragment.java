@@ -3,9 +3,12 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 import static java.lang.Math.random;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -123,5 +126,15 @@ public class ResetPasswordFragment extends DialogFragment {
         });
         // Inflate the layout for this fragment
         return binding.getRoot();
+    }
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        return new Dialog(getActivity(), R.style.rounded_corners_dialog) {
+            @Override
+            public void onBackPressed() {
+                dismiss();
+            }
+        };
     }
 }

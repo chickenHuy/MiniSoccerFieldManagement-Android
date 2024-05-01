@@ -3,7 +3,11 @@ package vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -48,6 +52,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.StaticString;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 
 public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment {
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
     private static final String ARG_booking = "booking";
     SimpleDateFormat sdfDate;
     SimpleDateFormat sdfTime;
@@ -158,10 +163,14 @@ public class BottomSheetBookingDetailsFragment extends BottomSheetDialogFragment
         binding.imgCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phoneNumber = binding.tvPhoneNumber.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + phoneNumber));
-                startActivity(intent);
+                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                } else {
+                    String phoneNumber = binding.tvPhoneNumber.getText().toString();
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + phoneNumber));
+                    startActivity(intent);
+                }
             }
         });
         binding.btnEdit.setOnClickListener(new View.OnClickListener() {
