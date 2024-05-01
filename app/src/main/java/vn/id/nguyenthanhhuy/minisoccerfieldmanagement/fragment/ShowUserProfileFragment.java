@@ -125,6 +125,11 @@ public class ShowUserProfileFragment extends Fragment {
         binding.switchNotification.setChecked(MainApplication.notify);
         binding.switchFingerprint.setChecked(MainApplication.fingerprint);
 
+        if (MainApplication.curentUser.getRole().equals("Staff")) {
+            binding.linearLayoutManagement.setVisibility(View.GONE);
+            binding.settings.setVisibility(View.GONE);
+        }
+
         binding.switchVietnamese.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!buttonView.isShown()) {
                 return;
