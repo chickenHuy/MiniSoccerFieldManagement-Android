@@ -62,7 +62,7 @@ import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.Utils;
 public class ShowUserProfileFragment extends Fragment {
 
     public static final int EDIT_PROFILE_INFORMATION = 1;
-    public static final int EDIT_PROFILE_INFORMATION_SUCCESSFULLY = 1;
+    public static final int REQUEST_NOTIFY_SETTING = 11;
     public static final int CHANGE_PASSWORD = 3;
     public static final int CHANGE_PASSWORD_SUCCESSFULLY = 4;
     public static final int FIELD_MANAGEMENT = 5;
@@ -152,7 +152,7 @@ public class ShowUserProfileFragment extends Fragment {
                 if (!notificationManager.areNotificationsEnabled()) {
                     Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                     intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
-                    getContext().startActivity(intent);
+                    startActivityForResult(intent, REQUEST_NOTIFY_SETTING);
                 } else {
                     MainApplication.notify = true;
                     MainApplication.editor.putBoolean("notify", true);
@@ -326,18 +326,6 @@ public class ShowUserProfileFragment extends Fragment {
         // Update user information when the fragment resumes
         //setWidget();
 
-        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager.areNotificationsEnabled()) {
-            MainApplication.notify = true;
-            MainApplication.editor.putBoolean("notify", true);
-            MainApplication.editor.apply();
-
-            MainApplication.turnOnNotify(getContext());
-            binding.switchNotification.setChecked(true);
-        } else {
-            binding.switchNotification.setChecked(false);
-        }
-
         setInformation();
     }
 
@@ -375,6 +363,20 @@ public class ShowUserProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_NOTIFY_SETTING) {
+            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (notificationManager.areNotificationsEnabled()) {
+                MainApplication.notify = true;
+                MainApplication.editor.putBoolean("notify", true);
+                MainApplication.editor.apply();
+
+                MainApplication.turnOnNotify(getContext());
+                binding.switchNotification.setChecked(true);
+            } else {
+                binding.switchNotification.setChecked(false);
+            }
+            return;
+        }
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
             Bitmap bitmap = null;
