@@ -14,6 +14,7 @@ public interface IUserDAO {
     public boolean softDelete(String id);
 
     public User findById(String id);
+    public User findByUsername(String username);
 
     public List<User> findUser(String searchparam);
 

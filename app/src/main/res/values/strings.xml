@@ -102,6 +102,11 @@
     <string name="rental_fee">Rental fee</string>
     <string name="additional_services">Additional Services</string>
     <string name="total">Total:</string>
+    <string name="confirm">Confirm</string>
+    <string name="dimiss">Dimiss</string>
+    <string name="reset_password">Reset password</string>
+    <string name="reset_password_successfully">Reset password successfully</string>
+    <string name="Your_new_password_send_to_your_phone">Your new password has been send to your phone number!!!</string>
 
     <string name="choose_option">Choose an option upload image</string>
     <string name="take_photo">Take photo</string>

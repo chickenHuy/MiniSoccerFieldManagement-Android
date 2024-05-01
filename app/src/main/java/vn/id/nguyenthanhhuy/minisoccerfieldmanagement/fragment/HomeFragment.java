@@ -182,6 +182,8 @@ public class HomeFragment extends Fragment {
                             .setMessage("Bạn có chắc chắn muốn hủy trận đấu này không?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
+                                    bookingService.updateStatus(bookingList.get(position).getId(), "Canceled");
+                                    bookingService.softDelete(bookingList.get(position).getId());
                                     // Remove item from your data set here.
                                     bookingList.remove(position);
 

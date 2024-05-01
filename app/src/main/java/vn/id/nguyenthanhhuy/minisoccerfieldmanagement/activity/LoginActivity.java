@@ -27,6 +27,7 @@ import java.util.concurrent.Executor;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.R;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.application.MainApplication;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.CustomDialogFragment;
+import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.fragment.ResetPasswordFragment;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.model.User;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.service.UserServiceImpl;
 import vn.id.nguyenthanhhuy.minisoccerfieldmanagement.utils.CurrentTimeID;
@@ -110,6 +111,11 @@ public class LoginActivity extends AppCompatActivity {
             ((LinearLayout) findViewById(R.id.layout_fingerprint)).setVisibility(View.GONE);
         }
 
+    }
+
+    public void viewForgotPassword(View view) {
+        ResetPasswordFragment resetPasswordFragment = new ResetPasswordFragment(this);
+        resetPasswordFragment.show(getSupportFragmentManager(), "reset_password_fragment");
     }
 
     private void loginWithFingerprint() {

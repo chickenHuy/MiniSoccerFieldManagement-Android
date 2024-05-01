@@ -94,6 +94,7 @@
     <string name="call_customer">Gọi khách hàng</string>
     <string name="rental_fee">Phí đặt sân</string>
     <string name="total">Tổng cộng:</string>
+    <string name="reset_password">Khôi phục mật khẩu</string>
     <string name="choose_option">Tuỳ chọn tải ảnh lên</string>
     <string name="take_photo">Chụp ảnh mới</string>
     <string name="choose_from_gallery">Chọn từ thư viện</string>
@@ -169,4 +170,8 @@
     <string name="th_ng_tin_tr_n_u">Match Info</string>
     <string name="update">Update</string>
     <string name="sold_out">Sold out</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="dimiss">Hủy bỏ</string>
+    <string name="reset_password_successfully">Khôi phục mật khẩu thành công</string>
+    <string name="Your_new_password_send_to_your_phone">Mật khẩu mới của bạn đã được gửi đến số điện thoại của bạn!!!</string>
 </resources>
