@@ -527,16 +527,14 @@ public class AppTransactionDAOImpl implements IAppTransactionDAO{
         Cursor cursor = null;
 
         try{
-            String sql = "SELECT AppTransaction.* " +
+            String query = "SELECT AppTransaction.*, User.name AS userName, Customer.name AS customerName " +
                     "FROM AppTransaction " +
-                    "JOIN ServiceUsage ON AppTransaction.serviceUsageId = ServiceUsage.id " +
-                    "JOIN Customer ON ServiceUsage.customerId = Customer.id " +
-                    "JOIN User ON AppTransaction.userId = User.id " +
-                    "WHERE LOWER(User.userName) LIKE ?";
+                    "LEFT JOIN User ON AppTransaction.userID = User.id " +
+                    "LEFT JOIN ServiceUsage ON AppTransaction.serviceUsageId = ServiceUsage.id " +
+                    "LEFT JOIN Customer ON ServiceUsage.customerId = Customer.id " +
+                    "WHERE User.name LIKE '%" + searchParam + "%' OR Customer.name LIKE '%" + searchParam + "%';";
 
-            cursor = db.rawQuery(sql, new String[]{
-                    "%" + searchParam + "%"
-            });
+            cursor = db.rawQuery(query, null);
 
             while (cursor.moveToNext()) {
                 AppTransaction appTransaction = new AppTransaction();

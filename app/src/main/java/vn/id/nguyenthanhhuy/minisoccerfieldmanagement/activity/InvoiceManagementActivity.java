@@ -42,6 +42,7 @@ public class InvoiceManagementActivity extends AppCompatActivity {
     private ActivityInvoiceManagementBinding binding;
     private ListViewInvoiceAdapter listViewInvoiceAdapter;
     private AppTransactionServiceImpl appTransactionService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,20 +53,21 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         setWidgets();
         Utils.setStatusBarColor(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
     }
+
     private void setWidgets() {
         binding.buttonBack.setOnClickListener(v -> {
             finish();
         });
 
         appTransactionsFromDB = appTransactionService.findAll();
-        if (appTransactionsFromDB == null) {
-            appTransactionList = new ArrayList<>();
-        } else {
-            appTransactionList = appTransactionsFromDB;
+        appTransactionList = new ArrayList<>();
+        if (appTransactionsFromDB != null) {
+            appTransactionList.addAll(appTransactionsFromDB);
         }
 
         listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionList);
@@ -85,6 +87,8 @@ public class InvoiceManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 binding.textViewSearch.setText("");
+                appTransactionList.clear();
+                listViewInvoiceAdapter.notifyDataSetChanged();
             }
         });
 
@@ -95,47 +99,40 @@ public class InvoiceManagementActivity extends AppCompatActivity {
 
         binding.buttonSeeAll.setOnClickListener(v -> {
             binding.textViewSearch.setText("");
-            listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionsFromDB);
-            binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
+            appTransactionList.clear();
+            if (appTransactionsFromDB != null) {
+                appTransactionList.addAll(appTransactionsFromDB);
+            }
+            listViewInvoiceAdapter.notifyDataSetChanged();
             updateButtonColors(binding.buttonByday, false);
             updateButtonColors(binding.buttonSeeAll, true);
         });
 
         binding.textViewSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length() == 0) {
+                if (s.toString().trim().isEmpty()) {
                     binding.buttonClean.setVisibility(View.GONE);
+                    appTransactionList.clear();
+                    listViewInvoiceAdapter.notifyDataSetChanged();
                     return;
-                }else {
+                } else {
                     binding.buttonClean.setVisibility(View.VISIBLE);
                 }
+
                 String searchText = s.toString();
-                List<AppTransaction> listSearch = appTransactionService.findByUser(searchText);
-                if (listSearch == null) {
-                    appTransactionList = new ArrayList<>();
-                } else{
-                    appTransactionList = listSearch;
+                List<AppTransaction> listSearch = appTransactionService.searchList(searchText);
+                appTransactionList.clear();
+                if (listSearch != null) {
+                    appTransactionList.addAll(listSearch);
                 }
-
-                if (listViewInvoiceAdapter == null) {
-                    listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), appTransactionList);
-                    binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
-                }else {
-                    listViewInvoiceAdapter.setData(appTransactionList);
-                    listViewInvoiceAdapter.notifyDataSetChanged();
-                }
-
+                listViewInvoiceAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -160,13 +157,14 @@ public class InvoiceManagementActivity extends AppCompatActivity {
 
     private void updateListViewByDay(Date selectedDate) {
         List<AppTransaction> filteredTransactions = new ArrayList<>();
-        for (AppTransaction transaction : appTransactionList) {
+        for (AppTransaction transaction : appTransactionsFromDB) {
             if (isSameDay(transaction.getCreatedAt(), selectedDate)) {
                 filteredTransactions.add(transaction);
             }
         }
-        listViewInvoiceAdapter = new ListViewInvoiceAdapter(getApplicationContext(), filteredTransactions);
-        binding.listViewInvoice.setAdapter(listViewInvoiceAdapter);
+        appTransactionList.clear();
+        appTransactionList.addAll(filteredTransactions);
+        listViewInvoiceAdapter.notifyDataSetChanged();
 
         updateButtonColors(binding.buttonByday, true);
         updateButtonColors(binding.buttonSeeAll, false);
@@ -182,7 +180,7 @@ public class InvoiceManagementActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isSameDay(Timestamp createdAt, java.util.Date selectedDate) {
+    public boolean isSameDay(Timestamp createdAt, Date selectedDate) {
         java.sql.Date date1 = new java.sql.Date(createdAt.getTime());
 
         Calendar cal1 = Calendar.getInstance();
